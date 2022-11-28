@@ -20,6 +20,9 @@ public class Args {
     @Parameter(names = {"-cp", "-classpath"}, description = "classpath", order = 1)
     String classpath;
 
+    @Parameter(names = "-XJre", description = "path to jre", order = 4)
+    String jre;
+
     @Parameter(description = "main class and args")
     List<String> mainClassAndArgs;
 
