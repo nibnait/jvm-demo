@@ -16,6 +16,18 @@ public class Classpath {
     private Entry extensionClasspath;  //扩展类路径
     private Entry userClasspath;       //用户类路径
 
+    public Entry getBootstrapClasspath() {
+        return bootstrapClasspath;
+    }
+
+    public Entry getExtensionClasspath() {
+        return extensionClasspath;
+    }
+
+    public Entry getUserClasspath() {
+        return userClasspath;
+    }
+
     public Classpath(String jreOption, String cpOption) {
         //启动类&扩展类 "/Library/Java/JavaVirtualMachines/jdk1.8.0_231.jdk/Contents/Home/jre"
         bootstrapAndExtensionClasspath(jreOption);
