@@ -32,7 +32,7 @@ public class DeprecatedAttribute extends AttributeInfoRefBase implements Attribu
      */
     @Override
     public void readInfo(ClassReader reader) {
-        this.attrNameIndex = reader.nextU2ToInt();
-        this.attrLength = reader.nextU4ToInt();
+        this.attrNameIndex = reader.readU2ToInt();
+        this.attrLength = reader.readU4ToInt();
     }
 }

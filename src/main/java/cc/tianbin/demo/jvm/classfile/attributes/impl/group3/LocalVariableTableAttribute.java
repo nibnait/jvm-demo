@@ -36,18 +36,18 @@ public class LocalVariableTableAttribute extends AttributeInfoRefBase implements
         private final int index;
 
         public LocalVariableTableEntry(ClassReader reader) {
-            startPC = reader.nextU2ToInt();
-            length = reader.nextU2ToInt();
-            nameIndex = reader.nextU2ToInt();
-            descriptorIndex = reader.nextU2ToInt();
-            index = reader.nextU2ToInt();
+            startPC = reader.readU2ToInt();
+            length = reader.readU2ToInt();
+            nameIndex = reader.readU2ToInt();
+            descriptorIndex = reader.readU2ToInt();
+            index = reader.readU2ToInt();
         }
     }
 
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        int length = reader.nextU2ToInt();
+        int length = reader.readU2ToInt();
         localVariableTable = new LocalVariableTableEntry[length];
         for (int i = 0; i < length; i++) {
             localVariableTable[i] = new LocalVariableTableEntry(reader);

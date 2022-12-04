@@ -40,8 +40,8 @@ public class ConstantInvokeDynamicInfo extends ConstantInfoRefBase implements Co
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        this.bootstrapMethodAttrIndex = reader.nextU2ToInt();
-        this.nameAndTypeIndex = reader.nextU2ToInt();
+        this.bootstrapMethodAttrIndex = reader.readU2ToInt();
+        this.nameAndTypeIndex = reader.readU2ToInt();
     }
 
 }

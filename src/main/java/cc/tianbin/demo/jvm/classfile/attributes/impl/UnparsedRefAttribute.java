@@ -27,7 +27,7 @@ public class UnparsedRefAttribute extends AttributeInfoRefBase implements Attrib
 
     @Override
     public void readInfo(ClassReader reader) {
-        this.info = reader.nextBytes(this.attrLength);
+        this.info = reader.readBytes(this.attrLength);
     }
 
 }

@@ -40,15 +40,15 @@ public class LineNumberTableAttribute extends AttributeInfoRefBase implements At
         private final int lineNumber;
 
         public LineNumberTableEntry(ClassReader reader) {
-            startPC = reader.nextU2ToInt();
-            lineNumber = reader.nextU2ToInt();
+            startPC = reader.readU2ToInt();
+            lineNumber = reader.readU2ToInt();
         }
     }
     
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        int length = reader.nextU2ToInt();
+        int length = reader.readU2ToInt();
 
         lineNumberTable = new LineNumberTableEntry[length];
 

@@ -30,9 +30,13 @@ public class ConstantValueAttribute extends AttributeInfoRefBase implements Attr
 
     @Override
     public void readInfo(ClassReader reader) {
-        // 先请爸爸把 name_index 和 length 读了
+        // 先请爸爸把 name_index 和 length(常量值属性的 length 固定为2) 读了
         super.readInfo(reader);
-        // 再读自己的 value_index
-        this.constantValueIndex = reader.nextU2ToInt();
+        // 再读自己的 value_index。
+        this.constantValueIndex = reader.readU2ToInt();
+    }
+
+    public ConstantInfo constantInfo() {
+        return this.constantPool.getConstantInfo(constantValueIndex);
     }
 }

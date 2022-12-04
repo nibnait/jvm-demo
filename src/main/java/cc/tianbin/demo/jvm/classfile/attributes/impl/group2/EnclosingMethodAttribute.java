@@ -39,8 +39,8 @@ public class EnclosingMethodAttribute extends AttributeInfoRefBase implements At
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        this.classIndex = reader.nextU2ToInt();
-        this.methodIndex = reader.nextU2ToInt();
+        this.classIndex = reader.readU2ToInt();
+        this.methodIndex = reader.readU2ToInt();
     }
 
 }

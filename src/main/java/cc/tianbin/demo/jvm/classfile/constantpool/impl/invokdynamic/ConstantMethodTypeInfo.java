@@ -26,6 +26,6 @@ public class ConstantMethodTypeInfo extends ConstantInfoRefBase implements Const
 
     @Override
     public void readInfo(ClassReader reader) {
-        this.descriptorIndex = reader.nextU2ToInt();
+        this.descriptorIndex = reader.readU2ToInt();
     }
 }

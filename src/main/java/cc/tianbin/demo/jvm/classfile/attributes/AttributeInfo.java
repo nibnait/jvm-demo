@@ -29,7 +29,7 @@ public interface AttributeInfo {
      * 读取属性表
      */
     static AttributeInfo[] readAttributes(ClassReader reader, ConstantPool constantPool) {
-        int attributesCount = reader.nextU2ToInt();
+        int attributesCount = reader.readU2ToInt();
         AttributeInfo[] attributes = new AttributeInfo[attributesCount];
 
         for (int i = 0; i < attributesCount; i++) {
@@ -47,7 +47,7 @@ public interface AttributeInfo {
      */
     static AttributeInfo readAttribute(ClassReader reader, ConstantPool constantPool) {
         // 读取属性名
-        int attrNameIndex = reader.nextU2ToInt();
+        int attrNameIndex = reader.readU2ToInt();
         String attrName = constantPool.getUTF8(attrNameIndex);
         // 退回 当前属性的开头位置
         reader.back(2);

@@ -21,7 +21,7 @@ public class ConstantPool {
     private final ConstantInfo[] constantInfos;
 
     public ConstantPool(ClassReader reader) {
-        constantPoolSize = reader.nextU2ToInt();
+        constantPoolSize = reader.readU2ToInt();
         this.constantInfos = new ConstantInfo[constantPoolSize];
 
         // 第0个位置，用来标记常量池的大小了

@@ -30,15 +30,11 @@ public class ConstantUtf8Info extends ConstantInfoLiteralBase implements Constan
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
         // 前2个字节，标记这个字符串的长度
-        int length = reader.nextU2ToInt();
+        int length = reader.readU2ToInt();
         // 读出所有 字节
-        byte[] bytes = reader.nextBytes(length);
+        byte[] bytes = reader.readBytes(length);
         // 采用 MUTF-8 编码，转成 String
         this.value = new String(bytes);
     }
 
-    @Override
-    public String toString() {
-        return "Utf8: " + value;
-    }
 }

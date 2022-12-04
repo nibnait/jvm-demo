@@ -24,11 +24,7 @@ public class ConstantLongInfo extends ConstantInfoLiteralBase implements Constan
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        this.value = reader.next2U4ToLong();
+        this.value = reader.read2U4ToLong();
     }
 
-    @Override
-    public String toString() {
-        return "Long: " + value;
-    }
 }

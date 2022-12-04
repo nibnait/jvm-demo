@@ -14,10 +14,4 @@ public class ConstantFieldRefInfo extends ConstantMemberRefInfo {
         super(constantPool);
     }
 
-    @Override
-    public String toString() {
-        return "FieldRef: "
-                + this.className() + "."
-                + this.nameAndType();
-    }
 }

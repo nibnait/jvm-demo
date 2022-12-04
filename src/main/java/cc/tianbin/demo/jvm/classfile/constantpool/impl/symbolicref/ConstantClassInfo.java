@@ -33,11 +33,11 @@ public class ConstantClassInfo extends ConstantInfoRefBase implements ConstantIn
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        this.nameIndex = reader.nextU2ToInt();
+        this.nameIndex = reader.readU2ToInt();
     }
 
     @Override
-    public String toString() {
-        return "Class: " + name();
+    public String value() {
+        return String.format("#%-22d// %s", nameIndex, constantPool.getUTF8(nameIndex));
     }
 }

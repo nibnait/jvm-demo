@@ -18,7 +18,6 @@ public abstract class AttributeInfoRefBase implements AttributeInfo {
      * 每个属性的标配：
      * u2 attribute_name_index;
      * u4 attribute_length;
-     * 仅用于标记。没有任何数据。长度为 0
      */
     protected int attrNameIndex;
     protected int attrLength;
@@ -35,7 +34,7 @@ public abstract class AttributeInfoRefBase implements AttributeInfo {
 
     @Override
     public void readInfo(ClassReader reader) {
-        this.attrNameIndex = reader.nextU2ToInt();
-        this.attrLength = reader.nextU4ToInt();
+        this.attrNameIndex = reader.readU2ToInt();
+        this.attrLength = reader.readU4ToInt();
     }
 }

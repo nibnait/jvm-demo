@@ -37,7 +37,7 @@ public interface ConstantInfo {
 
     static ConstantInfo readConstantInfo(ClassReader reader, ConstantPool constantPool) {
         // 先读出 tag值
-        int tag = reader.nextU1toInt();
+        int tag = reader.readU1toInt();
         // 退回 当前常量的开头位置
         reader.back(1);
 

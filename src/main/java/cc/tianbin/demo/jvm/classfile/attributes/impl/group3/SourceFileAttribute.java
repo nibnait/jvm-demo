@@ -29,6 +29,6 @@ public class SourceFileAttribute extends AttributeInfoRefBase implements Attribu
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        this.sourceFileIndex = reader.nextU2ToInt();
+        this.sourceFileIndex = reader.readU2ToInt();
     }
 }

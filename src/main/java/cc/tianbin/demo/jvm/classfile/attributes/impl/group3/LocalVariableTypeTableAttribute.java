@@ -29,7 +29,7 @@ public class LocalVariableTypeTableAttribute extends AttributeInfoRefBase implem
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        int localVariableTypeTableLength = reader.nextU2ToInt();
+        int localVariableTypeTableLength = reader.readU2ToInt();
         this.localVariableTypeTable = new LocalVariableTypeTableEntry[localVariableTypeTableLength];
         for (int i = 0; i < localVariableTypeTableLength; i++) {
             LocalVariableTypeTableEntry localVariableTypeTableEntry = new LocalVariableTypeTableEntry();
@@ -46,11 +46,11 @@ public class LocalVariableTypeTableAttribute extends AttributeInfoRefBase implem
         private int index;
 
         public void readInfo(ClassReader reader) {
-            this.startPC = reader.nextU2ToInt();
-            this.length = reader.nextU2ToInt();
-            this.nameIndex = reader.nextU2ToInt();
-            this.signatureIndex = reader.nextU2ToInt();
-            this.index = reader.nextU2ToInt();
+            this.startPC = reader.readU2ToInt();
+            this.length = reader.readU2ToInt();
+            this.nameIndex = reader.readU2ToInt();
+            this.signatureIndex = reader.readU2ToInt();
+            this.index = reader.readU2ToInt();
         }
     }
 

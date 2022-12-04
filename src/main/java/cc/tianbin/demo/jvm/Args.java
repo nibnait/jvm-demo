@@ -23,6 +23,15 @@ public class Args {
     @Parameter(names = "-XJre", description = "path to jre", order = 4)
     String jre;
 
+    // todo 解析命令
+    @Parameter(names = "-Xms", description = "堆的初始大小", order = 4)
+    String xms;
+    @Parameter(names = "-Xmx", description = "堆的最大大小", order = 4)
+    String xmx;
+
+    @Parameter(names = "-Xss", description = "虚拟机栈的大小", order = 4)
+    String xss;
+
     @Parameter(description = "main class and args")
     List<String> mainClassAndArgs;
 

@@ -25,11 +25,7 @@ public class ConstantIntegerInfo extends ConstantInfoLiteralBase implements Cons
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        this.value = reader.nextU4ToInt();
+        this.value = reader.readU4ToInt();
     }
 
-    @Override
-    public String toString() {
-        return "Integer: " + value;
-    }
 }

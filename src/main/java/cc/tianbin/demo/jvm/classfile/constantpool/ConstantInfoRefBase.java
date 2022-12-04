@@ -23,6 +23,6 @@ public class ConstantInfoRefBase implements ConstantInfo {
 
     @Override
     public void readInfo(ClassReader reader) {
-        this.tag = reader.nextU1toInt();
+        this.tag = reader.readU1toInt();
     }
 }

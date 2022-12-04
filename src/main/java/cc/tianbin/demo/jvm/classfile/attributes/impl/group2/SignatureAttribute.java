@@ -27,7 +27,7 @@ public class SignatureAttribute extends AttributeInfoRefBase implements Attribut
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        this.signatureIndex = reader.nextU2ToInt();
+        this.signatureIndex = reader.readU2ToInt();
     }
 
 }

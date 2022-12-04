@@ -23,11 +23,7 @@ public class ConstantFloatInfo extends ConstantInfoLiteralBase implements Consta
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        this.value = reader.nextU4ToFloat();
+        this.value = reader.readU4ToFloat();
     }
 
-    @Override
-    public String toString() {
-        return "Float: " + value;
-    }
 }

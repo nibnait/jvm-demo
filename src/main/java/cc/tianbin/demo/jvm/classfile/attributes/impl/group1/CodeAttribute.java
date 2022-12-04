@@ -75,12 +75,12 @@ public class CodeAttribute extends AttributeInfoRefBase implements AttributeInfo
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
 
-        this.maxStack = reader.nextU2ToInt();
-        this.maxLocals = reader.nextU2ToInt();
+        this.maxStack = reader.readU2ToInt();
+        this.maxLocals = reader.readU2ToInt();
 
         // 字节码
-        int codeLength = reader.nextU4ToInt();
-        this.code = reader.nextBytes(codeLength);
+        int codeLength = reader.readU4ToInt();
+        this.code = reader.readBytes(codeLength);
 
         // 异常处理表
         this.exceptionTable = ExceptionTableEntry.readExceptionTable(reader);
@@ -96,10 +96,10 @@ public class CodeAttribute extends AttributeInfoRefBase implements AttributeInfo
         private int catchType;
 
         private ExceptionTableEntry(ClassReader reader) {
-            this.startPC = reader.nextU2ToInt();
-            this.endPC = reader.nextU2ToInt();
-            this.handlerPC = reader.nextU2ToInt();
-            this.catchType = reader.nextU2ToInt();
+            this.startPC = reader.readU2ToInt();
+            this.endPC = reader.readU2ToInt();
+            this.handlerPC = reader.readU2ToInt();
+            this.catchType = reader.readU2ToInt();
         }
 
         public int startPC() {
@@ -119,7 +119,7 @@ public class CodeAttribute extends AttributeInfoRefBase implements AttributeInfo
         }
 
         static ExceptionTableEntry[] readExceptionTable(ClassReader reader) {
-            int length = reader.nextU2ToInt();
+            int length = reader.readU2ToInt();
             ExceptionTableEntry[] exceptionTable = new ExceptionTableEntry[length];
 
             for (int i = 0; i < length; i++) {

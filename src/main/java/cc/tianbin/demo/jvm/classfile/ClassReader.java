@@ -1,6 +1,6 @@
 package cc.tianbin.demo.jvm.classfile;
 
-import cc.tianbin.demo.jvm.util.Util;
+import cc.tianbin.demo.jvm.rtda.frame.Util;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -25,29 +25,36 @@ public class ClassReader {
     }
 
 
-    public int nextU1toInt() {
-        return Util.byteToInt(new byte[]{data[pos++]});
+    public int readU1toInt() {
+        return Util.byteToInt(readBytes(1));
     }
 
-    public int nextU2ToInt() {
-        return Util.byteToInt(new byte[]{data[pos++], data[pos++]});
+    public int readU2ToInt() {
+        byte[] bytes = readBytes(2);
+        return Util.byteToInt(bytes);
     }
 
-    public int nextU4ToInt() {
-        return Util.byteToInt(new byte[]{data[pos++], data[pos++], data[pos++], data[pos++]});
+    public int readU4ToInt() {
+        byte[] bytes = readBytes(4);
+        return Util.byteToInt(bytes);
     }
 
-    public float nextU4ToFloat() {
-        byte[] bytes = nextBytes(4);
+    public float readU4ToFloat() {
+        byte[] bytes = readBytes(4);
         return ByteBuffer.wrap(bytes).order(ByteOrder.BIG_ENDIAN).getFloat();
     }
 
-    public String nextU4ToHexString() {
-        byte[] bytes = nextBytes(4);
+    public String readU2ToHexString() {
+        byte[] bytes = readBytes(2);
         return Util.byteToHexString(bytes);
     }
 
-    public byte[] nextBytes(int len) {
+    public String readU4ToHexString() {
+        byte[] bytes = readBytes(4);
+        return Util.byteToHexString(bytes);
+    }
+
+    public byte[] readBytes(int len) {
         if (pos + len >= data.length) {
             throw new ArrayIndexOutOfBoundsException();
         }
@@ -57,22 +64,21 @@ public class ClassReader {
         return copy;
     }
 
-
-    public long next2U4ToLong() {
-        byte[] bytes = nextBytes(8);
+    public long read2U4ToLong() {
+        byte[] bytes = readBytes(8);
         return ByteBuffer.wrap(bytes).order(ByteOrder.BIG_ENDIAN).getLong();
     }
 
-    public double next2U4Double() {
-        byte[] bytes = nextBytes(8);
+    public double read2U4Double() {
+        byte[] bytes = readBytes(8);
         return ByteBuffer.wrap(bytes).order(ByteOrder.BIG_ENDIAN).getDouble();
     }
 
-    public int[] nextUint16s() {
-        int count = nextU2ToInt();
+    public int[] readUint16s() {
+        int count = readU2ToInt();
         int[] result = new int[count];
         for (int i = 0; i < count; i++) {
-            result[i] = nextU2ToInt();
+            result[i] = readU2ToInt();
         }
         return result;
     }

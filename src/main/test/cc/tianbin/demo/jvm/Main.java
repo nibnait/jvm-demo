@@ -3,6 +3,8 @@ package cc.tianbin.demo.jvm;
 import cc.tianbin.demo.jvm.classfile.ClassFile;
 import cc.tianbin.demo.jvm.classfile.MemberInfo;
 import cc.tianbin.demo.jvm.classfile.attributes.AttributeInfo;
+import cc.tianbin.demo.jvm.classfile.attributes.impl.group1.CodeAttribute;
+import cc.tianbin.demo.jvm.classfile.attributes.impl.group1.ConstantValueAttribute;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
 import cc.tianbin.demo.jvm.classpath.Classpath;
@@ -23,7 +25,12 @@ public class Main {
      * -version
      * -cp foo/bar MyApp arg1 arg2
      * -XJre /Library/Java/JavaVirtualMachines/jdk1.8.0_231.jdk/Contents/Home/jre java.lang.Object
-     * -cp /Users/nibnait/github/jvm-demo/target/test-classes/cc/tianbin/demo/jvm/classfile ClassFileTest
+     * ----
+     * cd /Users/nibnait/github/jvm-demo/src/main/test/cc/tianbin/demo/jvm/classfile
+     * javac ClassFileTest.java
+     * javap -v ClassFileTest
+     * ---
+     * -cp /Users/nibnait/github/jvm-demo/src/main/test/cc/tianbin/demo/jvm/classfile ClassFileTest
      */
     public static void main(String[] argv) {
         Args args = Args.parse(argv);
@@ -63,48 +70,77 @@ public class Main {
         }
     }
 
+    /**
+     * 打印 解析 出来的 class 文件，实现 javap 命令
+     */
     private static void printClassInfo(ClassFile classFile) {
         printf("\n");
-        printf("version: " + classFile.getMajorVersion() + "." + classFile.getMinorVersion());
+        log("minor version: {}", classFile.getMinorVersion());
+        log("major version: {}", classFile.getMajorVersion());
+        log("flags: 0x{}, {}", classFile.getAccessFlags().getCode(), classFile.getAccessFlags().getFlags());
+        log("this_class: {}", classFile.getClassName());
+        log("super_class: {}", classFile.getSuperClassName());
+        printf("");
 
         ConstantPool constantPool = classFile.getConstantPool();
         ConstantInfo[] constantInfos = constantPool.getConstantInfos();
-        printf("constants_count: " + constantPool.getConstantPoolSize());
+        printf("Constant pool: " + constantPool.getConstantPoolSize());
         for (int i = 1; i < constantPool.getConstantPoolSize(); i++) {
             if (constantInfos[i] != null) {
-                printf("%2d: %s", i, constantInfos[i]);
+                printf("#%02d = %-20s\t%s", i, constantInfos[i].tag().getDescription(), constantInfos[i].value());
             }
         }
         printf("");
 
-        printf("access_flags: 0x%x", classFile.getAccessFlags());
-        log("this_class: {}", classFile.getClassName());
-        log("super_class: {}", classFile.getSuperClassName());
         log("interfaces_count: {}", classFile.getInterfaceNames().length);
         log("interfaces: ", DataUtils.toJsonStringArray(classFile.getInterfaceNames()));
+        printf("");
+
         MemberInfo[] fields = classFile.getFields();
-        log("fields_count: {}" + fields.length);
+        log("fields_count: {}", fields.length);
         for (MemberInfo memberInfo : fields) {
-            printf("  %s", memberInfo.name());
+            printf("  name: %s", memberInfo.getName());
+            printf("    descriptor: %s", memberInfo.getDescriptor());
+            printf("    flags: %s", memberInfo.getAccessFlags().getFlags());
+            // 属性表
+            for (AttributeInfo attribute : memberInfo.getAttributes()) {
+                ConstantValueAttribute constantValueAttribute = (ConstantValueAttribute) attribute;
+                ConstantInfo constantInfo = constantValueAttribute.constantInfo();
+                printf("    ConstantValue: %s %s", constantValueAttribute.attrName(),
+                        constantInfo.tag().getDescription(),
+                        constantInfo.value());
+            }
         }
+        printf("");
 
         MemberInfo[] methods = classFile.getMethods();
         log("methods_count: {}", methods.length);
         for (MemberInfo memberInfo : methods) {
-            printf("  %s\n", memberInfo.name());
+            printf("  method: %s", memberInfo.getName());
+            printf("    descriptor: %s", memberInfo.getDescriptor());
+            printf("    flags: %s", memberInfo.getAccessFlags().getFlags());
+            // 属性表
+            for (AttributeInfo attribute : memberInfo.getAttributes()) {
+                if (attribute instanceof CodeAttribute) {
+                    CodeAttribute codeAttribute = (CodeAttribute) attribute;
+                    printf("    Code:");
+                    printf("      stack=%s, locals=%s", codeAttribute.maxStack(), codeAttribute.maxLocals());
+                }
+            }
         }
+        printf("");
 
         AttributeInfo[] attributes = classFile.getAttributes();
         log("attributes_count: {}", attributes.length);
         for (int i = 0; i < attributes.length; i++) {
-            printf("%2d: %s", i, attributes[i].attrName());
+//            printf("%2d: %s", i, attributes[i].attrName());
         }
     }
 
     private static void printf(String format, Object... args) {
         System.out.println(String.format(format, args));
     }
-    
+
     private static void log(String format, Object... args) {
         System.out.println(DataUtils.format(format, args));
     }

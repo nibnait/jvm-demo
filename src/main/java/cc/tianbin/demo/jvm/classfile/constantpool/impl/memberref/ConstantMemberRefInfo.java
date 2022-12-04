@@ -45,9 +45,16 @@ public abstract class ConstantMemberRefInfo extends ConstantInfoRefBase implemen
     }
 
     @Override
+    public String value() {
+        return String.format("#%02d;#%-18d// %s&%s",
+                this.classIndex, this.nameAndTypeIndex,
+                this.className(), this.nameAndType());
+    }
+
+    @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        this.classIndex = reader.nextU2ToInt();
-        this.nameAndTypeIndex = reader.nextU2ToInt();
+        this.classIndex = reader.readU2ToInt();
+        this.nameAndTypeIndex = reader.readU2ToInt();
     }
 }

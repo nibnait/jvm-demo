@@ -14,7 +14,7 @@ public class ClassFile {
     // 常量池
     private ConstantPool constantPool;
     // 类访问标志：指出是 class文件，还是 interface。是 public 还是 private
-    private int accessFlags;
+    private AccessFlag accessFlag;
     // 当前类 索引
     private int thisClassIndex;
     // 超类 索引
@@ -33,10 +33,10 @@ public class ClassFile {
         this.readAndCheckMagic(reader);
         this.readAndCheckVersion(reader);
         this.constantPool = this.readConstantPool(reader);
-        this.accessFlags = reader.nextU2ToInt();
-        this.thisClassIndex = reader.nextU2ToInt();
-        this.supperClassIndex = reader.nextU2ToInt();
-        this.interfaces = reader.nextUint16s();
+        this.accessFlag = this.readAccessFlag(reader);
+        this.thisClassIndex = reader.readU2ToInt();
+        this.supperClassIndex = reader.readU2ToInt();
+        this.interfaces = reader.readUint16s();
         this.fields = MemberInfo.readMembers(constantPool, reader);
         this.methods = MemberInfo.readMembers(constantPool, reader);
         this.attributes = AttributeInfo.readAttributes(reader, constantPool);
@@ -45,7 +45,7 @@ public class ClassFile {
     // 魔数
     // class 十六进制 字节流文件，必须以 "cafe babe" 开头。
     private void readAndCheckMagic(ClassReader reader) {
-        String magic = reader.nextU4ToHexString();
+        String magic = reader.readU4ToHexString();
         if (!"CAFEBABE".equalsIgnoreCase(magic)) {
             throw new ClassFormatError("magic!");
         }
@@ -54,9 +54,9 @@ public class ClassFile {
     // 校验版本号。某些虚拟机 只能处理特定的版本的 class 文件
     private void readAndCheckVersion(ClassReader reader) {
         // 次版本
-        this.minorVersion = reader.nextU2ToInt();
+        this.minorVersion = reader.readU2ToInt();
         // 主版本
-        this.majorVersion = reader.nextU2ToInt();
+        this.majorVersion = reader.readU2ToInt();
         switch (this.majorVersion) {
             case 45:
                 return;
@@ -72,6 +72,17 @@ public class ClassFile {
                     return;
         }
         throw new UnsupportedClassVersionError();
+    }
+
+    /**
+     * access flat
+     */
+    public static AccessFlag readAccessFlag(ClassReader reader) {
+        String code = reader.readU2ToHexString();
+        AccessFlag flag = new AccessFlag();
+        flag.setCode(code);
+        flag.setFlags(AccessFlagEnum.getByHexString(code));
+        return flag;
     }
 
     private ConstantPool readConstantPool(ClassReader reader) {
@@ -90,8 +101,8 @@ public class ClassFile {
         return constantPool;
     }
 
-    public int getAccessFlags() {
-        return accessFlags;
+    public AccessFlag getAccessFlags() {
+        return accessFlag;
     }
 
     public String getClassName() {

@@ -28,7 +28,7 @@ public class BootstrapMethodsAttribute extends AttributeInfoRefBase implements A
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        int bootstrapMethodNum = reader.nextU2ToInt();
+        int bootstrapMethodNum = reader.readU2ToInt();
         bootstrapMethods = new BootstrapMethod[bootstrapMethodNum];
         for (int i = 0; i < bootstrapMethodNum; i++) {
             BootstrapMethod bootstrapMethod = new BootstrapMethod();
@@ -42,8 +42,8 @@ public class BootstrapMethodsAttribute extends AttributeInfoRefBase implements A
         int[] bootstrapArguments;
 
         public void readInfo(ClassReader reader) {
-            this.bootstrapMethodRef = reader.nextU2ToInt();
-            this.bootstrapArguments = reader.nextUint16s();
+            this.bootstrapMethodRef = reader.readU2ToInt();
+            this.bootstrapArguments = reader.readUint16s();
         }
     }
 

@@ -11,24 +11,31 @@ public class MemberInfo {
 
     private ConstantPool constantPool;
 
-    private int accessFlags;
+    /**
+     * u2             access_flags;
+     * u2             name_index;
+     * u2             descriptor_index;
+     * u2             attributes_count;
+     * attribute_info attributes[attributes_count];
+     */
+    private AccessFlag accessFlags;
     // 常量池索引：字段名/方法名
     private int nameIndex;
-    // 常量池索引：描述符
+    // 常量池索引：字段描述符/方法描述符
     private int descriptorIndex;
     // 属性表
     private AttributeInfo[] attributes;
 
     public MemberInfo(ConstantPool constantPool, ClassReader reader) {
         this.constantPool = constantPool;
-        this.accessFlags = reader.nextU2ToInt();
-        this.nameIndex = reader.nextU2ToInt();
-        this.descriptorIndex = reader.nextU2ToInt();
+        this.accessFlags = ClassFile.readAccessFlag(reader);
+        this.nameIndex = reader.readU2ToInt();
+        this.descriptorIndex = reader.readU2ToInt();
         attributes = AttributeInfo.readAttributes(reader, constantPool);
     }
 
     public static MemberInfo[] readMembers(ConstantPool constantPool, ClassReader reader) {
-        int fieldCount = reader.nextU2ToInt();
+        int fieldCount = reader.readU2ToInt();
         MemberInfo[] fields = new MemberInfo[fieldCount];
 
         for (int i = 0; i < fieldCount; i++) {
@@ -38,17 +45,20 @@ public class MemberInfo {
         return fields;
     }
 
-    public int accessFlags() {
+    public AccessFlag getAccessFlags() {
         return this.accessFlags;
     }
 
-    public String name() {
+    public String getName() {
         return this.constantPool.getUTF8(this.nameIndex);
     }
 
-    public String descriptor() {
+    public String getDescriptor() {
         return this.constantPool.getUTF8(this.descriptorIndex);
     }
 
+    public AttributeInfo[] getAttributes() {
+        return this.attributes;
+    }
 
 }

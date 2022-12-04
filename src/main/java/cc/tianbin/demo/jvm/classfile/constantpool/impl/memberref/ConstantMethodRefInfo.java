@@ -14,10 +14,4 @@ public class ConstantMethodRefInfo extends ConstantMemberRefInfo {
         super(constantPool);
     }
 
-    @Override
-    public String toString() {
-        return "MethodRef: "
-                + this.className() + "."
-                + this.nameAndType();
-    }
 }

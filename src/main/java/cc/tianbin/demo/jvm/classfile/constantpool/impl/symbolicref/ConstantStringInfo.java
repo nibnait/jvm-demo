@@ -24,17 +24,14 @@ public class ConstantStringInfo extends ConstantInfoRefBase implements ConstantI
 
     @Override
     public String value() {
-        return constantPool.getUTF8(this.index);
+        return String.format("#%-22d// %s", index,
+                constantPool.getUTF8(index));
     }
 
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        this.index = reader.nextU2ToInt();
+        this.index = reader.readU2ToInt();
     }
 
-    @Override
-    public String toString() {
-        return "String: " + value();
-    }
 }

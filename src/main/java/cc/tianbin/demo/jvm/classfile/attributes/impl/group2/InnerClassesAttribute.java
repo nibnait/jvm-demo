@@ -30,7 +30,7 @@ public class InnerClassesAttribute extends AttributeInfoRefBase implements Attri
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        int numberOfClasses = reader.nextU2ToInt();
+        int numberOfClasses = reader.readU2ToInt();
         this.classes = new InnerClassInfo[numberOfClasses];
         for (int i = 0; i < numberOfClasses; i++) {
             InnerClassInfo innerClassInfo = new InnerClassInfo();
@@ -47,10 +47,10 @@ public class InnerClassesAttribute extends AttributeInfoRefBase implements Attri
         private int innerClassAccessFlags;
 
         public void readInfo(ClassReader reader) {
-            this.innerClassInfoIndex = reader.nextU2ToInt();
-            this.outerClassInfoIndex = reader.nextU2ToInt();
-            this.innerNameIndex = reader.nextU2ToInt();
-            this.innerClassAccessFlags = reader.nextU2ToInt();
+            this.innerClassInfoIndex = reader.readU2ToInt();
+            this.outerClassInfoIndex = reader.readU2ToInt();
+            this.innerNameIndex = reader.readU2ToInt();
+            this.innerClassAccessFlags = reader.readU2ToInt();
         }
     }
 

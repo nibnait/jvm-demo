@@ -11,3 +11,9 @@
  - 常量池 [ClassFile#readconstantPool](./src/main/java/cc/tianbin/demo/jvm/classfile/constantpool/ConstantPool.java)
  - 属性表 [ClassFile#readAttributes](./src/main/java/cc/tianbin/demo/jvm/classfile/attributes/AttributeInfo.java)
 
+## 运行时数据区
+
+![运行时数据区](./docs/运行时数据区.png)
+
+数据类型：  
+![](./docs/数据类型.png)

@@ -37,7 +37,7 @@ public class ExceptionsAttribute extends AttributeInfoRefBase implements Attribu
     @Override
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
-        this.exceptionIndexTable = reader.nextUint16s();
+        this.exceptionIndexTable = reader.readUint16s();
     }
 
 }

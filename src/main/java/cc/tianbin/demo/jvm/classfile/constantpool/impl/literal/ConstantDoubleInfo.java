@@ -26,11 +26,7 @@ public class ConstantDoubleInfo extends ConstantInfoLiteralBase implements Const
         // 先请爸爸把 tag 读了
         super.readInfo(reader);
         // 再读自己的 value
-        this.value = reader.next2U4Double();
+        this.value = reader.read2U4Double();
     }
 
-    @Override
-    public String toString() {
-        return "Double: " + value;
-    }
 }
