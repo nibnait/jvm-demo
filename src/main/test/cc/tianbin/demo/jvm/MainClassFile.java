@@ -13,11 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 
+import static cc.tianbin.demo.jvm.utils.LogUtil.printf;
+import static cc.tianbin.demo.jvm.utils.LogUtil.log;
+
 /**
  * Created by nibnait on 2022/11/23
  */
 @Slf4j
-public class Main {
+public class MainClassFile {
 
     /**
      * Edit configurations -> program arguments
@@ -26,10 +29,11 @@ public class Main {
      * -cp foo/bar MyApp arg1 arg2
      * -XJre /Library/Java/JavaVirtualMachines/jdk1.8.0_231.jdk/Contents/Home/jre java.lang.Object
      * ----
+     * 解析 class 文件
      * cd /Users/nibnait/github/jvm-demo/src/main/test/cc/tianbin/demo/jvm/classfile
      * javac ClassFileTest.java
      * javap -v ClassFileTest
-     * ---
+     * --
      * -cp /Users/nibnait/github/jvm-demo/src/main/test/cc/tianbin/demo/jvm/classfile ClassFileTest
      */
     public static void main(String[] argv) {
@@ -73,7 +77,7 @@ public class Main {
     /**
      * 打印 解析 出来的 class 文件，实现 javap 命令
      */
-    private static void printClassInfo(ClassFile classFile) {
+    public static void printClassInfo(ClassFile classFile) {
         printf("\n");
         log("minor version: {}", classFile.getMinorVersion());
         log("major version: {}", classFile.getMajorVersion());
@@ -135,14 +139,6 @@ public class Main {
         for (int i = 0; i < attributes.length; i++) {
 //            printf("%2d: %s", i, attributes[i].attrName());
         }
-    }
-
-    private static void printf(String format, Object... args) {
-        System.out.println(String.format(format, args));
-    }
-
-    private static void log(String format, Object... args) {
-        System.out.println(DataUtils.format(format, args));
     }
 
 }

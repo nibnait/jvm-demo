@@ -1,7 +1,9 @@
 package cc.tianbin.demo.jvm.classfile;
 
 import cc.tianbin.demo.jvm.classfile.attributes.AttributeInfo;
+import cc.tianbin.demo.jvm.classfile.attributes.impl.group1.CodeAttribute;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
+import org.apache.ibatis.javassist.bytecode.ConstantAttribute;
 
 /**
  * 字段、方法表，都用 这个接口描述
@@ -59,6 +61,24 @@ public class MemberInfo {
 
     public AttributeInfo[] getAttributes() {
         return this.attributes;
+    }
+
+    public CodeAttribute getCodeAttribute() {
+        for (AttributeInfo attribute : this.getAttributes()) {
+            if (attribute instanceof CodeAttribute) {
+                return (CodeAttribute) attribute;
+            }
+        }
+        return null;
+    }
+
+    public ConstantAttribute constantAttribute() {
+        for (AttributeInfo attribute : this.getAttributes()) {
+            if (attribute instanceof ConstantAttribute) {
+                return (ConstantAttribute) attribute;
+            }
+        }
+        return null;
     }
 
 }

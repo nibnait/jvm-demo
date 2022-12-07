@@ -17,3 +17,6 @@
 
 数据类型：  
 ![](./docs/数据类型.png)
+
+## 指令表
+[/instructions/README.md](./src/main/java/cc/tianbin/demo/jvm/instructions/README.md)

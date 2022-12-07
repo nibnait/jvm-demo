@@ -14,24 +14,27 @@ public class Thread {
     // 虚拟机栈
     private JvmStack stack;
 
-    public Thread(int maxStack){
+    public Thread(int maxStack) {
+        this.stack = new JvmStack(maxStack);
+    }
+
+    public Thread() {
         this.stack = new JvmStack(1024);
     }
 
-    public Thread(){
-        this.stack = new JvmStack(1024);
-    }
-
-    public void pushFrame(Frame frame){
+    public void pushFrame(Frame frame) {
         this.stack.push(frame);
     }
 
-    public Frame popFrame(){
+    public Frame popFrame() {
         return this.stack.pop();
     }
 
-    public Frame currentFrame(){
+    public Frame currentFrame() {
         return this.stack.top();
     }
 
+    public Frame newFrame(int maxLocals, int maxStack) {
+        return new Frame(this, maxLocals, maxStack);
+    }
 }

@@ -1,6 +1,6 @@
 package cc.tianbin.demo.jvm.classfile;
 
-import cc.tianbin.demo.jvm.rtda.frame.Util;
+import cc.tianbin.demo.jvm.utils.NumberUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -26,17 +26,17 @@ public class ClassReader {
 
 
     public int readU1toInt() {
-        return Util.byteToInt(readBytes(1));
+        return NumberUtil.byte2Int(readBytes(1));
     }
 
     public int readU2ToInt() {
         byte[] bytes = readBytes(2);
-        return Util.byteToInt(bytes);
+        return NumberUtil.byte2Int(bytes);
     }
 
     public int readU4ToInt() {
         byte[] bytes = readBytes(4);
-        return Util.byteToInt(bytes);
+        return NumberUtil.byte2Int(bytes);
     }
 
     public float readU4ToFloat() {
@@ -46,12 +46,12 @@ public class ClassReader {
 
     public String readU2ToHexString() {
         byte[] bytes = readBytes(2);
-        return Util.byteToHexString(bytes);
+        return NumberUtil.byte2HexString(bytes);
     }
 
     public String readU4ToHexString() {
         byte[] bytes = readBytes(4);
-        return Util.byteToHexString(bytes);
+        return NumberUtil.byte2HexString(bytes);
     }
 
     public byte[] readBytes(int len) {

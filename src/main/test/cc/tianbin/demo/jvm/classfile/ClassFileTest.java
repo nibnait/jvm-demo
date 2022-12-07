@@ -1,7 +1,7 @@
 package cc.tianbin.demo.jvm.classfile;
 
 public class ClassFileTest {
-    
+
     public static final boolean FLAG = true;
     public static final byte BYTE = 123;
     public static final char X = 'X';
@@ -10,14 +10,9 @@ public class ClassFileTest {
     public static final long LONG = 12345678901L;
     public static final float PI = 3.14f;
     public static final double E = 2.71828;
-    
+
     public static void main(String[] args) throws RuntimeException {
         System.out.println("Hello, World!");
     }
 
-    @Deprecated
-    public void test() {
-        System.out.println("hello");
-    }
-    
 }

@@ -41,7 +41,7 @@ public class CodeAttribute extends AttributeInfoRefBase implements AttributeInfo
     // 局部变量表大小
     private int maxLocals;
     // 字节码
-    private byte[] code;
+    private byte[] data;
     // 异常处理表
     private ExceptionTableEntry[] exceptionTable;
     // 属性表
@@ -59,8 +59,8 @@ public class CodeAttribute extends AttributeInfoRefBase implements AttributeInfo
         return maxLocals;
     }
 
-    public byte[] code() {
-        return code;
+    public byte[] data() {
+        return data;
     }
 
     public ExceptionTableEntry[] exceptionTable() {
@@ -80,7 +80,7 @@ public class CodeAttribute extends AttributeInfoRefBase implements AttributeInfo
 
         // 字节码
         int codeLength = reader.readU4ToInt();
-        this.code = reader.readBytes(codeLength);
+        this.data = reader.readBytes(codeLength);
 
         // 异常处理表
         this.exceptionTable = ExceptionTableEntry.readExceptionTable(reader);

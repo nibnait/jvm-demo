@@ -1,6 +1,8 @@
 package cc.tianbin.demo.jvm.rtda.frame;
 
 import cc.tianbin.demo.jvm.exception.JvmStackException;
+import cc.tianbin.demo.jvm.utils.NumberUtil;
+import io.github.nibnait.common.utils.DataUtils;
 
 /**
  * 操作数栈
@@ -21,6 +23,10 @@ public class OperandStack {
         }
     }
 
+    public String formatSlots() {
+        return DataUtils.format("size: {}, slots: {}", size, Slot.format(slots));
+    }
+
     public void pushSlot(Slot slot) {
         if (size == slots.length) {
             throw new JvmStackException("OperandStack is overflow");
@@ -37,11 +43,11 @@ public class OperandStack {
 
     //----------- boolean, byte, short, char 也一律按 int 处理 ---------------
     public void pushInt(int val) {
-        pushSlot(Util.setInt(val));
+        pushSlot(NumberUtil.setInt(val));
     }
 
     public int popInt() {
-        return Util.getInt(popSlot());
+        return NumberUtil.getInt(popSlot());
     }
 
     //----------- float 按 int 处理 ---------------
@@ -50,12 +56,12 @@ public class OperandStack {
     }
 
     public Float popFloat() {
-        return Float.intBitsToFloat(popSlot().getNumInt());
+        return Float.intBitsToFloat(popSlot().getNumDecimalInt());
     }
 
     //----------- long 和 double 占2个slot ---------------
     public void pushLong(long val) {
-        Slot[] slots = Util.setLong(val);
+        Slot[] slots = NumberUtil.setLong(val);
         pushSlot(slots[0]);
         pushSlot(slots[1]);
     }
@@ -63,7 +69,7 @@ public class OperandStack {
     public Long popLong() {
         Slot low = popSlot();
         Slot high = popSlot();
-        return Util.getLong(new Slot[]{high, low});
+        return NumberUtil.getLong(new Slot[]{high, low});
     }
 
     public void pushDouble(double val) {

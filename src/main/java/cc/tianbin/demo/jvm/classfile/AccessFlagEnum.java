@@ -1,6 +1,6 @@
 package cc.tianbin.demo.jvm.classfile;
 
-import cc.tianbin.demo.jvm.rtda.frame.Util;
+import cc.tianbin.demo.jvm.utils.NumberUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
@@ -70,9 +70,9 @@ public enum AccessFlagEnum {
 
             String curHexStr = Integer.toHexString(cur);
             // 后面补点0
-            curHexStr = Util.appendZero(curHexStr, i);
+            curHexStr = NumberUtil.appendZero(curHexStr, i);
             // 前面补点0
-            curHexStr = Util.insertZero(curHexStr, 4);
+            curHexStr = NumberUtil.insertZero(curHexStr, 4);
             // 拿到那个唯一的 accessFlag
             AccessFlagEnum accessFlag = getByCode(curHexStr);
             if (accessFlag != null) {
@@ -99,7 +99,7 @@ public enum AccessFlagEnum {
                 // 转成 string
                 String strHex = Integer.toHexString(1 << i);
                 // 前面补点0
-                strHex = Util.insertZero(strHex, 4);
+                strHex = NumberUtil.insertZero(strHex, 4);
                 list.add(getByCode(strHex));
             }
         }

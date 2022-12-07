@@ -1,8 +1,11 @@
-package cc.tianbin.demo.jvm.rtda.frame;
+package cc.tianbin.demo.jvm.utils;
 
-public class Util {
+import cc.tianbin.demo.jvm.rtda.frame.Slot;
 
-    public Util() {
+public class NumberUtil {
+
+    private NumberUtil() {
+        throw new AssertionError("工具类不允许被实例化");
     }
 
     public static Slot setInt(int val) {
@@ -17,18 +20,18 @@ public class Util {
 
     public static int getInt(Slot slot) {
         if (slot.isFlag()) {
-            return slot.getNumInt();
+            return slot.getNumDecimalInt();
         } else {
-            return slot.getNumInt() * -1 - 1;
+            return slot.getNumDecimalInt() * -1 - 1;
         }
     }
 
     public static Slot[] setLong(long val) {
         boolean flag = true;
-        String s = Util.appendZero(Long.toBinaryString(val), 64);
+        String s = NumberUtil.appendZero(Long.toBinaryString(val), 64);
         if (val < 0) {
             flag = false;
-            s = Util.appendZero(Util.translate(Long.toBinaryString(val)), 64);
+            s = NumberUtil.appendZero(NumberUtil.translate(Long.toBinaryString(val)), 64);
         }
         String high = s.substring(0, 32);
         String low = s.substring(32);
@@ -43,9 +46,9 @@ public class Util {
         Slot high = slots[0];
         Slot low = slots[1];
         if (high.isFlag()) {
-            return Long.parseLong(high.getNum() + low.getNum(), 2);
+            return Long.parseLong(high.getNumBinaryStr() + low.getNumBinaryStr(), 2);
         } else {
-            return Long.parseLong(high.getNum() + low.getNum(), 2) * -1 - 1;
+            return Long.parseLong(high.getNumBinaryStr() + low.getNumBinaryStr(), 2) * -1 - 1;
         }
     }
 
@@ -55,7 +58,7 @@ public class Util {
         }
         StringBuilder builder = new StringBuilder(s);
         for (int i = 0; i < length - s.length(); i++) {
-            builder.append("0");
+            builder.insert(0, "0");
         }
         return builder.toString();
     }
@@ -71,7 +74,7 @@ public class Util {
         return builder.toString();
     }
 
-    public static String translate(String s) {
+    private static String translate(String s) {
         StringBuilder builder = new StringBuilder();
         for (char c : s.toCharArray()) {
             if (c == '0') {
@@ -83,15 +86,14 @@ public class Util {
         return builder.toString();
     }
 
-    public static int byteToInt(byte[] codes) {
-        String s1 = byteToHexString(codes);
+    public static int byte2Int(byte[] codes) {
+        String s1 = byte2HexString(codes);
         return Integer.valueOf(s1, 16);
     }
 
-    public static String byteToHexString(byte[] codes) {
+    public static String byte2HexString(byte[] codes) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < codes.length; i++) {
-            byte b = codes[i];
+        for (byte b : codes) {
             int value = b & 0xFF;
             String strHex = Integer.toHexString(value);
             if (strHex.length() < 2) {
@@ -102,4 +104,11 @@ public class Util {
         return sb.toString();
     }
 
+    public static String int2HexString(int opCode) {
+        String strHex = Integer.toHexString(opCode);
+        if (strHex.length() < 2) {
+            strHex = "0" + strHex;
+        }
+        return "0x" + strHex;
+    }
 }

@@ -134,6 +134,12 @@ public class ClassFile {
         return attributes;
     }
 
-
-
+    public MemberInfo getMainMethod() {
+        for (MemberInfo method : getMethods()) {
+            if ("main".equals(method.getName()) && "([Ljava/lang/String;)V".equals(method.getDescriptor())) {
+                return method;
+            }
+        }
+        return null;
+    }
 }
