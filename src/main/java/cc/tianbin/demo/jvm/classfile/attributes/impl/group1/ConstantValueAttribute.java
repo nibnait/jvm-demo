@@ -1,10 +1,11 @@
 package cc.tianbin.demo.jvm.classfile.attributes.impl.group1;
 
 import cc.tianbin.demo.jvm.classfile.ClassReader;
-import cc.tianbin.demo.jvm.classfile.attributes.AttributeInfoRefBase;
+import cc.tianbin.demo.jvm.classfile.attributes.base.AttributeInfoRefBase;
 import cc.tianbin.demo.jvm.classfile.attributes.AttributeInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
+import lombok.Getter;
 
 /**
  * Created by nibnait on 2022/11/30
@@ -17,15 +18,16 @@ public class ConstantValueAttribute extends AttributeInfoRefBase implements Attr
      * u2 constant_value_index;//常量池索引
      */
     //具体指向哪种常量因字段类型而异。
+    @Getter
     private int constantValueIndex;
 
     public ConstantValueAttribute(ConstantPool constantPool) {
         super(constantPool);
     }
 
-    public String constantValue(){
+    public Object constantValue() {
         ConstantInfo constantInfo = constantPool.getConstantInfo(constantValueIndex);
-        return constantInfo.value();
+        return constantInfo.printValue();
     }
 
     @Override
@@ -36,7 +38,7 @@ public class ConstantValueAttribute extends AttributeInfoRefBase implements Attr
         this.constantValueIndex = reader.readU2ToInt();
     }
 
-    public ConstantInfo constantInfo() {
+    public ConstantInfo getConstantValue() {
         return this.constantPool.getConstantInfo(constantValueIndex);
     }
 }

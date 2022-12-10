@@ -10,11 +10,16 @@ import lombok.Setter;
 public abstract class Index16Instruction implements Instruction {
 
     @Setter
-    private int index;
+    protected int index;
 
     @Override
     public void fetchOperands(BytecodeReader reader) {
         this.index = reader.readU2ToInt();
+    }
+
+    @Override
+    public String operateNum() {
+        return index + "";
     }
 
     @Override

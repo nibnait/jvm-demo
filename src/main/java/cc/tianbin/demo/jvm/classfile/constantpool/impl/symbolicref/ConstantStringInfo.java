@@ -1,7 +1,7 @@
 package cc.tianbin.demo.jvm.classfile.constantpool.impl.symbolicref;
 
 import cc.tianbin.demo.jvm.classfile.ClassReader;
-import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfoRefBase;
+import cc.tianbin.demo.jvm.classfile.constantpool.base.ConstantInfoRefBase;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
 
@@ -23,7 +23,7 @@ public class ConstantStringInfo extends ConstantInfoRefBase implements ConstantI
     }
 
     @Override
-    public String value() {
+    public String printValue() {
         return String.format("#%-22d// %s", index,
                 constantPool.getUTF8(index));
     }
@@ -32,6 +32,10 @@ public class ConstantStringInfo extends ConstantInfoRefBase implements ConstantI
     public void readInfo(ClassReader reader) {
         super.readInfo(reader);
         this.index = reader.readU2ToInt();
+    }
+
+    public String string() {
+        return constantPool.getUTF8(index);
     }
 
 }

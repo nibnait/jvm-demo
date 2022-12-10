@@ -1,9 +1,11 @@
 package cc.tianbin.demo.jvm;
 
 import cc.tianbin.demo.jvm.classfile.ClassFile;
-import cc.tianbin.demo.jvm.classfile.MemberInfo;
 import cc.tianbin.demo.jvm.classpath.Classpath;
 import cc.tianbin.demo.jvm.exception.JvmException;
+import cc.tianbin.demo.jvm.rtda.heap.classloader.ClassLoader;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.Method;
 import lombok.extern.slf4j.Slf4j;
 
 import static cc.tianbin.demo.jvm.utils.LogUtil.log;
@@ -35,13 +37,11 @@ public class MainStartJVM {
         //获取className
         String className = args.getMainClass().replace(".", "/");
 
-        // 读取并解析 class 文件
-        ClassFile classFile = loadClass(classpath, className);
-
-//        MainClassFile.printClassInfo(classFile);
+        ClassLoader classLoader = new ClassLoader(classpath);
+        Class clazz = classLoader.loadClass(className);
 
         // 查找类的 main() 方法
-        MemberInfo mainMethod = classFile.getMainMethod();
+        Method mainMethod = clazz.getMainMethod();
         if (mainMethod == null) {
             throw new JvmException("Main method not found in class {}", args.classpath);
         }

@@ -2,7 +2,7 @@ package cc.tianbin.demo.jvm.classfile.constantpool.impl.invokdynamic;
 
 import cc.tianbin.demo.jvm.classfile.ClassReader;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfo;
-import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfoRefBase;
+import cc.tianbin.demo.jvm.classfile.constantpool.base.ConstantInfoRefBase;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
 
 /**

@@ -1,6 +1,7 @@
 package cc.tianbin.demo.jvm.rtda.frame;
 
 import cc.tianbin.demo.jvm.exception.JvmStackException;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.MethodAreaObject;
 import cc.tianbin.demo.jvm.utils.NumberUtil;
 
 /**
@@ -72,13 +73,13 @@ public class LocalVariables {
     }
 
     //----------- 引用值 ---------------
-    public void setRef(int index, Object ref) {
+    public void setRef(int index, MethodAreaObject ref) {
         Slot slot = new Slot();
         slot.setRef(ref);
         slots[index] = slot;
     }
 
-    public Object getRef(int index) {
+    public MethodAreaObject getRef(int index) {
         return slots[index].getRef();
     }
 

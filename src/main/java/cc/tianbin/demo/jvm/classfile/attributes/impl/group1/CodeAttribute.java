@@ -1,9 +1,10 @@
 package cc.tianbin.demo.jvm.classfile.attributes.impl.group1;
 
 import cc.tianbin.demo.jvm.classfile.ClassReader;
-import cc.tianbin.demo.jvm.classfile.attributes.AttributeInfoRefBase;
+import cc.tianbin.demo.jvm.classfile.attributes.base.AttributeInfoRefBase;
 import cc.tianbin.demo.jvm.classfile.attributes.AttributeInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
+import lombok.Getter;
 
 /**
  * Created by nibnait on 2022/11/30
@@ -37,38 +38,23 @@ import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
 public class CodeAttribute extends AttributeInfoRefBase implements AttributeInfo {
 
     // 操作数栈的最大深度
+    @Getter
     private int maxStack;
     // 局部变量表大小
+    @Getter
     private int maxLocals;
     // 字节码
-    private byte[] data;
+    @Getter
+    private byte[] bytecode;
     // 异常处理表
+    @Getter
     private ExceptionTableEntry[] exceptionTable;
     // 属性表
+    @Getter
     private AttributeInfo[] attributes;
 
     public CodeAttribute(ConstantPool constantPool) {
         super(constantPool);
-    }
-
-    public int maxStack() {
-        return maxStack;
-    }
-
-    public int maxLocals() {
-        return maxLocals;
-    }
-
-    public byte[] data() {
-        return data;
-    }
-
-    public ExceptionTableEntry[] exceptionTable() {
-        return exceptionTable;
-    }
-
-    public AttributeInfo[] attributes() {
-        return attributes;
     }
 
     @Override
@@ -80,7 +66,7 @@ public class CodeAttribute extends AttributeInfoRefBase implements AttributeInfo
 
         // 字节码
         int codeLength = reader.readU4ToInt();
-        this.data = reader.readBytes(codeLength);
+        this.bytecode = reader.readBytes(codeLength);
 
         // 异常处理表
         this.exceptionTable = ExceptionTableEntry.readExceptionTable(reader);
@@ -88,6 +74,7 @@ public class CodeAttribute extends AttributeInfoRefBase implements AttributeInfo
         this.attributes = AttributeInfo.readAttributes(reader, constantPool);
     }
 
+    @Getter
     static class ExceptionTableEntry {
 
         private int startPC;
@@ -100,22 +87,6 @@ public class CodeAttribute extends AttributeInfoRefBase implements AttributeInfo
             this.endPC = reader.readU2ToInt();
             this.handlerPC = reader.readU2ToInt();
             this.catchType = reader.readU2ToInt();
-        }
-
-        public int startPC() {
-            return startPC;
-        }
-
-        public int endPC() {
-            return endPC;
-        }
-
-        public int handlerPC() {
-            return handlerPC;
-        }
-
-        public int catchType() {
-            return catchType;
         }
 
         static ExceptionTableEntry[] readExceptionTable(ClassReader reader) {

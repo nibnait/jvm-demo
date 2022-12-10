@@ -2,7 +2,7 @@ package cc.tianbin.demo.jvm.classfile.constantpool.impl.literal;
 
 import cc.tianbin.demo.jvm.classfile.ClassReader;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfo;
-import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfoLiteralBase;
+import cc.tianbin.demo.jvm.classfile.constantpool.base.ConstantInfoLiteralBase;
 
 /**
  * Created by nibnait on 2022/11/30
@@ -17,8 +17,8 @@ public class ConstantLongInfo extends ConstantInfoLiteralBase implements Constan
     private long value;
 
     @Override
-    public String value() {
-        return value + "";
+    public Long printValue() {
+        return value;
     }
 
     @Override

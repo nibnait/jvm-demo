@@ -20,3 +20,9 @@
 
 ## 指令表
 [/instructions/README.md](./src/main/java/cc/tianbin/demo/jvm/instructions/README.md)
+
+## 类和对象
+
+类加载过程：[ClassLoader.loadClass()](./src/main/java/cc/tianbin/demo/jvm/rtda/heap/ClassLoader.java)
+
+![](./docs/类的生命周期.png)

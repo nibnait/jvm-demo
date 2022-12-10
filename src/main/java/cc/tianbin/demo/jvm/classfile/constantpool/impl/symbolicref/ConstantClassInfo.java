@@ -1,9 +1,10 @@
 package cc.tianbin.demo.jvm.classfile.constantpool.impl.symbolicref;
 
 import cc.tianbin.demo.jvm.classfile.ClassReader;
-import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfoRefBase;
+import cc.tianbin.demo.jvm.classfile.constantpool.base.ConstantInfoRefBase;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
+import lombok.Getter;
 
 /**
  * Created by nibnait on 2022/11/30
@@ -16,17 +17,14 @@ public class ConstantClassInfo extends ConstantInfoRefBase implements ConstantIn
      * -
      * 这个类的名字，是常量池中的第 index 个常量
      */
+    @Getter
     private int nameIndex;
 
     public ConstantClassInfo(ConstantPool constantPool) {
         super(constantPool);
     }
 
-    public int nameIndex() {
-        return nameIndex;
-    }
-
-    public String name() {
+    public String getName() {
         return constantPool.getUTF8(this.nameIndex);
     }
 
@@ -37,7 +35,7 @@ public class ConstantClassInfo extends ConstantInfoRefBase implements ConstantIn
     }
 
     @Override
-    public String value() {
+    public String printValue() {
         return String.format("#%-22d// %s", nameIndex, constantPool.getUTF8(nameIndex));
     }
 }

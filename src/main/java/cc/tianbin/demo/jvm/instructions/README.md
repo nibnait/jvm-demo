@@ -14,8 +14,8 @@ Java虚拟机规范把已经定义的205条指令按用途分成了11类， 分�
 | 0x04 | [iconst_1](./constants/consts/ICONST_1.java)       | 把 int型 1，推入操作数栈顶 | 0x0f | [dconst_1](./constants/consts/DCONST_1.java) | 把 double型 1，推入操作数栈顶 |
 | 0x05 | [iconst_2](./constants/consts/ICONST_2.java)       | 把 int型 2，推入操作数栈顶 | 0x10 | [bipush](./constants/ipush/BIPUSH.java)      | 从操作数中获取一个byte型整数，扩展成int型，然 后推入栈顶 |
 | 0x06 | [iconst_3](./constants/consts/ICONST_3.java)       | 把 int型 3，推入操作数栈顶 | 0x11 | [sipush](./constants/ipush/SIPUSH.java)      | 从操作数中获取一个short型整数，扩展成 int型，然后推入栈顶 |
-| 0x07 | [iconst_4](./constants/consts/ICONST_4.java)       | 把 int型 4，推入操作数栈顶 | 0x12 | [ldc](./constants/ldc/LDC.java)              | 从运行时常量池中加载 int型常量值，并把它推入操作数栈 |
-| 0x08 | [iconst_5](./constants/consts/ICONST_5.java)       | 把 int型 5，推入操作数栈顶 | 0x13 | [ldc_w](./constants/ldc/LDC_W.java)       | 从运行时常量池中加载 float型常量值，并把它推入操作数栈 |
+| 0x07 | [iconst_4](./constants/consts/ICONST_4.java)       | 把 int型 4，推入操作数栈顶 | 0x12 | [ldc](./constants/ldc/LDC.java)              | 从运行时常量池中加载 int/float/String/ClassRef 型常量值(1个槽位)，并把它推入操作数栈 |
+| 0x08 | [iconst_5](./constants/consts/ICONST_5.java)       | 把 int型 5，推入操作数栈顶 | 0x13 | [ldc_w](./constants/ldc/LDC_W.java)       | 从运行时常量池中加载 int/float/String/ClassRef 型常量值(2个槽位)，并把它推入操作数栈 |
 | 0x09 | [lconst_0](./constants/consts/LCONST_0.java)       | 把 long型 0，推入操作数栈顶 | 0x14 | [ldc2_w](./constants/ldc/LDC2_W.java)     | 从运行时常量池中加载 long/double型常量值，并把它推入操作数栈 |
 | 0x0a | [lconst_1](./constants/consts/LCONST_1.java)       | 把 long型 1，推入操作数栈顶 |        |                                              |      |
 
@@ -28,7 +28,7 @@ Java虚拟机规范把已经定义的205条指令按用途分成了11类， 分�
 | 0x17 | [fload](./loads/fload/FLOAD.java)     | ...float... | 0x28 | [dload_2](./loads/dload/DLOAD_2.java) |      |
 | 0x18 | [dload](./loads/dload/DLOAD.java)     | ...double... | 0x29 | [dload_3](./loads/dload/DLOAD_3.java) |      |
 | 0x19 | [aload](./loads/aload/ALOAD.java)     | ...引用变量... | 0x2a | [aload_0](./loads/aload/ALOAD_0.java) |      |
-| 0x1a | [iload_0](./loads/iload/ILOAD_0.java) | 将局部变量表中索引为0的 int型变量，然后推入操作数栈顶 | 0x2b | [aload_1](./loads/aload/ALOAD_1.java) |      |
+| 0x1a | [iload_0](./loads/iload/ILOAD_0.java) | 将局部变量表中索引为0的 int型变量，然后推入操作数栈顶 | **0x2b** | [aload_1](./loads/aload/ALOAD_1.java) |      |
 | 0x1b | [iload_1](./loads/iload/ILOAD_1.java) | （索引隐含在操作码中） | 0x2c | [aload_2](./loads/aload/ALOAD_2.java) |      |
 | 0x1c | [iload_2](./loads/iload/ILOAD_2.java) |      | 0x2d | [aload_3](./loads/aload/ALOAD_3.java) |      |
 | 0x1d | [iload_3](./loads/iload/ILOAD_3.java) |      | 0x2e | [iaload](./loads/xaload/IALOAD.java)  |      |
@@ -47,7 +47,7 @@ Java虚拟机规范把已经定义的205条指令按用途分成了11类， 分�
 | ------ |-------------------------------------------| ---- | ------ |-------------------------------------------| ---- |
 | 0x36 | [istore](./stores/istore/ISTORE.java)     | 从操作数栈顶弹出 int 变量，存入局部变量表 | 0x47 | [dstore_0](./stores/dstore/DSTORE_0.java) |      |
 | 0x37 | [lstore](./stores/lstore/LSTORE.java)     | | 0x48 | [dstore_1](./stores/dstore/DSTORE_1.java) | |
-| 0x38 | [fstore](./stores/fstore/FSTORE.java)     | | 0x49 | [dstore_2](./stores/dstore/DSTORE_2.java) | |
+| 0x38 | [fstore](./stores/fstore/FSTORE.java)     |  | 0x49 | [dstore_2](./stores/dstore/DSTORE_2.java) | |
 | 0x39 | [dstore](./stores/dstore/DSTORE.java)     | | 0x4a | [dstore_3](./stores/dstore/DSTORE_3.java) | |
 | 0x3a | [astore](./stores/astore/ASTORE.java)     | | 0x4b | [astore_0](./stores/astore/ASTORE_0.java) | |
 | 0x3b | [istore_0](./stores/istore/ISTORE_0.java) | 从操作数栈顶弹出 int 变量，存入局部变量表的0号位置 | 0x4c | [astore_1](./stores/astore/ASTORE_1.java) | |
@@ -141,17 +141,17 @@ Java虚拟机规范把已经定义的205条指令按用途分成了11类， 分�
 
 ### References
 
-| <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div>   | <div style="width:50px">功能</div> | <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div> | <div style="width:50px">功能</div> |
-|-----------------------------------| ------ | ---- |-----------------------------------|-----------------------------------| ---- |
-| 0xb2                              | getstatic |  | 0xbb                              | new |  |
-| 0xb3 | putstatic | | 0xbc | newarray | |
-| 0xb4 | getfield | | 0xbd | anewarray | |
-| 0xb5 | putfield | | 0xbe | arraylength | |
-| 0xb6 | invokevirtual | | 0xbf | athrow | |
-| 0xb7 | invokespecial | | 0xc0 | checkcast | |
-| 0xb8 | invokestatic | | 0xc1 | instanceof | |
-| 0xb9 | invokeinterface | | 0xc2 | monitorenter | |
-| 0xba | invokedynamic | | 0xc3 | monitorexit | |
+| <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div>        | <div style="width:50px">功能</div> | <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div>          | <div style="width:50px">功能</div> |
+|-----------------------------------|------------------------------------------| ---- |-----------------------------------|--------------------------------------------| ---- |
+| 0xb2                              | [getstatic](./references/GETSTATIC.java) | 取出类的某个静态变量值，push到栈顶 | 0xbb                              | new                                        | 创建类实例 |
+| 0xb3 | [putstatic](./references/PUTSTATIC.java) | 给类的某个静态变量赋值 | 0xbc | newarray                                   | |
+| 0xb4 | [getfield](./references/GETFIELD.java)   | 获取对象的实例变量值，push到栈顶 | 0xbd | anewarray                                  | |
+| 0xb5 | [putfield](./references/PUTFIELD.java)   | 给实例变量赋值 | 0xbe | arraylength                                | |
+| 0xb6 | invokevirtual                            | | 0xbf | athrow                                     | |
+| 0xb7 | invokespecial                            | | 0xc0 | [checkcast](./references/CHECKCAST.java)   | 判断对象是否属于某种类型。<br/>如果属于啥事没有，如果不属于，直接报 ClassCastException |
+| 0xb8 | invokestatic                             | | 0xc1 | [instanceof](./references/INSTANCEOF.java) | 判断对象是否是某个类的实例（或者对象的类是否实现了某个接口），并把结果推入操作数栈。 |
+| 0xb9 | invokeinterface                          | | 0xc2 | monitorenter                               | |
+| 0xba | invokedynamic                            | | 0xc3 | monitorexit                                | |
 
 ### Extended
 

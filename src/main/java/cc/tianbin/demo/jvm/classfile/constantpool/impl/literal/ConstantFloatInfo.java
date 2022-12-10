@@ -2,7 +2,7 @@ package cc.tianbin.demo.jvm.classfile.constantpool.impl.literal;
 
 import cc.tianbin.demo.jvm.classfile.ClassReader;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfo;
-import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfoLiteralBase;
+import cc.tianbin.demo.jvm.classfile.constantpool.base.ConstantInfoLiteralBase;
 
 /**
  * Created by nibnait on 2022/11/29
@@ -16,8 +16,8 @@ public class ConstantFloatInfo extends ConstantInfoLiteralBase implements Consta
     private float value;
 
     @Override
-    public String value() {
-        return value + "";
+    public Float printValue() {
+        return value;
     }
 
     @Override

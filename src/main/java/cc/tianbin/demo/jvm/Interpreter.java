@@ -1,12 +1,11 @@
 package cc.tianbin.demo.jvm;
 
-import cc.tianbin.demo.jvm.classfile.MemberInfo;
-import cc.tianbin.demo.jvm.classfile.attributes.impl.group1.CodeAttribute;
 import cc.tianbin.demo.jvm.instructions.Instruction;
 import cc.tianbin.demo.jvm.instructions.InstructionFactory;
 import cc.tianbin.demo.jvm.instructions.base.BytecodeReader;
 import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.Thread;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.Method;
 
 import static cc.tianbin.demo.jvm.utils.LogUtil.log;
 import static cc.tianbin.demo.jvm.utils.LogUtil.printf;
@@ -21,18 +20,13 @@ public class Interpreter {
         throw new AssertionError("工具类不允许被实例化");
     }
 
-    public static void execute(MemberInfo memberInfo) {
-        CodeAttribute codeAttr = memberInfo.getCodeAttribute();
+    public static void execute(Method method) {
+        log("maxLocals: {}, maxStack: {} \n", method.getMaxLocals(), method.getMaxStack());
 
-        int maxLocals = codeAttr.maxLocals();
-        int maxStack = codeAttr.maxStack();
-        log("maxLocals: {}, maxStack: {} \n", maxLocals, maxStack);
-        byte[] byteCode = codeAttr.data();
-
-        Thread thread = new Thread();
-        Frame frame = thread.newFrame(maxLocals, maxStack);
+       Thread thread = new Thread();
+        Frame frame = thread.newFrame(method);
         thread.pushFrame(frame);
-        loop(thread, byteCode);
+        loop(thread, method.getBytecode());
     }
 
     private static void loop(Thread thread, byte[] byteCode) {

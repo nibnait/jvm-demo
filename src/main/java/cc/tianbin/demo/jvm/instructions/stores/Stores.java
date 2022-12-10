@@ -1,6 +1,7 @@
 package cc.tianbin.demo.jvm.instructions.stores;
 
 import cc.tianbin.demo.jvm.rtda.Frame;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.MethodAreaObject;
 
 /**
  * Created by nibnait on 2022/12/07
@@ -52,7 +53,7 @@ public class Stores {
      * 从操作数栈顶弹出 double 变量，存入局部变量表的 index位置
      */
     public static void astore(Frame frame, int index) {
-        Object val = frame.operandStack.popRef();
+        MethodAreaObject val = frame.operandStack.popRef();
         frame.localVariables.setRef(index, val);
     }
 }

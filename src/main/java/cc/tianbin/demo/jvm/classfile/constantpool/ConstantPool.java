@@ -4,6 +4,8 @@ import cc.tianbin.demo.jvm.classfile.ClassReader;
 import cc.tianbin.demo.jvm.classfile.constantpool.impl.symbolicref.ConstantClassInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.impl.symbolicref.ConstantNameAndTypeInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.impl.literal.ConstantUtf8Info;
+import cc.tianbin.demo.jvm.common.ConstantTag;
+import cc.tianbin.demo.jvm.exception.IllegalArgumentException;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -44,27 +46,30 @@ public class ConstantPool {
     public ConstantInfo getConstantInfo(int index) {
         ConstantInfo constantInfo = this.constantInfos[index];
         if (constantInfo == null) {
-            throw new IllegalArgumentException("Invalid constant pool index!");
+            throw new IllegalArgumentException("Invalid constant pool index: {}", index);
         }
         return constantInfo;
     }
+
+    public static final String NAME = "name";
+    public static final String TYPE = "_type";
 
     // 从常量池中查找 字段或方法的名字 和 描述符
     public Map<String, String> getNameAndType(int index) {
         ConstantNameAndTypeInfo constantInfo = (ConstantNameAndTypeInfo) this.constantInfos[index];
         if (constantInfo == null) {
-            throw new IllegalArgumentException("Invalid constant pool index!");
+            throw new IllegalArgumentException("Invalid constant pool index: {}", index);
         }
         Map<String, String> map = new HashMap<>();
-        map.put("name", constantInfo.name());
-        map.put("_type", constantInfo.descriptor());
+        map.put(NAME, constantInfo.name());
+        map.put(TYPE, constantInfo.descriptor());
         return map;
     }
 
     public String nameAndType(int index) {
         ConstantNameAndTypeInfo constantInfo = (ConstantNameAndTypeInfo) this.constantInfos[index];
         if (constantInfo == null) {
-            throw new IllegalArgumentException("Invalid constant pool index!");
+            throw new IllegalArgumentException("Invalid constant pool index: {}", index);
         }
         return constantInfo.name() + "&" + constantInfo.descriptor();
     }
@@ -73,15 +78,15 @@ public class ConstantPool {
     public String getClassName(int index) {
         ConstantClassInfo classInfo = (ConstantClassInfo) this.constantInfos[index];
         if (classInfo == null) {
-            throw new IllegalArgumentException("Invalid constant pool index!");
+            throw new IllegalArgumentException("Invalid constant pool index: {}", index);
         }
-        return this.getUTF8(classInfo.nameIndex());
+        return this.getUTF8(classInfo.getNameIndex());
     }
 
     // 从常量池查找 UTF-8 字符串
     public String getUTF8(int index) {
         ConstantUtf8Info utf8Info = (ConstantUtf8Info) this.constantInfos[index];
-        return utf8Info == null ? "" : utf8Info.value();
+        return utf8Info == null ? "" : utf8Info.printValue();
     }
 
 }

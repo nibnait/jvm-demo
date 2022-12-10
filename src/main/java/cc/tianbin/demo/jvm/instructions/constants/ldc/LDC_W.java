@@ -15,6 +15,6 @@ public class LDC_W extends Index16Instruction {
 
     @Override
     public void execute(Frame frame) {
-        // todo 8.5.2
+        LDCHelper.ldc(frame, this.index);
     }
 }

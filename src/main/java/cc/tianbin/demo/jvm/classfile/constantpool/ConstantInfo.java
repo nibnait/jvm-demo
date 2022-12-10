@@ -11,6 +11,7 @@ import cc.tianbin.demo.jvm.classfile.constantpool.impl.memberref.ConstantMethodR
 import cc.tianbin.demo.jvm.classfile.constantpool.impl.symbolicref.ConstantClassInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.impl.symbolicref.ConstantNameAndTypeInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.impl.symbolicref.ConstantStringInfo;
+import cc.tianbin.demo.jvm.common.ConstantTag;
 
 /**
  * Created by nibnait on 2022/11/29
@@ -26,7 +27,7 @@ public interface ConstantInfo {
     // 常量值
     // 对于[字面量](literal)、ConstantStringInfo 就是 对应的值
     // 对于[引用类型](xxref)、[invokeDynamic指令] 直接返回 ""（因为他们的value 用一个 String 表示不请）
-    default String value() {
+    default Object printValue() {
         return "";
     }
 

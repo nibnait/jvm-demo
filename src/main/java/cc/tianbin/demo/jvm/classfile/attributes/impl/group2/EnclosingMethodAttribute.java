@@ -2,7 +2,7 @@ package cc.tianbin.demo.jvm.classfile.attributes.impl.group2;
 
 import cc.tianbin.demo.jvm.classfile.ClassReader;
 import cc.tianbin.demo.jvm.classfile.attributes.AttributeInfo;
-import cc.tianbin.demo.jvm.classfile.attributes.AttributeInfoRefBase;
+import cc.tianbin.demo.jvm.classfile.attributes.base.AttributeInfoRefBase;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
 
 import java.util.HashMap;
@@ -25,7 +25,7 @@ public class EnclosingMethodAttribute extends AttributeInfoRefBase implements At
     private int classIndex;
     private int methodIndex;
 
-    public String className() {
+    public String getClassName() {
         return this.constantPool.getClassName(this.classIndex);
     }
 

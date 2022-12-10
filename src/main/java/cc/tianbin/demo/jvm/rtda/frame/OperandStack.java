@@ -1,6 +1,7 @@
 package cc.tianbin.demo.jvm.rtda.frame;
 
 import cc.tianbin.demo.jvm.exception.JvmStackException;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.MethodAreaObject;
 import cc.tianbin.demo.jvm.utils.NumberUtil;
 import io.github.nibnait.common.utils.DataUtils;
 
@@ -81,11 +82,11 @@ public class OperandStack {
     }
 
     //----------- 引用值 ---------------
-    public void pushRef(Object ref) {
+    public void pushRef(MethodAreaObject ref) {
         pushSlot(Slot.ref(ref));
     }
 
-    public Object popRef() {
+    public MethodAreaObject popRef() {
         return popSlot().getRef();
     }
 

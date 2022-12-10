@@ -1,7 +1,7 @@
 package cc.tianbin.demo.jvm.classfile.constantpool.impl.memberref;
 
 import cc.tianbin.demo.jvm.classfile.ClassReader;
-import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfoRefBase;
+import cc.tianbin.demo.jvm.classfile.constantpool.base.ConstantInfoRefBase;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
 
@@ -29,7 +29,7 @@ public abstract class ConstantMemberRefInfo extends ConstantInfoRefBase implemen
     /**
      * 类名
      */
-    public String className() {
+    public String getClassName() {
         return constantPool.getClassName(this.classIndex);
     }
 
@@ -45,10 +45,10 @@ public abstract class ConstantMemberRefInfo extends ConstantInfoRefBase implemen
     }
 
     @Override
-    public String value() {
+    public String printValue() {
         return String.format("#%02d;#%-18d// %s&%s",
                 this.classIndex, this.nameAndTypeIndex,
-                this.className(), this.nameAndType());
+                this.getClassName(), this.nameAndType());
     }
 
     @Override

@@ -10,12 +10,12 @@ import java.util.Arrays;
 public class BytecodeReader {
 
     // 字节码
-    private byte[] data;
+    private byte[] bytecode;
     // 记录读取到了哪个字节
     private int pc;
 
     public void reset(byte[] codes, int pc) {
-        this.data = codes;
+        this.bytecode = codes;
         this.pc = pc;
     }
 
@@ -38,11 +38,11 @@ public class BytecodeReader {
     }
 
     public byte[] readBytes(int len) {
-        if (pc + len >= data.length) {
+        if (pc + len >= bytecode.length) {
             throw new ArrayIndexOutOfBoundsException();
         }
 
-        byte[] copy = Arrays.copyOfRange(data, pc, pc + len);
+        byte[] copy = Arrays.copyOfRange(bytecode, pc, pc + len);
         pc += len;
         return copy;
     }

@@ -2,6 +2,8 @@ package cc.tianbin.demo.jvm.classfile;
 
 import cc.tianbin.demo.jvm.classfile.attributes.AttributeInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
+import cc.tianbin.demo.jvm.common.AccessFlag;
+import lombok.Getter;
 
 /**
  * Created by nibnait on 2022/11/29
@@ -9,11 +11,15 @@ import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
 public class ClassFile {
 
     // 版本号
+    @Getter
     private int minorVersion;
+    @Getter
     private int majorVersion;
     // 常量池
+    @Getter
     private ConstantPool constantPool;
     // 类访问标志：指出是 class文件，还是 interface。是 public 还是 private
+    @Getter
     private AccessFlag accessFlag;
     // 当前类 索引
     private int thisClassIndex;
@@ -22,10 +28,13 @@ public class ClassFile {
     // 接口索引表（该类实现的所有接口的名字）
     private int[] interfaces;
     // 字段
+    @Getter
     private MemberInfo[] fields;
     // 方法表
+    @Getter
     private MemberInfo[] methods;
     // 属性表
+    @Getter
     private AttributeInfo[] attributes;
 
     public ClassFile(byte[] classData) {
@@ -33,12 +42,12 @@ public class ClassFile {
         this.readAndCheckMagic(reader);
         this.readAndCheckVersion(reader);
         this.constantPool = this.readConstantPool(reader);
-        this.accessFlag = this.readAccessFlag(reader);
+        this.accessFlag = readAccessFlag(reader, AccessFlag.FlagType.CLASS);
         this.thisClassIndex = reader.readU2ToInt();
         this.supperClassIndex = reader.readU2ToInt();
         this.interfaces = reader.readUint16s();
-        this.fields = MemberInfo.readMembers(constantPool, reader);
-        this.methods = MemberInfo.readMembers(constantPool, reader);
+        this.fields = MemberInfo.readMembers(constantPool, reader, AccessFlag.FlagType.FIELD);
+        this.methods = MemberInfo.readMembers(constantPool, reader, AccessFlag.FlagType.METHOD);
         this.attributes = AttributeInfo.readAttributes(reader, constantPool);
     }
 
@@ -75,34 +84,15 @@ public class ClassFile {
     }
 
     /**
-     * access flat
+     * access flag
      */
-    public static AccessFlag readAccessFlag(ClassReader reader) {
-        String code = reader.readU2ToHexString();
-        AccessFlag flag = new AccessFlag();
-        flag.setCode(code);
-        flag.setFlags(AccessFlagEnum.getByHexString(code));
-        return flag;
+    public static AccessFlag readAccessFlag(ClassReader reader, AccessFlag.FlagType flagType) {
+        int code = reader.readU2ToInt();
+        return new AccessFlag(code, flagType);
     }
 
     private ConstantPool readConstantPool(ClassReader reader) {
         return new ConstantPool(reader);
-    }
-
-    public int getMinorVersion() {
-        return minorVersion;
-    }
-
-    public int getMajorVersion() {
-        return majorVersion;
-    }
-
-    public ConstantPool getConstantPool() {
-        return constantPool;
-    }
-
-    public AccessFlag getAccessFlags() {
-        return accessFlag;
     }
 
     public String getClassName() {
@@ -122,20 +112,8 @@ public class ClassFile {
         return interfaceNames;
     }
 
-    public MemberInfo[] getFields() {
-        return fields;
-    }
-
-    public MemberInfo[] getMethods() {
-        return methods;
-    }
-
-    public AttributeInfo[] getAttributes() {
-        return attributes;
-    }
-
     public MemberInfo getMainMethod() {
-        for (MemberInfo method : getMethods()) {
+        for (MemberInfo method : this.methods) {
             if ("main".equals(method.getName()) && "([Ljava/lang/String;)V".equals(method.getDescriptor())) {
                 return method;
             }

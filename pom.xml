@@ -18,6 +18,12 @@
             <groupId>io.github.nibnait</groupId>
             <artifactId>common-enhance</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- 命令行参数解析器 -->

@@ -1,9 +1,10 @@
 package cc.tianbin.demo.jvm.classfile.constantpool.impl.symbolicref;
 
 import cc.tianbin.demo.jvm.classfile.ClassReader;
-import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfoRefBase;
+import cc.tianbin.demo.jvm.classfile.constantpool.base.ConstantInfoRefBase;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
+import cc.tianbin.demo.jvm.common.FieldDescriptor;
 
 /**
  * Created by nibnait on 2022/11/30
@@ -32,7 +33,7 @@ public class ConstantNameAndTypeInfo extends ConstantInfoRefBase implements Cons
     }
 
     /**
-     * @see cc.tianbin.demo.jvm.classfile.Descriptor
+     * @see FieldDescriptor
      */
     public String descriptor() {
         return constantPool.getUTF8(descriptorIndex);
@@ -46,7 +47,7 @@ public class ConstantNameAndTypeInfo extends ConstantInfoRefBase implements Cons
     }
 
     @Override
-    public String value() {
+    public String printValue() {
         return String.format("#%d;#%-18d// %s&%s",
                 this.nameIndex, this.descriptorIndex,
                 this.name(), this.descriptor());

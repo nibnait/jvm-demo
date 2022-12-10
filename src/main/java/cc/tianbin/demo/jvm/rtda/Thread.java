@@ -1,5 +1,6 @@
 package cc.tianbin.demo.jvm.rtda;
 
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.Method;
 import lombok.Data;
 
 /**
@@ -34,7 +35,7 @@ public class Thread {
         return this.stack.top();
     }
 
-    public Frame newFrame(int maxLocals, int maxStack) {
-        return new Frame(this, maxLocals, maxStack);
+    public Frame newFrame(Method method) {
+        return new Frame(this, method);
     }
 }

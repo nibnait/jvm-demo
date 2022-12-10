@@ -1,4 +1,4 @@
-package cc.tianbin.demo.jvm.classfile.constantpool;
+package cc.tianbin.demo.jvm.common;
 
 import cc.tianbin.demo.jvm.classfile.constantpool.impl.invokdynamic.ConstantInvokeDynamicInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.impl.invokdynamic.ConstantMethodHandleInfo;

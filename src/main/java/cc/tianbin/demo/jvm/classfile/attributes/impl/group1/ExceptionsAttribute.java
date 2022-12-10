@@ -1,7 +1,7 @@
 package cc.tianbin.demo.jvm.classfile.attributes.impl.group1;
 
 import cc.tianbin.demo.jvm.classfile.ClassReader;
-import cc.tianbin.demo.jvm.classfile.attributes.AttributeInfoRefBase;
+import cc.tianbin.demo.jvm.classfile.attributes.base.AttributeInfoRefBase;
 import cc.tianbin.demo.jvm.classfile.attributes.AttributeInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
 

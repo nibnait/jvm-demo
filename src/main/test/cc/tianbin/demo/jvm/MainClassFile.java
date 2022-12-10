@@ -81,7 +81,7 @@ public class MainClassFile {
         printf("\n");
         log("minor version: {}", classFile.getMinorVersion());
         log("major version: {}", classFile.getMajorVersion());
-        log("flags: 0x{}, {}", classFile.getAccessFlags().getCode(), classFile.getAccessFlags().getFlags());
+        log("flags: 0x{}, {}", classFile.getAccessFlag().getHexCodeStr(), classFile.getAccessFlag().getFlags());
         log("this_class: {}", classFile.getClassName());
         log("super_class: {}", classFile.getSuperClassName());
         printf("");
@@ -91,7 +91,7 @@ public class MainClassFile {
         printf("Constant pool: " + constantPool.getConstantPoolSize());
         for (int i = 1; i < constantPool.getConstantPoolSize(); i++) {
             if (constantInfos[i] != null) {
-                printf("#%02d = %-20s\t%s", i, constantInfos[i].tag().getDescription(), constantInfos[i].value());
+                printf("#%02d = %-20s\t%s", i, constantInfos[i].tag().getDescription(), constantInfos[i].printValue());
             }
         }
         printf("");
@@ -105,14 +105,14 @@ public class MainClassFile {
         for (MemberInfo memberInfo : fields) {
             printf("  name: %s", memberInfo.getName());
             printf("    descriptor: %s", memberInfo.getDescriptor());
-            printf("    flags: %s", memberInfo.getAccessFlags().getFlags());
+            printf("    flags: %s", memberInfo.getAccessFlag().getFlags());
             // 属性表
             for (AttributeInfo attribute : memberInfo.getAttributes()) {
                 ConstantValueAttribute constantValueAttribute = (ConstantValueAttribute) attribute;
-                ConstantInfo constantInfo = constantValueAttribute.constantInfo();
+                ConstantInfo constantInfo = constantValueAttribute.getConstantValue();
                 printf("    ConstantValue: %s %s", constantValueAttribute.attrName(),
                         constantInfo.tag().getDescription(),
-                        constantInfo.value());
+                        constantInfo.printValue());
             }
         }
         printf("");
@@ -122,13 +122,13 @@ public class MainClassFile {
         for (MemberInfo memberInfo : methods) {
             printf("  method: %s", memberInfo.getName());
             printf("    descriptor: %s", memberInfo.getDescriptor());
-            printf("    flags: %s", memberInfo.getAccessFlags().getFlags());
+            printf("    flags: %s", memberInfo.getAccessFlag().getFlags());
             // 属性表
             for (AttributeInfo attribute : memberInfo.getAttributes()) {
                 if (attribute instanceof CodeAttribute) {
                     CodeAttribute codeAttribute = (CodeAttribute) attribute;
                     printf("    Code:");
-                    printf("      stack=%s, locals=%s", codeAttribute.maxStack(), codeAttribute.maxLocals());
+                    printf("      stack=%s, locals=%s", codeAttribute.getMaxStack(), codeAttribute.getMaxLocals());
                 }
             }
         }

@@ -16,11 +16,11 @@ import java.util.Arrays;
  */
 public class ClassReader {
 
-    private byte[] data;
+    private byte[] bytecode;
     private int pos;
 
-    public ClassReader(byte[] data) {
-        this.data = data;
+    public ClassReader(byte[] bytecode) {
+        this.bytecode = bytecode;
         this.pos = 0;
     }
 
@@ -55,11 +55,11 @@ public class ClassReader {
     }
 
     public byte[] readBytes(int len) {
-        if (pos + len >= data.length) {
+        if (pos + len >= bytecode.length) {
             throw new ArrayIndexOutOfBoundsException();
         }
 
-        byte[] copy = Arrays.copyOfRange(data, pos, pos + len);
+        byte[] copy = Arrays.copyOfRange(bytecode, pos, pos + len);
         pos += len;
         return copy;
     }

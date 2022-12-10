@@ -58,7 +58,7 @@ public class NumberUtil {
         }
         StringBuilder builder = new StringBuilder(s);
         for (int i = 0; i < length - s.length(); i++) {
-            builder.insert(0, "0");
+            builder.append("0");
         }
         return builder.toString();
     }

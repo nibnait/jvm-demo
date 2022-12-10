@@ -1,6 +1,7 @@
 package cc.tianbin.demo.jvm.instructions.loads;
 
 import cc.tianbin.demo.jvm.rtda.Frame;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.MethodAreaObject;
 
 /**
  * Created by nibnait on 2022/12/07
@@ -52,7 +53,7 @@ public class Loads {
      * 从局部变量表获取 引用变量，然后推入操作数栈顶
      */
     public static void aload(Frame frame, int index) {
-        Object val = frame.localVariables.getRef(index);
+        MethodAreaObject val = frame.localVariables.getRef(index);
         frame.operandStack.pushRef(val);
     }
 }
