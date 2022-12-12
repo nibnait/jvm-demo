@@ -1,6 +1,5 @@
 package cc.tianbin.demo.jvm;
 
-import cc.tianbin.demo.jvm.classfile.ClassFile;
 import cc.tianbin.demo.jvm.classpath.Classpath;
 import cc.tianbin.demo.jvm.exception.JvmException;
 import cc.tianbin.demo.jvm.rtda.heap.classloader.ClassLoader;
@@ -17,16 +16,21 @@ import static cc.tianbin.demo.jvm.utils.LogUtil.log;
 public class MainStartJVM {
 
     /**
-     * 指令集和解释器
+     * ## 指令集和解释器
      * cd /Users/nibnait/github/jvm-demo/src/main/test/cc/tianbin/demo/jvm/instructions
      * javac GaussTest.java
      * javap -v GaussTest
      * --
      * -cp /Users/nibnait/github/jvm-demo/src/main/test/cc/tianbin/demo/jvm/instructions GaussTest
+     * ---
+     * ## 方法调用和返回
+     * cd /Users/nibnait/github/jvm-demo/src/main/test/cc/tianbin/demo/jvm/ch07
+     * javac InvokeDemo.java
+     * javap -v InvokeDemo
+     * -verbose:class -verbose:inst -cp /Users/nibnait/github/jvm-demo/src/main/test/cc/tianbin/demo/jvm/ch07 InvokeDemo
      */
     public static void main(String[] argv) {
         Args args = Args.parse(argv);
-
         startJVM(args);
     }
 
@@ -37,7 +41,7 @@ public class MainStartJVM {
         //获取className
         String className = args.getMainClass().replace(".", "/");
 
-        ClassLoader classLoader = new ClassLoader(classpath);
+        ClassLoader classLoader = new ClassLoader(classpath, args.verboseClassFlag);
         Class clazz = classLoader.loadClass(className);
 
         // 查找类的 main() 方法
@@ -47,17 +51,7 @@ public class MainStartJVM {
         }
 
         // 解释执行 main() 方法
-        Interpreter.execute(mainMethod);
-    }
-
-    private static ClassFile loadClass(Classpath classpath, String className) {
-        try {
-            byte[] classData = classpath.readClass(className);
-            return new ClassFile(classData);
-        } catch (Exception e) {
-            log.error("Could not find or load main class {} ", className, e);
-            throw new JvmException();
-        }
+        Interpreter.execute(mainMethod, args.verboseInstFlag);
     }
 
 }

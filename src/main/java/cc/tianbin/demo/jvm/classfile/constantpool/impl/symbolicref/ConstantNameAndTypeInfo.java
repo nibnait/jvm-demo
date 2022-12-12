@@ -4,7 +4,7 @@ import cc.tianbin.demo.jvm.classfile.ClassReader;
 import cc.tianbin.demo.jvm.classfile.constantpool.base.ConstantInfoRefBase;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
-import cc.tianbin.demo.jvm.common.FieldDescriptor;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.FieldDescriptor;
 
 /**
  * Created by nibnait on 2022/11/30

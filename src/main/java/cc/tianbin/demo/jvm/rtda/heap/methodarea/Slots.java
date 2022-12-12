@@ -21,6 +21,10 @@ public class Slots {
         }
     }
 
+    public String toString() {
+        return Slot.format(slots);
+    }
+
     //----------- boolean, byte, short, char 也一律按 int 处理 ---------------
     public void setInt(int index, int val) {
         this.slots[index] = NumberUtil.setInt(val);
@@ -63,13 +67,13 @@ public class Slots {
     }
 
     //----------- 引用值 ---------------
-    public void setRef(int index, MethodAreaObject ref) {
+    public void setRef(int index, JVMMAObject ref) {
         Slot slot = new Slot();
         slot.setRef(ref);
         slots[index] = slot;
     }
 
-    public MethodAreaObject getRef(int index) {
+    public JVMMAObject getRef(int index) {
         return slots[index].getRef();
     }
 

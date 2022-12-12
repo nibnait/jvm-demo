@@ -48,6 +48,14 @@ public class AccessFlag {
         return (this.code & Flag.ACC_FINAL.getCode()) != 0;
     }
 
+    public boolean isSuper() {
+        return (this.code & Flag.ACC_SUPER.getCode()) != 0;
+    }
+
+    public boolean isNative() {
+        return (this.code & Flag.ACC_NATIVE.getCode()) != 0;
+    }
+
     public boolean isInterface() {
         return (this.code & Flag.ACC_INTERFACE.getCode()) != 0;
     }

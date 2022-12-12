@@ -20,44 +20,42 @@ public class Interpreter {
         throw new AssertionError("工具类不允许被实例化");
     }
 
-    public static void execute(Method method) {
+    public static void execute(Method method, boolean logInst) {
         log("maxLocals: {}, maxStack: {} \n", method.getMaxLocals(), method.getMaxStack());
 
-       Thread thread = new Thread();
+        Thread thread = new Thread();
         Frame frame = thread.newFrame(method);
         thread.pushFrame(frame);
-        loop(thread, method.getBytecode());
+
+        loop(thread, logInst);
     }
 
-    private static void loop(Thread thread, byte[] byteCode) {
-        Frame frame = thread.popFrame();
+    private static void loop(Thread thread, boolean logInst) {
         BytecodeReader reader = new BytecodeReader();
-
-        int opcode = -1;
         int step = 0;
-
-        while (!needExit(opcode)) {
+        while (!thread.isStackEmpty()) {
             // 计算pc
+            Frame frame = thread.currentFrame();
             int pc = frame.nextPC;
             thread.setPc(pc);
-            reader.reset(byteCode, pc);
+            reader.reset(frame.method.getBytecode(), pc);
             log("pc = {}", pc);
 
             // 解码指令
-            opcode = reader.readU1ToInt();
+            int opcode = reader.readU1ToInt();
             Instruction inst = InstructionFactory.getByOpcode(opcode);
             inst.fetchOperands(reader);
 
             // 打点日志
+            logInstruction(step, frame, inst);
             logFrame(frame);
-            printf("%d: %s %s", step, inst.operate(), inst.operateNum());
 
             // 执行指令
             inst.execute(frame);
             frame.nextPC = reader.pc();
 
             log("====================================");
-            if (needExit(opcode)) {
+            if (thread.isStackEmpty()) {
                 logFrame(frame);
             }
 
@@ -66,8 +64,13 @@ public class Interpreter {
 
     }
 
-    private static boolean needExit(int opcode) {
-        return opcode == 0xb1;
+    private static void logInstruction(int step, Frame frame, Instruction inst) {
+        Method method = frame.method;
+        String className = method.getClazz().getName();
+        String methodName = method.getName();
+
+        printf("%s.%s()", className, methodName);
+        printf("%d: %s %s", step, inst.operate(), inst.operateNum());
     }
 
     private static void logFrame(Frame frame) {

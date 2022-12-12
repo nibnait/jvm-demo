@@ -1,11 +1,12 @@
 package cc.tianbin.demo.jvm.instructions.references;
 
+import cc.tianbin.demo.jvm.instructions.base.ClassInitLogic;
 import cc.tianbin.demo.jvm.instructions.base.Index16Instruction;
 import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.ClassRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.MethodAreaObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
 
 /**
  * Created by nibnait on 2022/12/09
@@ -22,10 +23,17 @@ public class NEW extends Index16Instruction {
         ClassRef classRef = (ClassRef) cp.getConstants(this.index);
 
         Class clazz = classRef.resolvedClass();
+
+        if (!clazz.isInitStarted()) {
+            frame.revertNextPC();;
+            ClassInitLogic.initClass(frame.thread, clazz);
+            return;
+        }
+
         if (clazz.getAccessFlag().isInterface() || clazz.getAccessFlag().isAbstract()) {
             throw new InstantiationError("接口和抽象类 不能实例化");
         }
-        MethodAreaObject ref = clazz.newObject();
+        JVMMAObject ref = clazz.newObject();
         frame.operandStack.pushRef(ref);
     }
 }

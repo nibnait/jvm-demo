@@ -1,24 +1,27 @@
 package cc.tianbin.demo.jvm.instructions.references;
 
 import cc.tianbin.demo.jvm.common.CommonConstants;
-import cc.tianbin.demo.jvm.common.FieldDescriptor;
+import cc.tianbin.demo.jvm.instructions.base.ClassInitLogic;
 import cc.tianbin.demo.jvm.instructions.base.Index16Instruction;
 import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.FieldRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Field;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Method;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Slots;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.*;
 
 /**
  * Created by nibnait on 2022/12/10
  */
-public class PUTSTATIC extends Index16Instruction {
+public class PUT_STATIC extends Index16Instruction {
     @Override
     public int opcode() {
         return 0xb3;
+    }
+
+    @Override
+    public String operate() {
+        return "putstatic";
     }
 
     @Override
@@ -33,11 +36,17 @@ public class PUTSTATIC extends Index16Instruction {
         FieldRef fieldRef = (FieldRef) runTimeConstantPool.getConstants(this.index);
         Field field = fieldRef.resolvedField();
 
+        Class clazz = field.getClazz();
+        if (!clazz.isInitStarted()) {
+            frame.revertNextPC();
+            ClassInitLogic.initClass(frame.thread, clazz);
+            return;
+        }
+
         if (!field.getAccessFlag().isStatic()) {
             throw new IncompatibleClassChangeError("字段必须是 static");
         }
 
-        Class clazz = field.getClazz();
         if (field.getAccessFlag().isFinal()) {
             if (currentClazz != clazz || !CommonConstants.CLINIT.equals(currentMethod.getName())) {
                 throw new IllegalAccessError("static final 只能用当前 clinit方法 初始化");

@@ -30,10 +30,6 @@ public class ClassMember {
         this.descriptor = memberInfo.getDescriptor();
     }
 
-    public boolean isLongOrDouble() {
-        return this.descriptor.equals("J") || this.descriptor.equals("D");
-    }
-
     /**
      * 对 otherClass 是否是可达的
      */

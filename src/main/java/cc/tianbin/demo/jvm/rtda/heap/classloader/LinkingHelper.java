@@ -1,6 +1,6 @@
 package cc.tianbin.demo.jvm.rtda.heap.classloader;
 
-import cc.tianbin.demo.jvm.common.FieldDescriptor;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.FieldDescriptor;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Field;
@@ -41,7 +41,7 @@ public class LinkingHelper {
             if (!field.getAccessFlag().isStatic()) {
                 field.setSlotId(slotId);
                 slotId++;
-                if (field.isLongOrDouble()) {
+                if (FieldDescriptor.isLongOrDouble(field.getDescriptor())) {
                     slotId++;
                 }
             }
@@ -55,7 +55,7 @@ public class LinkingHelper {
             if (field.getAccessFlag().isStatic()) {
                 field.setSlotId(slotId);
                 slotId++;
-                if (field.isLongOrDouble()) {
+                if (FieldDescriptor.isLongOrDouble(field.getDescriptor())) {
                     slotId++;
                 }
             }

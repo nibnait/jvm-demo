@@ -1,4 +1,4 @@
-package cc.tianbin.demo.jvm.instructions.control.rtn;
+package cc.tianbin.demo.jvm.instructions.control.ret;
 
 import cc.tianbin.demo.jvm.instructions.base.NoOperandsInstruction;
 import cc.tianbin.demo.jvm.rtda.Frame;
@@ -12,8 +12,13 @@ public class RETURN extends NoOperandsInstruction {
         return 0xb1;
     }
 
+    /**
+     * return 用于没有返回值的情况
+     * 只需要吧当前帧 从虚拟机栈中弹出即可
+     */
     @Override
     public void execute(Frame frame) {
-        // todo 7.4
+        frame.thread.popFrame();
     }
+
 }

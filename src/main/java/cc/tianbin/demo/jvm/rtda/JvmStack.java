@@ -48,4 +48,7 @@ public class JvmStack {
         return this.top;
     }
 
+    public boolean isEmpty() {
+        return this.top == null;
+    }
 }

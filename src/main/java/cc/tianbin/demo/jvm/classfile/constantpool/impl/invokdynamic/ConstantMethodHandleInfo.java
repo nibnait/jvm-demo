@@ -32,7 +32,7 @@ public class ConstantMethodHandleInfo extends ConstantInfoRefBase implements Con
 
     @Override
     public void readInfo(ClassReader reader) {
-        this.referenceKind = reader.readU1toInt();
+        this.referenceKind = reader.readU1ToInt();
         this.referenceIndex = reader.readU2ToInt();
     }
 }

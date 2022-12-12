@@ -25,8 +25,9 @@ public class ClassReader {
     }
 
 
-    public int readU1toInt() {
-        return NumberUtil.byte2Int(readBytes(1));
+    public int readU1ToInt() {
+        byte[] bytes = readBytes(1);
+        return NumberUtil.byte2Int(bytes);
     }
 
     public int readU2ToInt() {
@@ -55,7 +56,7 @@ public class ClassReader {
     }
 
     public byte[] readBytes(int len) {
-        if (pos + len >= bytecode.length) {
+        if (pos + len > bytecode.length) {
             throw new ArrayIndexOutOfBoundsException();
         }
 

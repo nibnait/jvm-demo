@@ -32,6 +32,12 @@ public class Args {
     @Parameter(names = "-Xss", description = "虚拟机栈的大小", order = 4)
     String xss;
 
+    @Parameter(names = {"-verbose", "-verbose:class"}, description = "enable verbose class output", order = 5)
+    boolean verboseClassFlag = false;
+
+    @Parameter(names = "-verbose:inst", description = "enable verbose instruction output", order = 5)
+    boolean verboseInstFlag = false;
+
     @Parameter(description = "main class and args")
     List<String> mainClassAndArgs;
 
@@ -49,11 +55,13 @@ public class Args {
                 : null;
     }
 
+    /**
+     * https://github.com/cbeust/jcommander
+     */
     public static Args parse(String[] argv) {
         Args args = new Args();
-        JCommander cmd = JCommander.newBuilder().addObject(args).build();
         try {
-            cmd.parse(argv);
+            JCommander.newBuilder().addObject(args).build().parse(argv);
             args.ok = true;
         } catch (ParameterException ignored) {
 

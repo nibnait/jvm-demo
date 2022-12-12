@@ -1,4 +1,4 @@
-package cc.tianbin.demo.jvm.instructions;
+package cc.tianbin.demo.jvm.instructions.test;
 
 import java.util.HashMap;
 import java.util.Map;

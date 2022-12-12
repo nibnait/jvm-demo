@@ -1,7 +1,7 @@
 package cc.tianbin.demo.jvm.instructions.references;
 
 import cc.tianbin.demo.jvm.common.CommonConstants;
-import cc.tianbin.demo.jvm.common.FieldDescriptor;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.FieldDescriptor;
 import cc.tianbin.demo.jvm.instructions.base.Index16Instruction;
 import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
@@ -10,15 +10,20 @@ import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Field;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Method;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.MethodAreaObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
 
 /**
  * Created by nibnait on 2022/12/10
  */
-public class PUTFIELD extends Index16Instruction {
+public class PUT_FIELD extends Index16Instruction {
     @Override
     public int opcode() {
         return 0xb5;
+    }
+
+    @Override
+    public String operate() {
+        return "putfield";
     }
 
     @Override
@@ -49,7 +54,7 @@ public class PUTFIELD extends Index16Instruction {
             case S:
             case I:
                 int valInt = stack.popInt();
-                MethodAreaObject refInt = stack.popRef();
+                JVMMAObject refInt = stack.popRef();
                 if (null == refInt) {
                     throw new NullPointerException();
                 }
@@ -57,7 +62,7 @@ public class PUTFIELD extends Index16Instruction {
                 break;
             case F:
                 float valFloat = stack.popFloat();
-                MethodAreaObject refFloat = stack.popRef();
+                JVMMAObject refFloat = stack.popRef();
                 if (null == refFloat) {
                     throw new NullPointerException();
                 }
@@ -65,7 +70,7 @@ public class PUTFIELD extends Index16Instruction {
                 break;
             case J:
                 long valLong = stack.popLong();
-                MethodAreaObject refLong = stack.popRef();
+                JVMMAObject refLong = stack.popRef();
                 if (null == refLong) {
                     throw new NullPointerException();
                 }
@@ -73,7 +78,7 @@ public class PUTFIELD extends Index16Instruction {
                 break;
             case D:
                 double valDouble = stack.popDouble();
-                MethodAreaObject refDouble = stack.popRef();
+                JVMMAObject refDouble = stack.popRef();
                 if (null == refDouble) {
                     throw new NullPointerException();
                 }
@@ -82,8 +87,8 @@ public class PUTFIELD extends Index16Instruction {
             case STR:
             case LREF:
             case AREF:
-                MethodAreaObject val = stack.popRef();
-                MethodAreaObject ref = stack.popRef();
+                JVMMAObject val = stack.popRef();
+                JVMMAObject ref = stack.popRef();
                 if (null == ref) {
                     throw new NullPointerException();
                 }

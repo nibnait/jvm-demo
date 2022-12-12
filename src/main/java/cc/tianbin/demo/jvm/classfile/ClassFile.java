@@ -112,12 +112,4 @@ public class ClassFile {
         return interfaceNames;
     }
 
-    public MemberInfo getMainMethod() {
-        for (MemberInfo method : this.methods) {
-            if ("main".equals(method.getName()) && "([Ljava/lang/String;)V".equals(method.getDescriptor())) {
-                return method;
-            }
-        }
-        return null;
-    }
 }

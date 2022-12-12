@@ -15,6 +15,8 @@ public class Method extends ClassMember {
     private int maxLocals;
     @Getter
     private byte[] bytecode;
+    @Getter
+    private int argSlotCount;
 
     public static Method[] newMethods(Class clazz, MemberInfo[] classFileMethods) {
         Method[] methods = new Method[classFileMethods.length];
@@ -23,6 +25,7 @@ public class Method extends ClassMember {
             method.setClazz(clazz);
             method.copyMemberInfo(classFileMethods[i]);
             method.copyAttributes(classFileMethods[i]);
+            method.calcArgSlotCount();
             methods[i] = method;
         }
         return methods;
@@ -37,4 +40,22 @@ public class Method extends ClassMember {
         }
     }
 
+    /**
+     * 计算当前方法的入参，在局部变量表中占了多少个槽位
+     */
+    private void calcArgSlotCount() {
+        MethodDescriptor parsedDescriptor = MethodDescriptorParser.parseMethodDescriptorParser(this.getDescriptor());
+        for (String paramType : parsedDescriptor.getParameterTypes()) {
+            this.argSlotCount++;
+            if (FieldDescriptor.isLongOrDouble(paramType)) {
+                // long 和 double 占2个槽位
+                this.argSlotCount++;
+            }
+        }
+
+        // 实例方法，参数列表中的第一个参数用于是 this
+        if (!this.getAccessFlag().isStatic()) {
+            this.argSlotCount++;
+        }
+    }
 }

@@ -3,7 +3,7 @@ package cc.tianbin.demo.jvm.rtda;
 import cc.tianbin.demo.jvm.Args;
 import cc.tianbin.demo.jvm.rtda.frame.LocalVariables;
 import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.MethodAreaObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ public class MathTest {
         localVars.setLong(6, Long.MIN_VALUE);
         localVars.setDouble(8, Double.MAX_VALUE);
         localVars.setDouble(10, Double.MIN_VALUE);
-        MethodAreaObject object = new MethodAreaObject();
+        JVMMAObject object = new JVMMAObject();
         localVars.setRef(12, object);
 
 
@@ -74,7 +74,7 @@ public class MathTest {
         operandStack.pushDouble(Double.MAX_VALUE);
         operandStack.pushDouble(Double.MIN_VALUE);
 
-        MethodAreaObject object = new MethodAreaObject();
+        JVMMAObject object = new JVMMAObject();
         operandStack.pushRef(object);
 
         Assert.assertEquals(object, operandStack.popRef());

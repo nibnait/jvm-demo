@@ -1,22 +1,27 @@
 package cc.tianbin.demo.jvm.instructions.references;
 
-import cc.tianbin.demo.jvm.common.FieldDescriptor;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.FieldDescriptor;
 import cc.tianbin.demo.jvm.instructions.base.Index16Instruction;
 import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.FieldRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Field;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.MethodAreaObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Slots;
 
 /**
  * Created by nibnait on 2022/12/10
  */
-public class GETFIELD extends Index16Instruction {
+public class GET_FIELD extends Index16Instruction {
     @Override
     public int opcode() {
         return 0xb4;
+    }
+
+    @Override
+    public String operate() {
+        return "getfield";
     }
 
     @Override
@@ -30,7 +35,7 @@ public class GETFIELD extends Index16Instruction {
         }
 
         OperandStack stack = frame.operandStack;
-        MethodAreaObject ref = stack.popRef();
+        JVMMAObject ref = stack.popRef();
         if (ref == null) {
             throw new NullPointerException();
         }

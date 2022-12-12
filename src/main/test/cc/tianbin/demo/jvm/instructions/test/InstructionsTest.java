@@ -1,5 +1,7 @@
-package cc.tianbin.demo.jvm.instructions;
+package cc.tianbin.demo.jvm.instructions.test;
 
+import cc.tianbin.demo.jvm.instructions.Instruction;
+import cc.tianbin.demo.jvm.instructions.InstructionFactory;
 import cc.tianbin.demo.jvm.instructions.constants.consts.ACONST_NULL;
 import cc.tianbin.demo.jvm.instructions.constants.nop.NOP;
 import cc.tianbin.demo.jvm.utils.NumberUtil;
@@ -33,9 +35,6 @@ public class InstructionsTest {
         Map<Integer, Instruction> codeMap = InstructionFactory.codeMap();
         int code = 0x00;
         for (Integer curOpCode : codeMap.keySet().stream().sorted().collect(Collectors.toList())) {
-            if (code >= 0xb2 && code <= 0xc3) {
-                continue;
-            }
             String expectOpCode = NumberUtil.int2HexString(code);
             String expectInstruction = InstructionMap.getInstruction(expectOpCode);
 

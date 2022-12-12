@@ -45,6 +45,8 @@ public class Class {
     private int staticSlotCount;
     @Getter
     private Slots staticVars;
+    @Getter
+    private boolean initStarted;
 
     public Class(ClassFile classFile) {
         this.accessFlag = classFile.getAccessFlag();
@@ -67,11 +69,24 @@ public class Class {
         return "";
     }
 
-    public Method getMainMethod() {
-        return this.getStaticMethod("main", "([Ljava/lang/String;)V");
+    public JVMMAObject newObject() {
+        return JVMMAObject.newObject(this);
     }
 
-    private Method getStaticMethod(String name, String descriptor) {
+    public void startInit(){
+        this.initStarted = true;
+    }
+
+    //---------------- getXXXMethod ----------------
+    public Method getMainMethod() {
+        return this.getMethod("main", "([Ljava/lang/String;)V");
+    }
+
+    public Method getClinitMethod(){
+        return this.getMethod("<clinit>","()V");
+    }
+
+    private Method getMethod(String name, String descriptor) {
         for (Method method : this.methods) {
             if (method.getName().equals(name) && method.getDescriptor().equals(descriptor)) {
                 return method;
@@ -80,9 +95,7 @@ public class Class {
         return null;
     }
 
-    public MethodAreaObject newObject() {
-        return MethodAreaObject.newObject(this);
-    }
+    //------------------------------------------
 
     /**
      * 对 otherClass 是否是可达的
@@ -105,7 +118,7 @@ public class Class {
         }
     }
 
-    private boolean isSubClassOf(Class other) {
+    public boolean isSubClassOf(Class other) {
         Class c = this.superClass;
         while (c != null) {
             if (c == other) {
@@ -116,7 +129,7 @@ public class Class {
         return false;
     }
 
-    private boolean isImplements(Class other) {
+    public boolean isImplements(Class other) {
         Class c = this;
         while (c != null) {
             for (Class clazz : c.getInterfaces()) {

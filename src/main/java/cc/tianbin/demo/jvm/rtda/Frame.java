@@ -45,4 +45,10 @@ public class Frame {
         return DataUtils.format("{}", localVariables.formatSlots());
     }
 
+    /**
+     * nextPC 重新指向当前帧
+     */
+    public void revertNextPC(){
+        this.nextPC = this.thread.getPc();
+    }
 }

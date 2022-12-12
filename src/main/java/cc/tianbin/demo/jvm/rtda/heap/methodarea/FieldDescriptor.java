@@ -1,4 +1,4 @@
-package cc.tianbin.demo.jvm.common;
+package cc.tianbin.demo.jvm.rtda.heap.methodarea;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -47,9 +47,31 @@ public enum FieldDescriptor {
     private final String type;
     private final Object defaultValue;
 
+    /**
+     * long 和 double 占两个槽位
+     */
+    public static boolean isLongOrDouble(String descriptor) {
+        return FieldDescriptor.J.getCode().equals(descriptor) || FieldDescriptor.D.getCode().equals(descriptor);
+    }
+
+    /**
+     * descriptor
+     */
     public static FieldDescriptor getByCode(String code) {
         for (FieldDescriptor value : values()) {
             if (value.getCode().equals(code) || code.startsWith(value.getCode())) {
+                return value;
+            }
+        }
+        return UNKNOWN;
+    }
+
+    /**
+     * descriptor 的第1个字符
+     */
+    public static FieldDescriptor getByStartCode(char code) {
+        for (FieldDescriptor value : values()) {
+            if (value.getCode().equals(String.valueOf(code))) {
                 return value;
             }
         }

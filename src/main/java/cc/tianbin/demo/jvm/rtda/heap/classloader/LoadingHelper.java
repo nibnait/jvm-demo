@@ -1,7 +1,9 @@
 package cc.tianbin.demo.jvm.rtda.heap.classloader;
 
 import cc.tianbin.demo.jvm.classfile.ClassFile;
+import cc.tianbin.demo.jvm.common.CommonConstants;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.utils.LogUtil;
 
 /**
  * 1. 加载（Loading）
@@ -16,6 +18,10 @@ public class LoadingHelper {
     public static Class loadClass(byte[] bytecode, ClassLoader classLoader) {
         // 解析字节码
         ClassFile classFile = new ClassFile(bytecode);
+        if (classLoader.isVerboseClassFlag()) {
+            LogUtil.printClassInfo(classFile);
+        }
+
         Class clazz = new Class(classFile);
         clazz.setLoader(classLoader);
 
@@ -27,7 +33,7 @@ public class LoadingHelper {
     }
 
     private static void resolveSuperClass(Class clazz) {
-        if (!clazz.getName().equals("java/lang/Object")) {
+        if (!CommonConstants.JAVA_LANG_OBJECT.equals(clazz.getName())) {
             clazz.setSuperClass(clazz.getLoader().loadClass(clazz.getSuperClassName()));
         }
     }

@@ -2,6 +2,8 @@ package cc.tianbin.demo.jvm.rtda.heap.classloader;
 
 import cc.tianbin.demo.jvm.classpath.Classpath;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.utils.LogUtil;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -23,13 +25,23 @@ class names:
 
     private Classpath classpath;
     private Map<String, Class> classMap;
+    @Getter
+    private boolean verboseClassFlag;
 
     public ClassLoader(Classpath classpath) {
         this.classpath = classpath;
         this.classMap = new HashMap<>();
+        this.verboseClassFlag = false;
+    }
+
+    public ClassLoader(Classpath classpath, boolean verboseClassFlag) {
+        this.classpath = classpath;
+        this.classMap = new HashMap<>();
+        this.verboseClassFlag = verboseClassFlag;
     }
 
     public Class loadClass(String className) {
+        LogUtil.log("ClassLoader.loadClass {}", className);
         Class clazz = classMap.get(className);
         if (clazz != null) {
             return clazz;
@@ -60,6 +72,10 @@ class names:
         // 2. 链接: 验证 + 准备 + 解析
         LinkingHelper.verify(clazz);
         LinkingHelper.prepare(clazz);
+
+        if (this.verboseClassFlag) {
+            LogUtil.printf("[Loaded %s from %s]", className, bytecode);
+        }
 
         return clazz;
     }

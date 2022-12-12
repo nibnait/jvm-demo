@@ -1,7 +1,7 @@
 package cc.tianbin.demo.jvm.rtda.frame;
 
 import cc.tianbin.demo.jvm.exception.JvmStackException;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.MethodAreaObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
 import cc.tianbin.demo.jvm.utils.NumberUtil;
 import io.github.nibnait.common.utils.DataUtils;
 
@@ -26,20 +26,6 @@ public class OperandStack {
 
     public String formatSlots() {
         return DataUtils.format("size: {}, slots: {}", size, Slot.format(slots));
-    }
-
-    public void pushSlot(Slot slot) {
-        if (size == slots.length) {
-            throw new JvmStackException("OperandStack is overflow");
-        }
-        slots[size++] = slot;
-    }
-
-    public Slot popSlot() {
-        if (size == 0) {
-            throw new JvmStackException("OperandStack is empty");
-        }
-        return slots[--size];
     }
 
     //----------- boolean, byte, short, char 也一律按 int 处理 ---------------
@@ -82,12 +68,32 @@ public class OperandStack {
     }
 
     //----------- 引用值 ---------------
-    public void pushRef(MethodAreaObject ref) {
+    public void pushRef(JVMMAObject ref) {
         pushSlot(Slot.ref(ref));
     }
 
-    public MethodAreaObject popRef() {
+    public JVMMAObject popRef() {
         return popSlot().getRef();
     }
 
+    public void pushSlot(Slot slot) {
+        if (size == slots.length) {
+            throw new JvmStackException("OperandStack is overflow");
+        }
+        slots[size++] = slot;
+    }
+
+    public Slot popSlot() {
+        if (size == 0) {
+            throw new JvmStackException("OperandStack is empty");
+        }
+        return slots[--size];
+    }
+
+    /**
+     * 返回距离栈顶n个槽位的 引用变量
+     */
+    public JVMMAObject getRefFromTop(int n) {
+        return this.slots[this.size - 1 - n].getRef();
+    }
 }
