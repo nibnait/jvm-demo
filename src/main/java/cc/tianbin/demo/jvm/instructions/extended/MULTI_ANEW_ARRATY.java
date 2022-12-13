@@ -6,8 +6,8 @@ import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.ClassRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JObject;
 
 /**
  * Created by nibnait on 2022/12/13
@@ -39,11 +39,11 @@ public class MULTI_ANEW_ARRATY implements Instruction {
     public void execute(Frame frame) {
         RuntimeConstantPool runtimeConstantPool = frame.method.getClazz().getRuntimeConstantPool();
         ClassRef classRef = (ClassRef) runtimeConstantPool.getConstants(this.index);
-        Class arrClass = classRef.resolvedClass();
+        JClass arrClass = classRef.resolvedClass();
 
         OperandStack stack = frame.operandStack;
         int[] counts = popAndCheckCounts(stack, this.dimensions);
-        JVMMAObject arr = newMultiDimensionalArray(counts, arrClass);
+        JObject arr = newMultiDimensionalArray(counts, arrClass);
         stack.pushRef(arr);
     }
 
@@ -59,11 +59,11 @@ public class MULTI_ANEW_ARRATY implements Instruction {
         return counts;
     }
 
-    private JVMMAObject newMultiDimensionalArray(int[] counts, Class arrClass) {
+    private JObject newMultiDimensionalArray(int[] counts, JClass arrClass) {
         int count = counts[0];
-        JVMMAObject arr = arrClass.newArray(count);
+        JObject arr = arrClass.newArray(count);
         if (counts.length > 1) {
-            JVMMAObject[] refs = arr.refs();
+            JObject[] refs = arr.refs();
             for (int i = 0; i < refs.length; i++) {
                 int[] copyCount = new int[counts.length - 1];
                 System.arraycopy(counts, 1, copyCount, 0, counts.length - 1);

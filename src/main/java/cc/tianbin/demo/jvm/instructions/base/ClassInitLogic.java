@@ -2,7 +2,7 @@ package cc.tianbin.demo.jvm.instructions.base;
 
 import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.Thread;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Method;
 
 /**
@@ -22,13 +22,13 @@ public class ClassInitLogic {
      * 4. 当初始化一个类时，如果类的超类还没有被初始化，要先初始化类的超类。
      * 5. 执行某些反射操作时。
      */
-    public static void initClass(Thread thread, Class clazz) {
+    public static void initClass(Thread thread, JClass clazz) {
         clazz.startInit();
         scheduleClinit(thread, clazz);
         initSuperClass(thread, clazz);
     }
 
-    private static void scheduleClinit(Thread thread, Class clazz) {
+    private static void scheduleClinit(Thread thread, JClass clazz) {
         Method clinit = clazz.getClinitMethod();
         if (clinit == null) {
             return;
@@ -37,11 +37,11 @@ public class ClassInitLogic {
         thread.pushFrame(newFrame);
     }
 
-    private static void initSuperClass(Thread thread, Class clazz) {
+    private static void initSuperClass(Thread thread, JClass clazz) {
         if (clazz.getAccessFlag().isInterface()) {
             return;
         }
-        Class superClass = clazz.getSuperClass();
+        JClass superClass = clazz.getSuperClass();
         if (superClass != null && !superClass.isInitStarted()) {
             initClass(thread, superClass);
         }

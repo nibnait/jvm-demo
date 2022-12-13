@@ -6,7 +6,7 @@ import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.MethodRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.*;
 
 /**
@@ -20,7 +20,7 @@ public class INVOKE_VIRTUAL extends Index16Instruction {
 
     @Override
     public void execute(Frame frame) {
-        Class currentClass = frame.method.getClazz();
+        JClass currentClass = frame.method.getClazz();
         RuntimeConstantPool runTimeConstantPool = currentClass.getRuntimeConstantPool();
         MethodRef methodRef = (MethodRef) runTimeConstantPool.getConstants(this.index);
         Method resolvedMethod = methodRef.resolvedMethod();
@@ -28,7 +28,7 @@ public class INVOKE_VIRTUAL extends Index16Instruction {
             throw new IncompatibleClassChangeError("invokevirtual 只能调用动态方法");
         }
 
-        JVMMAObject ref = frame.operandStack.getRefFromTop(resolvedMethod.getArgSlotCount() - 1);
+        JObject ref = frame.operandStack.getRefFromTop(resolvedMethod.getArgSlotCount() - 1);
         if (ref == null) {
             if ("println".equals(methodRef.getName())) {
                 println(frame.operandStack, methodRef.getDescriptor());
@@ -79,7 +79,7 @@ public class INVOKE_VIRTUAL extends Index16Instruction {
                 System.out.println(stack.popDouble());
                 break;
             case "(Ljava/lang/String;)V":
-                JVMMAObject jStr = stack.popRef();
+                JObject jStr = stack.popRef();
                 String goStr = StringPool.goString(jStr);
                 System.out.println(goStr);
                 break;

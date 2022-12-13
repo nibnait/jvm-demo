@@ -9,6 +9,7 @@ public class CommonConstants {
         throw new AssertionError("工具类不允许被实例化");
     }
 
+    public static final String JAVA_LANG_CLASS = "java/lang/Class";
     public static final String JAVA_LANG_OBJECT = "java/lang/Object";
     public static final String JAVA_LANG_CLONEABLE = "java/lang/Cloneable";
     public static final String JAVA_IO_SERIALIZABLE = "java/io/Serializable";

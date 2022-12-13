@@ -1,5 +1,6 @@
 package cc.tianbin.demo.jvm.rtda.heap.methodarea;
 
+import cc.tianbin.demo.jvm._native.java.lang._Throwable;
 import cc.tianbin.demo.jvm.rtda.heap.classloader.LinkingHelper;
 import io.github.nibnait.common.utils.DataUtils;
 import lombok.Getter;
@@ -8,28 +9,34 @@ import lombok.Getter;
  * Java Virtual Machine Method Area Object
  * Created by nibnait on 2022/12/08
  */
-public class JVMMAObject {
+public class JObject {
 
     @Getter
-    private Class clazz;
-    @Getter
-    private Object data;
+    private JClass clazz;
+
+    public Object data;
+
+    public Object extra;
+
+    public void setExtra(_Throwable[] stes) {
+        this.extra = stes;
+    }
 
     /**
      * 新创建对象的实例变量都是直接赋好【初始值】，不需要做额外的工作
      * @see LinkingHelper#initStaticVar
      */
     // 普通对象初始化
-    public static JVMMAObject newObject(Class clazz) {
-        JVMMAObject object = new JVMMAObject();
+    public static JObject newObject(JClass clazz) {
+        JObject object = new JObject();
         object.clazz = clazz;
         object.data = new Slots(clazz.getInstanceSlotCount());
         return object;
     }
 
     // 数组对象初始化
-    public static JVMMAObject newObject(Class clazz, Object data) {
-        JVMMAObject object = new JVMMAObject();
+    public static JObject newObject(JClass clazz, Object data) {
+        JObject object = new JObject();
         object.clazz = clazz;
         object.data = data;
         return object;
@@ -38,7 +45,7 @@ public class JVMMAObject {
     /**
      * instanceof
      */
-    public boolean isInstanceOf(Class other) {
+    public boolean isInstanceOf(JClass other) {
         return this.clazz.isAssignableFrom(other);
     }
 
@@ -54,13 +61,13 @@ public class JVMMAObject {
         return (Slots) this.data;
     }
 
-    public JVMMAObject getRefVar(String name, String descriptor) {
+    public JObject getRefVar(String name, String descriptor) {
         Field field = this.clazz.getField(name, descriptor, false);
         Slots slots = (Slots) this.data;
         return slots.getRef(field.getSlotId());
     }
 
-    public void setRefVal(String name, String descriptor, JVMMAObject ref) {
+    public void setRefVal(String name, String descriptor, JObject ref) {
         Field field = this.clazz.getField(name, descriptor, false);
         Slots slots = (Slots) this.data;
         slots.setRef(field.getSlotId(), ref);
@@ -95,8 +102,8 @@ public class JVMMAObject {
         return (double[]) this.data;
     }
 
-    public JVMMAObject[] refs() {
-        return (JVMMAObject[]) this.data;
+    public JObject[] refs() {
+        return (JObject[]) this.data;
     }
 
     public int arrayLength() {

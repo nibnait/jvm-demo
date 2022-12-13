@@ -5,8 +5,8 @@ import cc.tianbin.demo.jvm.instructions.base.Index16Instruction;
 import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.ClassRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JObject;
 
 /**
  * Created by nibnait on 2022/12/09
@@ -22,7 +22,7 @@ public class NEW extends Index16Instruction {
         RuntimeConstantPool cp = frame.method.getClazz().getRuntimeConstantPool();
         ClassRef classRef = (ClassRef) cp.getConstants(this.index);
 
-        Class clazz = classRef.resolvedClass();
+        JClass clazz = classRef.resolvedClass();
 
         if (!clazz.isInitStarted()) {
             frame.revertNextPC();;
@@ -33,7 +33,7 @@ public class NEW extends Index16Instruction {
         if (clazz.getAccessFlag().isInterface() || clazz.getAccessFlag().isAbstract()) {
             throw new InstantiationError("接口和抽象类 不能实例化");
         }
-        JVMMAObject ref = clazz.newObject();
+        JObject ref = clazz.newObject();
         frame.operandStack.pushRef(ref);
     }
 }

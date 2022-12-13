@@ -5,9 +5,9 @@ import cc.tianbin.demo.jvm.instructions.InstructionFactory;
 import cc.tianbin.demo.jvm.instructions.base.BytecodeReader;
 import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.Thread;
-import cc.tianbin.demo.jvm.rtda.heap.classloader.ClassLoader;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.classloader.JClassLoader;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JObject;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Method;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.StringPool;
 import org.apache.commons.collections4.CollectionUtils;
@@ -35,7 +35,7 @@ public class Interpreter {
         thread.pushFrame(frame);
 
         if (CollectionUtils.isNotEmpty(args)) {
-            JVMMAObject jArgs = createArgsArray(method.getClazz().getLoader(), args);
+            JObject jArgs = createArgsArray(method.getClazz().getLoader(), args);
             frame.localVariables.setRef(0, jArgs);
         }
 
@@ -45,10 +45,10 @@ public class Interpreter {
     /**
      * 把命令行入参 转化成数组对象
      */
-    private static JVMMAObject createArgsArray(ClassLoader loader, List<String> args) {
-        Class stringClass = loader.loadClass("java/lang/String");
-        JVMMAObject argsArr = stringClass.arrayClass().newArray(args.size());
-        JVMMAObject[] jArgs = argsArr.refs();
+    private static JObject createArgsArray(JClassLoader loader, List<String> args) {
+        JClass stringClass = loader.loadClass("java/lang/String");
+        JObject argsArr = stringClass.arrayClass().newArray(args.size());
+        JObject[] jArgs = argsArr.refs();
         for (int i = 0; i < jArgs.length; i++) {
             jArgs[i] = StringPool.jString(loader, args.get(i));
         }

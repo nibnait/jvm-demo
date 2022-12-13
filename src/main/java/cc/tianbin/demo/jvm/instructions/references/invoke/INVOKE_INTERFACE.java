@@ -6,7 +6,7 @@ import cc.tianbin.demo.jvm.instructions.base.MethodInvokeLogic;
 import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.InterfaceMethodRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JObject;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Method;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.MethodLookup;
 
@@ -45,7 +45,7 @@ public class INVOKE_INTERFACE extends Index16Instruction {
             throw new IncompatibleClassChangeError("接口方法 不允许是 private static 修饰");
         }
 
-        JVMMAObject ref = frame.operandStack.getRefFromTop(resolvedMethod.getArgSlotCount() - 1);
+        JObject ref = frame.operandStack.getRefFromTop(resolvedMethod.getArgSlotCount() - 1);
         if (ref == null) {
             throw new NullPointerException();
         }

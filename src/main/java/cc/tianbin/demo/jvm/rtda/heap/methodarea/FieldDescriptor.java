@@ -81,11 +81,20 @@ public enum FieldDescriptor {
         return UNKNOWN;
     }
 
+    /**
+     * 基本数据类型
+     */
     public static Map<String, String> PRIMITIVE_TYPE = new HashMap<>();
 
     static {
-        for (FieldDescriptor value : values()) {
-            PRIMITIVE_TYPE.put(value.getType(), value.getCode());
-        }
+        PRIMITIVE_TYPE.put("void", "V");
+        PRIMITIVE_TYPE.put("boolean", "Z");
+        PRIMITIVE_TYPE.put("byte", "B");
+        PRIMITIVE_TYPE.put("short", "S");
+        PRIMITIVE_TYPE.put("int", "I");
+        PRIMITIVE_TYPE.put("long", "J");
+        PRIMITIVE_TYPE.put("char", "C");
+        PRIMITIVE_TYPE.put("float", "F");
+        PRIMITIVE_TYPE.put("double", "D");
     }
 }

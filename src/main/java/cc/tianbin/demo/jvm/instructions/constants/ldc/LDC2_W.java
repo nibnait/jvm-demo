@@ -15,6 +15,10 @@ public class LDC2_W extends Index16Instruction {
         return 0x14;
     }
 
+    /**
+     *
+     * @param frame
+     */
     @Override
     public void execute(Frame frame) {
         OperandStack stack = frame.operandStack;

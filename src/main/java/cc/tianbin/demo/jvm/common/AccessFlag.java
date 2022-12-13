@@ -1,5 +1,6 @@
 package cc.tianbin.demo.jvm.common;
 
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.FieldDescriptor;
 import cc.tianbin.demo.jvm.utils.NumberUtil;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
@@ -71,6 +72,7 @@ public class AccessFlag {
     public boolean isEnum() {
         return (this.code & Flag.ACC_ENUM.getCode()) != 0;
     }
+
     //------------ accessFlags ----------------------------------
 
     private static List<Flag> getByCode(int code, FlagType flagType) {

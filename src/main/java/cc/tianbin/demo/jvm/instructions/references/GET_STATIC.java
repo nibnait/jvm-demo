@@ -7,7 +7,7 @@ import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.FieldRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Field;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Slots;
 
@@ -31,7 +31,7 @@ public class GET_STATIC extends Index16Instruction {
         FieldRef fieldRef = (FieldRef) runtimeConstantPool.getConstants(this.index);
         Field field = fieldRef.resolvedField();
 
-        Class clazz = field.getClazz();
+        JClass clazz = field.getClazz();
         if (!clazz.isInitStarted()) {
             frame.revertNextPC();
             ClassInitLogic.initClass(frame.thread, clazz);

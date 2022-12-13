@@ -7,7 +7,7 @@ import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.FieldRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.*;
 
 /**
@@ -29,14 +29,14 @@ public class PUT_STATIC extends Index16Instruction {
         // 当前方法
         Method currentMethod = frame.method;
         // 当前类
-        Class currentClazz = currentMethod.getClazz();
+        JClass currentClazz = currentMethod.getClazz();
         // 当前常量池
         RuntimeConstantPool runTimeConstantPool = currentClazz.getRuntimeConstantPool();
         // 解析字段符合引用
         FieldRef fieldRef = (FieldRef) runTimeConstantPool.getConstants(this.index);
         Field field = fieldRef.resolvedField();
 
-        Class clazz = field.getClazz();
+        JClass clazz = field.getClazz();
         if (!clazz.isInitStarted()) {
             frame.revertNextPC();
             ClassInitLogic.initClass(frame.thread, clazz);

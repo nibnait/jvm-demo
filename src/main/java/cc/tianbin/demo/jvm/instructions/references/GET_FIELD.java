@@ -7,7 +7,7 @@ import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.FieldRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Field;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JObject;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Slots;
 
 /**
@@ -35,7 +35,7 @@ public class GET_FIELD extends Index16Instruction {
         }
 
         OperandStack stack = frame.operandStack;
-        JVMMAObject ref = stack.popRef();
+        JObject ref = stack.popRef();
         if (ref == null) {
             throw new NullPointerException();
         }

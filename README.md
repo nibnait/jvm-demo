@@ -27,6 +27,11 @@
 
 ![](docs/image/类的生命周期.png)
 
+![](docs/image/类和对象.png)
+图9-1只画出了 Class 和 Object 结构体的必要字段，并且刻意分开了堆和方法区。  
+在方法区中，class1 和 class2 分别是 java.lang.Object 和 java.lang.Class 类的数据。  
+在堆中，object1 和 object2 分别是 java.lang.Object 和 java.lang.Class 的类对象。object3 是单独的 java.lang.Object 实例。
+
 ## 方法调用和返回
 
 方法调用过程：[MethodInvokeLogic.invokeMethod()](./src/main/java/cc/tianbin/demo/jvm/instructions/base/MethodInvokeLogic.java)
@@ -34,3 +39,8 @@
 
 ## 数组和字符串
 
+
+
+## 本地方法调用
+
+![](./docs/image/方法分类.png)

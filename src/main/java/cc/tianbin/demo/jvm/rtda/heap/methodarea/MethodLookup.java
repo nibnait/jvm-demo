@@ -9,8 +9,8 @@ public class MethodLookup {
         throw new AssertionError("工具类不允许被实例化");
     }
 
-    public static Method lookupMethodInClass(Class clazz, String name, String descriptor) {
-        Class c = clazz;
+    public static Method lookupMethodInClass(JClass clazz, String name, String descriptor) {
+        JClass c = clazz;
         while (c != null) {
             for (Method method : c.getMethods()) {
                 if (method.getName().equals(name) && method.getDescriptor().equals(descriptor)) {
@@ -22,12 +22,12 @@ public class MethodLookup {
         return null;
     }
 
-    public static Method lookupMethodInInterfaces(Class[] interfaces, String name, String descriptor) {
+    public static Method lookupMethodInInterfaces(JClass[] interfaces, String name, String descriptor) {
         if (interfaces == null || interfaces.length == 0) {
             return null;
         }
 
-        for (Class c : interfaces) {
+        for (JClass c : interfaces) {
             for (Method method : c.getMethods()) {
                 if (method.getName().equals(name) && method.getDescriptor().equals(descriptor)) {
                     return method;

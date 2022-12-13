@@ -2,7 +2,7 @@ package cc.tianbin.demo.jvm.rtda.heap.classloader;
 
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.*;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
 
 /**
  * 2. 链接（Linking）
@@ -15,12 +15,12 @@ public class LinkingHelper {
     }
 
     //----------------- 验证 ------------------
-    public static void verify(Class clazz) {
+    public static void verify(JClass clazz) {
         // 校验字节码
     }
 
     //----------------- 准备 ------------------
-    public static void prepare(Class clazz) {
+    public static void prepare(JClass clazz) {
         // 计算非静态字段的 槽位
         calcInstanceFieldSlotIds(clazz);
 
@@ -30,7 +30,7 @@ public class LinkingHelper {
         allocAndInitStaticVars(clazz);
     }
 
-    private static void calcInstanceFieldSlotIds(Class clazz) {
+    private static void calcInstanceFieldSlotIds(JClass clazz) {
         int slotId = 0;
         if (clazz.getSuperClass() != null) {
             slotId = clazz.getSuperClass().getInstanceSlotCount();
@@ -47,7 +47,7 @@ public class LinkingHelper {
         clazz.setInstanceSlotCount(slotId);
     }
 
-    private static void calcStaticFieldSlotIds(Class clazz) {
+    private static void calcStaticFieldSlotIds(JClass clazz) {
         int slotId = 0;
         for (Field field : clazz.getFields()) {
             if (field.getAccessFlag().isStatic()) {
@@ -61,7 +61,7 @@ public class LinkingHelper {
         clazz.setStaticSlotCount(slotId);
     }
 
-    private static void allocAndInitStaticVars(Class clazz) {
+    private static void allocAndInitStaticVars(JClass clazz) {
         for (Field field : clazz.getFields()) {
             if (field.getAccessFlag().isStatic() && field.getAccessFlag().isFinal()) {
                 initStaticFinalVar(clazz, field);
@@ -75,7 +75,7 @@ public class LinkingHelper {
      * 单被 static 修饰的变量，只赋当前字段类型的初始值
      * 他们要等 <clinit>() 方法执行时，才会被真正初始化
      */
-    private static void initStaticVar(Class clazz, Field field) {
+    private static void initStaticVar(JClass clazz, Field field) {
         Slots staticVars = clazz.getStaticVars();
         RuntimeConstantPool constantPool = clazz.getRuntimeConstantPool();
         int index = field.getConstantValueIndex();
@@ -102,7 +102,7 @@ public class LinkingHelper {
                     break;
                 case STR:
                     String goStr = (String) constantPool.getConstants(index);
-                    JVMMAObject jStr = StringPool.jString(clazz.getLoader(), goStr);
+                    JObject jStr = StringPool.jString(clazz.getLoader(), goStr);
                     staticVars.setRef(slotId, jStr);
                     break;
                 default:
@@ -114,7 +114,7 @@ public class LinkingHelper {
     /**
      * 被 static final 修饰的变量，直接赋当前field.constantValueIndex 对应的常量池中的值
      */
-    private static void initStaticFinalVar(Class clazz, Field field) {
+    private static void initStaticFinalVar(JClass clazz, Field field) {
         Slots staticVars = clazz.getStaticVars();
         RuntimeConstantPool constantPool = clazz.getRuntimeConstantPool();
         int index = field.getConstantValueIndex();
@@ -142,7 +142,7 @@ public class LinkingHelper {
                     break;
                 case STR:
                     String goStr = (String) constantPool.getConstants(index);
-                    JVMMAObject jStr = StringPool.jString(clazz.getLoader(), goStr);
+                    JObject jStr = StringPool.jString(clazz.getLoader(), goStr);
                     staticVars.setRef(slotId, jStr);
                     break;
                 default:

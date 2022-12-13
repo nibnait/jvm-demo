@@ -5,8 +5,8 @@ import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.ClassRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JObject;
 
 /**
  * Created by nibnait on 2022/12/13
@@ -26,7 +26,7 @@ public class ANEW_ARRAY extends Index16Instruction {
     public void execute(Frame frame) {
         RuntimeConstantPool runtimeConstantPool = frame.method.getClazz().getRuntimeConstantPool();
         ClassRef classRef = (ClassRef) runtimeConstantPool.getConstants(this.index);
-        Class componentClass = classRef.resolvedClass();
+        JClass componentClass = classRef.resolvedClass();
 
         OperandStack stack = frame.operandStack;
         int count = stack.popInt();
@@ -34,8 +34,8 @@ public class ANEW_ARRAY extends Index16Instruction {
             throw new NegativeArraySizeException();
         }
 
-        Class arrClass = componentClass.arrayClass();
-        JVMMAObject arr = arrClass.newArray(count);
+        JClass arrClass = componentClass.arrayClass();
+        JObject arr = arrClass.newArray(count);
         stack.pushRef(arr);
     }
 }

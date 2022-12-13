@@ -5,8 +5,8 @@ import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.ClassRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JObject;
 
 /**
  * Created by nibnait on 2022/12/10
@@ -25,7 +25,7 @@ public class CHECK_CAST extends Index16Instruction {
     @Override
     public void execute(Frame frame) {
         OperandStack stack = frame.operandStack;
-        JVMMAObject ref = stack.popRef();
+        JObject ref = stack.popRef();
         // 不改变操作数栈
         stack.pushRef(ref);
 
@@ -36,7 +36,7 @@ public class CHECK_CAST extends Index16Instruction {
 
         RuntimeConstantPool runtimeConstantPool = frame.method.getClazz().getRuntimeConstantPool();
         ClassRef classRef = (ClassRef) runtimeConstantPool.getConstants(this.index);
-        Class clazz = classRef.resolvedClass();
+        JClass clazz = classRef.resolvedClass();
         if (!ref.isInstanceOf(clazz)) {
             throw new ClassCastException(String.format("%s cannot be cast to %s",
                     ref.getClazz().getName(), clazz.getName()));

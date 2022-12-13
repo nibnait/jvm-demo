@@ -6,8 +6,8 @@ import cc.tianbin.demo.jvm.instructions.base.MethodInvokeLogic;
 import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.MethodRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JObject;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Method;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.MethodLookup;
 
@@ -27,10 +27,10 @@ public class INVOKE_SPECIAL extends Index16Instruction {
 
     @Override
     public void execute(Frame frame) {
-        Class currentClass = frame.method.getClazz();
+        JClass currentClass = frame.method.getClazz();
         RuntimeConstantPool runtimeConstantPool = currentClass.getRuntimeConstantPool();
         MethodRef methodRef = (MethodRef) runtimeConstantPool.getConstants(this.index);
-        Class resolvedClass = methodRef.resolvedClass();
+        JClass resolvedClass = methodRef.resolvedClass();
         Method resolvedMethod = methodRef.resolvedMethod();
 
         if (CommonConstants.INIT.equals(resolvedMethod.getName())
@@ -43,7 +43,7 @@ public class INVOKE_SPECIAL extends Index16Instruction {
             throw new IncompatibleClassChangeError("invokespecial 无法调用静态方法");
         }
 
-        JVMMAObject ref = frame.operandStack.getRefFromTop(resolvedMethod.getArgSlotCount() - 1);
+        JObject ref = frame.operandStack.getRefFromTop(resolvedMethod.getArgSlotCount() - 1);
         if (ref == null) {
             throw new NullPointerException();
         }

@@ -11,17 +11,17 @@ import cc.tianbin.demo.jvm.classfile.constantpool.impl.memberref.ConstantInterfa
 import cc.tianbin.demo.jvm.classfile.constantpool.impl.memberref.ConstantMethodRefInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.impl.symbolicref.ConstantClassInfo;
 import cc.tianbin.demo.jvm.classfile.constantpool.impl.symbolicref.ConstantStringInfo;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
 
 /**
  * Created by nibnait on 2022/12/08
  */
 public class RuntimeConstantPool {
 
-    private Class clazz;
+    private JClass clazz;
     private Object[] constants;
     
-    public RuntimeConstantPool(Class clazz, ConstantPool constantPool) {
+    public RuntimeConstantPool(JClass clazz, ConstantPool constantPool) {
         ConstantInfo[] constantInfos = constantPool.getConstantInfos();
         int constantPoolCount = constantInfos.length;
         this.clazz = clazz;
@@ -73,11 +73,11 @@ public class RuntimeConstantPool {
 
     }
 
-    public Class getClazz() {
+    public JClass getClazz() {
         return this.clazz;
     }
 
-    public void setClazz(Class clazz) {
+    public void setClazz(JClass clazz) {
         this.clazz = clazz;
     }
 

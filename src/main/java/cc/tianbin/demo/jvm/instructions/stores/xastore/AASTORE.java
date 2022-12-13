@@ -3,7 +3,7 @@ package cc.tianbin.demo.jvm.instructions.stores.xastore;
 import cc.tianbin.demo.jvm.instructions.base.NoOperandsInstruction;
 import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JObject;
 
 /**
  * Created by nibnait on 2022/12/07
@@ -17,12 +17,12 @@ public class AASTORE extends NoOperandsInstruction {
     @Override
     public void execute(Frame frame) {
         OperandStack stack = frame.operandStack;
-        JVMMAObject ref = stack.popRef();
+        JObject ref = stack.popRef();
         int index = stack.popInt();
-        JVMMAObject arrRef = stack.popRef();
+        JObject arrRef = stack.popRef();
         checkNotNull(arrRef);
 
-        JVMMAObject[] refs = arrRef.refs();
+        JObject[] refs = arrRef.refs();
         checkIndex(refs.length, index);
 
         refs[index] = ref;

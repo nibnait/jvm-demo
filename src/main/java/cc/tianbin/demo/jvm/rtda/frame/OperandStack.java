@@ -1,7 +1,7 @@
 package cc.tianbin.demo.jvm.rtda.frame;
 
 import cc.tianbin.demo.jvm.exception.JvmStackException;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JObject;
 import cc.tianbin.demo.jvm.utils.NumberUtil;
 import io.github.nibnait.common.utils.DataUtils;
 
@@ -68,11 +68,11 @@ public class OperandStack {
     }
 
     //----------- 引用值 ---------------
-    public void pushRef(JVMMAObject ref) {
+    public void pushRef(JObject ref) {
         pushSlot(Slot.ref(ref));
     }
 
-    public JVMMAObject popRef() {
+    public JObject popRef() {
         return popSlot().getRef();
     }
 
@@ -93,7 +93,22 @@ public class OperandStack {
     /**
      * 返回距离栈顶n个槽位的 引用变量
      */
-    public JVMMAObject getRefFromTop(int n) {
+    public JObject getRefFromTop(int n) {
         return this.slots[this.size - 1 - n].getRef();
+    }
+
+    public void clear() {
+        this.size = 0;
+        for (int i = 0; i < this.slots.length; i++) {
+            this.slots[i].setRef(null);
+        }
+    }
+
+    public void pushBoolean(boolean val) {
+        if (val) {
+            this.pushInt(1);
+        } else {
+            this.pushInt(0);
+        }
     }
 }

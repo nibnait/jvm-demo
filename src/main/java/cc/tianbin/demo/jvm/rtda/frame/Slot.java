@@ -1,7 +1,7 @@
 package cc.tianbin.demo.jvm.rtda.frame;
 
 import cc.tianbin.demo.jvm.utils.NumberUtil;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JObject;
 import io.github.nibnait.common.utils.DataUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,7 +31,7 @@ public class Slot {
 
     @Getter
     @Setter
-    private JVMMAObject ref;
+    private JObject ref;
 
     public void setNum(String num) {
         this.num = num;
@@ -76,7 +76,7 @@ public class Slot {
         return slot;
     }
 
-    public static Slot ref(JVMMAObject ref) {
+    public static Slot ref(JObject ref) {
         Slot slot = new Slot();
         slot.setRef(ref);
         return slot;

@@ -5,9 +5,9 @@ import cc.tianbin.demo.jvm.instructions.Instruction;
 import cc.tianbin.demo.jvm.instructions.base.BytecodeReader;
 import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
-import cc.tianbin.demo.jvm.rtda.heap.classloader.ClassLoader;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.classloader.JClassLoader;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JObject;
 
 /**
  * Created by nibnait on 2022/12/13
@@ -39,10 +39,10 @@ public class NEW_ARRAY implements Instruction {
             throw new NegativeArraySizeException();
         }
 
-        ClassLoader classLoader = frame.method.getClazz().getLoader();
+        JClassLoader classLoader = frame.method.getClazz().getLoader();
         ArrayType arrayType = ArrayType.getByCode(this.atype);
-        Class arrClass = classLoader.loadClass(arrayType.getDescriptor());
-        JVMMAObject arr = arrClass.newArray(count);
+        JClass arrClass = classLoader.loadClass(arrayType.getDescriptor());
+        JObject arr = arrClass.newArray(count);
         stack.pushRef(arr);
     }
 }

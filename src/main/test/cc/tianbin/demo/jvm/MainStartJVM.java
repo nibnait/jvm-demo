@@ -2,8 +2,8 @@ package cc.tianbin.demo.jvm;
 
 import cc.tianbin.demo.jvm.classpath.Classpath;
 import cc.tianbin.demo.jvm.exception.JvmException;
-import cc.tianbin.demo.jvm.rtda.heap.classloader.ClassLoader;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.rtda.heap.classloader.JClassLoader;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Method;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +33,9 @@ public class MainStartJVM {
      * cd /Users/nibnait/github/jvm-demo/src/main/test/cc/tianbin/demo/jvm/ch08
      * javac PrintArgs.java
      * -cp /Users/nibnait/github/jvm-demo/src/main/test/cc/tianbin/demo/jvm/ch08 PrintArgs 你好，世界！
+     * ---
+     * ## 本地方法调用
+     * -Xjre "C:\Program Files\Java\jdk1.8.0_161\jre" E:\itstack\git\istack-demo\itstack-demo-jvm\itstack-demo-jvm-09\target\test-classes\org\itstack\demo\test\HelloWorld -verbose true -args 你好，java版虚拟机v1.0，欢迎你的到来。
      */
     public static void main(String[] argv) {
         Args args = Args.parse(argv);
@@ -46,8 +49,8 @@ public class MainStartJVM {
         //获取className
         String className = args.getMainClass().replace(".", "/");
 
-        ClassLoader classLoader = new ClassLoader(classpath, args.verboseClassFlag);
-        Class clazz = classLoader.loadClass(className);
+        JClassLoader classLoader = new JClassLoader(classpath, args.verboseClassFlag);
+        JClass clazz = classLoader.loadClass(className);
 
         // 查找类的 main() 方法
         Method mainMethod = clazz.getMainMethod();

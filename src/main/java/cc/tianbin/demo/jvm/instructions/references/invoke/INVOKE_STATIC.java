@@ -6,7 +6,7 @@ import cc.tianbin.demo.jvm.instructions.base.MethodInvokeLogic;
 import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.MethodRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Method;
 
 /**
@@ -39,7 +39,7 @@ public class INVOKE_STATIC extends Index16Instruction {
         // 这一规则由class文件验证器保证，这里不做检查。
 
         // 如果声明 resolvedMethod 的类还没有被初始化，则要先初始化该类。
-        Class clazz = resolvedMethod.getClazz();
+        JClass clazz = resolvedMethod.getClazz();
         if (!clazz.isInitStarted()) {
             frame.revertNextPC();
             ClassInitLogic.initClass(frame.thread, clazz);

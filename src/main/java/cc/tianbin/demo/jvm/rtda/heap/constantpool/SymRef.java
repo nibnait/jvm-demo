@@ -1,7 +1,7 @@
 package cc.tianbin.demo.jvm.rtda.heap.constantpool;
 
 import cc.tianbin.demo.jvm.exception.JvmException;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
 
 /**
  * symbolic reference
@@ -11,9 +11,9 @@ public class SymRef {
 
     protected RuntimeConstantPool runtimeConstantPool;
     protected String className;
-    protected Class clazz;
+    protected JClass clazz;
 
-    public Class resolvedClass() {
+    public JClass resolvedClass() {
         if (this.clazz == null) {
             this.resolvedClassRef();
         }
@@ -21,8 +21,8 @@ public class SymRef {
     }
 
     private void resolvedClassRef() {
-        Class d = this.runtimeConstantPool.getClazz();
-        Class c = d.getLoader().loadClass(this.className);
+        JClass d = this.runtimeConstantPool.getClazz();
+        JClass c = d.getLoader().loadClass(this.className);
         if (!c.isAccessibleTo(d)) {
             throw new JvmException("IllegalAccessException");
         }

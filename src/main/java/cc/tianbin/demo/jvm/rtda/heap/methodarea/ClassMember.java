@@ -19,7 +19,7 @@ public class ClassMember {
     // class 结构体指针
     @Setter
     @Getter
-    private Class clazz;
+    private JClass clazz;
 
     /**
      * 从 class 文件中复制数据
@@ -33,11 +33,11 @@ public class ClassMember {
     /**
      * 对 otherClass 是否是可达的
      */
-    public boolean isAccessibleTo(Class otherClass) {
+    public boolean isAccessibleTo(JClass otherClass) {
         if (this.accessFlag.isPublic()) {
             return true;
         }
-        Class curClass = this.clazz;
+        JClass curClass = this.clazz;
         if (this.accessFlag.isProtected()) {
             return otherClass == curClass || curClass.getPackageName().equals(otherClass.getPackageName());
         }

@@ -5,8 +5,8 @@ import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.ClassRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JObject;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.StringPool;
 
 /**
@@ -20,7 +20,7 @@ public class LDCHelper {
 
     public static void ldc(Frame frame, int index) {
         OperandStack stack = frame.operandStack;
-        Class clazz = frame.method.getClazz();
+        JClass clazz = frame.method.getClazz();
         RuntimeConstantPool runTimeConstantPool = frame.method.getClazz().getRuntimeConstantPool();
         Object c = runTimeConstantPool.getConstants(index);
 
@@ -35,15 +35,18 @@ public class LDCHelper {
         }
 
         if (c instanceof String) {
-            JVMMAObject internedStr = StringPool.jString(clazz.getLoader(), (String) c);
+            JObject internedStr = StringPool.jString(clazz.getLoader(), (String) c);
             stack.pushRef(internedStr);
             return;
         }
 
         if (c instanceof ClassRef) {
+            ClassRef classRef = (ClassRef) c;
+            JObject classObj = classRef.resolvedClass().jClass;
+            stack.pushRef(classObj);
             return;
         }
 
-        throw new InstructionException("todo ldc " + c.getClass().getName());
+        throw new InstructionException("invalid ldc {}", c.getClass().getName());
     }
 }

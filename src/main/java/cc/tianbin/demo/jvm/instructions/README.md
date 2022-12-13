@@ -141,17 +141,17 @@ Java虚拟机规范把已经定义的205条指令按用途分成了11类， 分�
 
 ### References
 
-| <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div>                     | <div style="width:50px">功能</div> | <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div>          | <div style="width:50px">功能</div> |
-|-----------------------------------|-------------------------------------------------------| ---- |-----------------------------------|--------------------------------------------| ---- |
-| 0xb2                              | [getstatic](./references/GETSTATIC.java)              | 取出类的某个静态变量值，push到栈顶 | 0xbb                              | [new](./references/NEW.java)               | 创建类实例 |
-| 0xb3 | [putstatic](./references/PUTSTATIC.java)              | 给类的某个静态变量赋值 | 0xbc | newarray                                   | 创建基本类型数组 |
-| 0xb4 | [getfield](./references/GETFIELD.java)                | 获取对象的实例变量值，push到栈顶 | 0xbd | anewarray                                  | 创建引用类型数组 |
-| 0xb5 | [putfield](./references/PUTFIELD.java)                | 给实例变量赋值 | 0xbe | arraylength                                | 获取数组长度 |
-| 0xb6 | [invokevirtual](./references/INVOKE_VIRTUAL.java)     | 调用动态方法 | 0xbf | athrow                                     | |
-| 0xb7 | [invokespecial](./references/INVOKE_SPECIAL.java)     | 调用无需动态绑定的实例方法（构造函数、私有方法、super 父类方法） | 0xc0 | [checkcast](./references/CHECKCAST.java)   | 判断对象是否属于某种类型。<br/>如果属于啥事没有，如果不属于，直接报 ClassCastException |
-| 0xb8 | [invokestatic](./references/INVOKE_STATIC.java)       | 调用静态方法 | 0xc1 | [instanceof](./references/INSTANCEOF.java) | 判断对象是否是某个类的实例（或者对象的类是否实现了某个接口），并把结果推入操作数栈。 |
-| 0xb9 | [invokeinterface](./references/INVOKE_INTERFACE.java) | 调用（接口类型的）动态方法 | 0xc2 | monitorenter                               | |
-| 0xba | [invokedynamic](./references/INVOKE_DYNAMIC.java)     | 调用动态方法 | 0xc3 | monitorexit                                | |
+| <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div>                        | <div style="width:50px">功能</div> | <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div>               | <div style="width:50px">功能</div> |
+|-----------------------------------|----------------------------------------------------------| ---- |-----------------------------------|-------------------------------------------------| ---- |
+| 0xb2                              | [getstatic](./references/GET_STATIC.java)                 | 取出类的某个静态变量值，push到栈顶 | 0xbb                              | [new](./references/NEW.java)                    | 创建类实例 |
+| 0xb3 | [putstatic](./references/PUT_STATIC.java)                 | 给类的某个静态变量赋值 | 0xbc | [newarray](./references/array/NEW_ARRAY.java)   | 创建基本类型数组 |
+| 0xb4 | [getfield](./references/GET_FIELD.java)                   | 获取对象的实例变量值，push到栈顶 | 0xbd | [anewarray](./references/array/ANEW_ARRAY.java) | 创建引用类型数组 |
+| 0xb5 | [putfield](./references/PUT_FIELD.java)                   | 给实例变量赋值 | 0xbe | [arraylength](./references/array/ARRAY_LENGTH.java)                                    | 获取数组长度 |
+| 0xb6 | [invokevirtual](./references/invoke/INVOKE_VIRTUAL.java) | 调用动态方法 | 0xbf | athrow                                          | |
+| 0xb7 | [invokespecial](./references/invoke/INVOKE_SPECIAL.java)        | 调用无需动态绑定的实例方法（构造函数、私有方法、super 父类方法） | 0xc0 | [checkcast](./references/CHECK_CAST.java)        | 判断对象是否属于某种类型。<br/>如果属于啥事没有，如果不属于，直接报 ClassCastException |
+| 0xb8 | [invokestatic](./references/invoke/INVOKE_STATIC.java)          | 调用静态方法 | 0xc1 | [instanceof](./references/INSTANCE_OF.java)      | 判断对象是否是某个类的实例（或者对象的类是否实现了某个接口），并把结果推入操作数栈。 |
+| 0xb9 | [invokeinterface](./references/invoke/INVOKE_INTERFACE.java)    | 调用（接口类型的）动态方法 | 0xc2 | monitorenter                                    | |
+| 0xba | [invokedynamic](./references/invoke/INVOKE_DYNAMIC.java)        | 调用动态方法 | 0xc3 | monitorexit                                     | |
 
 ### Extended
 

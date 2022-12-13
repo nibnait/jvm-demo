@@ -16,7 +16,7 @@ public class Field extends ClassMember {
     @Getter
     private int slotId;
 
-    public static Field[] newFields(Class clazz, MemberInfo[] classFileFields) {
+    public static Field[] newFields(JClass clazz, MemberInfo[] classFileFields) {
         Field[] fields = new Field[classFileFields.length];
         for (int i = 0; i < classFileFields.length; i++) {
             Field field = new Field();

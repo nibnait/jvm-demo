@@ -5,8 +5,8 @@ import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.ClassRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JObject;
 
 /**
  * Created by nibnait on 2022/12/10
@@ -25,7 +25,7 @@ public class INSTANCE_OF extends Index16Instruction {
     @Override
     public void execute(Frame frame) {
         OperandStack stack = frame.operandStack;
-        JVMMAObject ref = stack.popRef();
+        JObject ref = stack.popRef();
 
         if (ref == null) {
             // 空对象，不管他 instanceof 啥，返回的结果都是 false
@@ -35,7 +35,7 @@ public class INSTANCE_OF extends Index16Instruction {
 
         RuntimeConstantPool runtimeConstantPool = frame.method.getClazz().getRuntimeConstantPool();
         ClassRef classRef = (ClassRef) runtimeConstantPool.getConstants(this.index);
-        Class clazz = classRef.resolvedClass();
+        JClass clazz = classRef.resolvedClass();
 
         if (ref.isInstanceOf(clazz)) {
             stack.pushInt(1);

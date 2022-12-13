@@ -1,7 +1,7 @@
 package cc.tianbin.demo.jvm.rtda.heap.constantpool;
 
 import cc.tianbin.demo.jvm.classfile.constantpool.impl.memberref.ConstantMethodRefInfo;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Method;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.MethodLookup;
 
@@ -27,8 +27,8 @@ public class MethodRef extends MemberRef {
     }
 
     private void resolvedMethodRef() {
-        Class d = this.runtimeConstantPool.getClazz();
-        Class c = this.resolvedClass();
+        JClass d = this.runtimeConstantPool.getClazz();
+        JClass c = this.resolvedClass();
         if (c.getAccessFlag().isInterface()) {
             throw new IncompatibleClassChangeError();
         }
@@ -45,7 +45,7 @@ public class MethodRef extends MemberRef {
         this.method = method;
     }
 
-    private Method lookupMethod(Class clazz, String name, String descriptor) {
+    private Method lookupMethod(JClass clazz, String name, String descriptor) {
         Method method = MethodLookup.lookupMethodInClass(clazz, name, descriptor);
         if (method == null) {
             method = MethodLookup.lookupMethodInInterfaces(clazz.getInterfaces(), name, descriptor);
