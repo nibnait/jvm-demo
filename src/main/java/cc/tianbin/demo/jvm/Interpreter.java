@@ -5,7 +5,14 @@ import cc.tianbin.demo.jvm.instructions.InstructionFactory;
 import cc.tianbin.demo.jvm.instructions.base.BytecodeReader;
 import cc.tianbin.demo.jvm.rtda.Frame;
 import cc.tianbin.demo.jvm.rtda.Thread;
+import cc.tianbin.demo.jvm.rtda.heap.classloader.ClassLoader;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Method;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.StringPool;
+import org.apache.commons.collections4.CollectionUtils;
+
+import java.util.List;
 
 import static cc.tianbin.demo.jvm.utils.LogUtil.log;
 import static cc.tianbin.demo.jvm.utils.LogUtil.printf;
@@ -20,14 +27,32 @@ public class Interpreter {
         throw new AssertionError("工具类不允许被实例化");
     }
 
-    public static void execute(Method method, boolean logInst) {
+    public static void execute(Method method, boolean logInst, List<String> args) {
         log("maxLocals: {}, maxStack: {} \n", method.getMaxLocals(), method.getMaxStack());
 
         Thread thread = new Thread();
         Frame frame = thread.newFrame(method);
         thread.pushFrame(frame);
 
+        if (CollectionUtils.isNotEmpty(args)) {
+            JVMMAObject jArgs = createArgsArray(method.getClazz().getLoader(), args);
+            frame.localVariables.setRef(0, jArgs);
+        }
+
         loop(thread, logInst);
+    }
+
+    /**
+     * 把命令行入参 转化成数组对象
+     */
+    private static JVMMAObject createArgsArray(ClassLoader loader, List<String> args) {
+        Class stringClass = loader.loadClass("java/lang/String");
+        JVMMAObject argsArr = stringClass.arrayClass().newArray(args.size());
+        JVMMAObject[] jArgs = argsArr.refs();
+        for (int i = 0; i < jArgs.length; i++) {
+            jArgs[i] = StringPool.jString(loader, args.get(i));
+        }
+        return argsArr;
     }
 
     private static void loop(Thread thread, boolean logInst) {

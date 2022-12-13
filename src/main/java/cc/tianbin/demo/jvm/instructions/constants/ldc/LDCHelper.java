@@ -6,6 +6,8 @@ import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.ClassRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.StringPool;
 
 /**
  * Created by nibnait on 2022/12/10
@@ -33,6 +35,8 @@ public class LDCHelper {
         }
 
         if (c instanceof String) {
+            JVMMAObject internedStr = StringPool.jString(clazz.getLoader(), (String) c);
+            stack.pushRef(internedStr);
             return;
         }
 

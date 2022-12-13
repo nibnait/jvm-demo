@@ -54,8 +54,7 @@ public class JVMMAObject {
         return (Slots) this.data;
     }
 
-
-    public Object getRefVar(String name, String descriptor) {
+    public JVMMAObject getRefVar(String name, String descriptor) {
         Field field = this.clazz.getField(name, descriptor, false);
         Slots slots = (Slots) this.data;
         return slots.getRef(field.getSlotId());

@@ -7,9 +7,7 @@ import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.MethodRef;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Method;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.MethodLookup;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.*;
 
 /**
  * Created by nibnait on 2022/12/12
@@ -79,6 +77,11 @@ public class INVOKE_VIRTUAL extends Index16Instruction {
                 break;
             case "(D)V":
                 System.out.println(stack.popDouble());
+                break;
+            case "(Ljava/lang/String;)V":
+                JVMMAObject jStr = stack.popRef();
+                String goStr = StringPool.goString(jStr);
+                System.out.println(goStr);
                 break;
             default:
                 System.out.println(descriptor);

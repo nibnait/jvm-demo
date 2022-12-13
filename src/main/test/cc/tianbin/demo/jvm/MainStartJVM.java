@@ -28,6 +28,11 @@ public class MainStartJVM {
      * javac InvokeDemo.java
      * javap -v InvokeDemo
      * -verbose:class -verbose:inst -cp /Users/nibnait/github/jvm-demo/src/main/test/cc/tianbin/demo/jvm/ch07 InvokeDemo
+     * ---
+     * ## 字符串和数组
+     * cd /Users/nibnait/github/jvm-demo/src/main/test/cc/tianbin/demo/jvm/ch08
+     * javac PrintArgs.java
+     * -cp /Users/nibnait/github/jvm-demo/src/main/test/cc/tianbin/demo/jvm/ch08 PrintArgs 你好，世界！
      */
     public static void main(String[] argv) {
         Args args = Args.parse(argv);
@@ -51,7 +56,7 @@ public class MainStartJVM {
         }
 
         // 解释执行 main() 方法
-        Interpreter.execute(mainMethod, args.verboseInstFlag);
+        Interpreter.execute(mainMethod, args.verboseInstFlag, args.getAppArgs());
     }
 
 }

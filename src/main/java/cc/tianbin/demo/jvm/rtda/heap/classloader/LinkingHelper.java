@@ -1,10 +1,8 @@
 package cc.tianbin.demo.jvm.rtda.heap.classloader;
 
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.FieldDescriptor;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.*;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Field;
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.Slots;
 
 /**
  * 2. 链接（Linking）
@@ -80,10 +78,10 @@ public class LinkingHelper {
     private static void initStaticVar(Class clazz, Field field) {
         Slots staticVars = clazz.getStaticVars();
         RuntimeConstantPool constantPool = clazz.getRuntimeConstantPool();
-        int cpIdx = field.getConstantValueIndex();
+        int index = field.getConstantValueIndex();
         int slotId = field.getSlotId();
 
-        if (cpIdx > 0) {
+        if (index > 0) {
             FieldDescriptor fieldDescriptor = FieldDescriptor.getByCode(field.getDescriptor());
             switch (fieldDescriptor) {
                 case Z:
@@ -94,16 +92,18 @@ public class LinkingHelper {
                     staticVars.setInt(slotId, (int) fieldDescriptor.getDefaultValue());
                     break;
                 case J:
-                    staticVars.setLong(slotId, (long) constantPool.getConstants(cpIdx));
+                    staticVars.setLong(slotId, (long) constantPool.getConstants(index));
                     break;
                 case F:
-                    staticVars.setFloat(slotId, (float) constantPool.getConstants(cpIdx));
+                    staticVars.setFloat(slotId, (float) constantPool.getConstants(index));
                     break;
                 case D:
-                    staticVars.setDouble(slotId, (double) constantPool.getConstants(cpIdx));
+                    staticVars.setDouble(slotId, (double) constantPool.getConstants(index));
                     break;
                 case STR:
-                    // todo 依赖 StringPool
+                    String goStr = (String) constantPool.getConstants(index);
+                    JVMMAObject jStr = StringPool.jString(clazz.getLoader(), goStr);
+                    staticVars.setRef(slotId, jStr);
                     break;
                 default:
                     break;
@@ -117,10 +117,10 @@ public class LinkingHelper {
     private static void initStaticFinalVar(Class clazz, Field field) {
         Slots staticVars = clazz.getStaticVars();
         RuntimeConstantPool constantPool = clazz.getRuntimeConstantPool();
-        int cpIdx = field.getConstantValueIndex();
+        int index = field.getConstantValueIndex();
         int slotId = field.getSlotId();
 
-        if (cpIdx > 0) {
+        if (index > 0) {
             FieldDescriptor fieldDescriptor = FieldDescriptor.getByCode(field.getDescriptor());
             switch (fieldDescriptor) {
                 case Z:
@@ -128,20 +128,22 @@ public class LinkingHelper {
                 case S:
                 case C:
                 case I:
-                    Object val = constantPool.getConstants(cpIdx);
+                    Object val = constantPool.getConstants(index);
                     staticVars.setInt(slotId, (Integer) val);
                     break;
                 case J:
-                    staticVars.setLong(slotId, (Long) constantPool.getConstants(cpIdx));
+                    staticVars.setLong(slotId, (Long) constantPool.getConstants(index));
                     break;
                 case F:
-                    staticVars.setFloat(slotId, (Float) constantPool.getConstants(cpIdx));
+                    staticVars.setFloat(slotId, (Float) constantPool.getConstants(index));
                     break;
                 case D:
-                    staticVars.setDouble(slotId, (Double) constantPool.getConstants(cpIdx));
+                    staticVars.setDouble(slotId, (Double) constantPool.getConstants(index));
                     break;
                 case STR:
-                    // todo 依赖 StringPool
+                    String goStr = (String) constantPool.getConstants(index);
+                    JVMMAObject jStr = StringPool.jString(clazz.getLoader(), goStr);
+                    staticVars.setRef(slotId, jStr);
                     break;
                 default:
                     break;
