@@ -1,4 +1,4 @@
-package cc.tianbin.demo.jvm.ch07;
+package cc.tianbin.demo.jvm.instructions;
 
 public class InvokeDemo implements Runnable {
 

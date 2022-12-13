@@ -65,8 +65,8 @@ public class GET_STATIC extends Index16Instruction {
                 stack.pushDouble(slots.getDouble(slotId));
                 break;
             case STR:
-            case LREF:
-            case AREF:
+            case L_REF:
+            case A_REF:
                 stack.pushRef(slots.getRef(slotId));
                 break;
             default:

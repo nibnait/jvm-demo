@@ -60,10 +60,10 @@ public class MethodDescriptorParser {
     private String parseFieldType() {
         char fieldType = this.readU1ToChar();
         FieldDescriptor fieldDescriptor = FieldDescriptor.getByStartCode(fieldType);
-        if (FieldDescriptor.LREF.equals(fieldDescriptor)) {
+        if (FieldDescriptor.L_REF.equals(fieldDescriptor)) {
             return this.parseObjectType();
         }
-        if (FieldDescriptor.AREF.equals(fieldDescriptor)) {
+        if (FieldDescriptor.A_REF.equals(fieldDescriptor)) {
             return this.parseArrayType();
         }
         if (FieldDescriptor.UNKNOWN.equals(fieldDescriptor)) {

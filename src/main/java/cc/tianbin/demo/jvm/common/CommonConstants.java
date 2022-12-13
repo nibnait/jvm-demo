@@ -10,6 +10,8 @@ public class CommonConstants {
     }
 
     public static final String JAVA_LANG_OBJECT = "java/lang/Object";
+    public static final String JAVA_LANG_CLONEABLE = "java/lang/Cloneable";
+    public static final String JAVA_IO_SERIALIZABLE = "java/io/Serializable";
 
     public static final String INIT = "<init>";
     public static final String CLINIT = "<clinit>";

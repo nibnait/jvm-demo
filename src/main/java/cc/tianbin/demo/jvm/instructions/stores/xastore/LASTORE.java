@@ -2,6 +2,8 @@ package cc.tianbin.demo.jvm.instructions.stores.xastore;
 
 import cc.tianbin.demo.jvm.instructions.base.NoOperandsInstruction;
 import cc.tianbin.demo.jvm.rtda.Frame;
+import cc.tianbin.demo.jvm.rtda.frame.OperandStack;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JVMMAObject;
 
 /**
  * Created by nibnait on 2022/12/07
@@ -14,6 +16,18 @@ public class LASTORE extends NoOperandsInstruction {
 
     @Override
     public void execute(Frame frame) {
-        // todo 8.3.5
+        OperandStack stack = frame.operandStack;
+        // 要赋给数组元素的值
+        long val = stack.popLong();
+        // 数组索引
+        int index = stack.popInt();
+        // 数组引用
+        JVMMAObject arrRef = stack.popRef();
+        checkNotNull(arrRef);
+
+        long[] longs = arrRef.longs();
+        checkIndex(longs.length, index);
+
+        longs[index] = val;
     }
 }

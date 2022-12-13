@@ -58,6 +58,16 @@ public class Class {
         this.methods = Method.newMethods(this, classFile.getMethods());
     }
 
+    // load Array Class
+    public Class(int accessFlags, String name, ClassLoader loader, boolean initStarted, Class superClass, Class[] interfaces) {
+        this.accessFlag = new AccessFlag(accessFlags, AccessFlag.FlagType.CLASS);
+        this.name = name;
+        this.loader = loader;
+        this.initStarted = initStarted;
+        this.superClass = superClass;
+        this.interfaces = interfaces;
+    }
+
     public void setStaticSlotCount(int staticSlotCount) {
         this.staticSlotCount = staticSlotCount;
         this.staticVars = new Slots(staticSlotCount);
@@ -73,8 +83,60 @@ public class Class {
         return JVMMAObject.newObject(this);
     }
 
+    public JVMMAObject newArray(int count) {
+        if (!this.isArray()) {
+            throw new RuntimeException("Not array class " + this.name);
+        }
+        switch (this.getName()) {
+            case "[Z":
+            case "[B":
+                return JVMMAObject.newObject(this, new byte[count]);
+            case "[C":
+                return JVMMAObject.newObject(this, new char[count]);
+            case "[S":
+                return JVMMAObject.newObject(this, new short[count]);
+            case "[I":
+                return JVMMAObject.newObject(this, new int[count]);
+            case "[J":
+                return JVMMAObject.newObject(this, new long[count]);
+            case "[F":
+                return JVMMAObject.newObject(this, new float[count]);
+            case "[D":
+                return JVMMAObject.newObject(this, new double[count]);
+            default:
+                return JVMMAObject.newObject(this, new Object[count]);
+        }
+    }
+
     public void startInit(){
         this.initStarted = true;
+    }
+
+    public Class arrayClass() {
+        String arrayClassName = ClassNameHelper.getArrayClassName(this.name);
+        return this.loader.loadClass(arrayClassName);
+    }
+
+    public Class componentClass() {
+        String componentClassName = ClassNameHelper.getComponentClassName(this.name);
+        return this.loader.loadClass(componentClassName);
+    }
+
+    //---------------- descriptor ----------------
+    public boolean isArray() {
+        return this.name.startsWith(FieldDescriptor.A_REF.getCode());
+    }
+
+    public boolean isJlObject() {
+        return this.name.equals("java/lang/Object");
+    }
+
+    public boolean isJlCloneable() {
+        return this.name.equals("java/lang/Cloneable");
+    }
+
+    public boolean isJioSerializable() {
+        return this.name.endsWith("java/io/Serializable");
     }
 
     //---------------- getXXXMethod ----------------
@@ -95,6 +157,20 @@ public class Class {
         return null;
     }
 
+    //---------------- getXXXField ----------------
+    public Field getField(String name, String descriptor, boolean isStatic) {
+        for (Class c = this; c != null; c = c.superClass) {
+            for (Field field : c.fields) {
+                if (field.getAccessFlag().isStatic() == isStatic
+                        && field.getName().equals(name)
+                        && field.getDescriptor().equals(descriptor)) {
+                    return field;
+                }
+            }
+        }
+        return null;
+    }
+
     //------------------------------------------
 
     /**
@@ -109,12 +185,39 @@ public class Class {
      * 当前类，是否是 other 或 它的子类
      */
     public boolean isAssignableFrom(Class other) {
-        if (this == other) {
+        Class s = this;
+        Class t = other;
+
+        if (s == t) {
             return true;
-        } else if (!other.getAccessFlag().isInterface()) {
-            return this.isSubClassOf(other);
+        }
+
+        if (!s.isArray()) {
+            if (!s.getAccessFlag().isInterface()) {
+                if (!t.getAccessFlag().isInterface()) {
+                    return s.isSubClassOf(t);
+                } else {
+                    return isImplements(t);
+                }
+            } else {
+                if (!t.getAccessFlag().isInterface()) {
+                    return t.isJlObject();
+                } else {
+                    return t.isSubInterfaceOf(s);
+                }
+            }
         } else {
-            return this.isImplements(other);
+            if (!t.isArray()) {
+                if (!t.getAccessFlag().isInterface()) {
+                    return t.isJlObject();
+                } else {
+                    return t.isJlCloneable() || t.isJioSerializable();
+                }
+            } else {
+                Class sc = s.componentClass();
+                Class tc = t.componentClass();
+                return sc == tc || tc.isAssignableFrom(sc);
+            }
         }
     }
 

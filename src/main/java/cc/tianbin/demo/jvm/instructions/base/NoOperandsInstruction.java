@@ -53,4 +53,15 @@ public abstract class NoOperandsInstruction implements Instruction {
         }
     }
 
+    protected void checkNotNull(Object ref) {
+        if (ref == null) {
+            throw new NullPointerException();
+        }
+    }
+
+    protected void checkIndex(int arrLen, int index) {
+        if (index < 0 || index >= arrLen) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+    }
 }

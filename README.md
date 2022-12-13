@@ -31,3 +31,6 @@
 
 方法调用过程：[MethodInvokeLogic.invokeMethod()](./src/main/java/cc/tianbin/demo/jvm/instructions/base/MethodInvokeLogic.java)
 ![](./docs/image/方法参数传递过程.png)
+
+## 数组和字符串
+

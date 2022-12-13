@@ -40,7 +40,7 @@ public class GET_FIELD extends Index16Instruction {
             throw new NullPointerException();
         }
         int slotId = field.getSlotId();
-        Slots slots = ref.getFields();
+        Slots slots = ref.getSlots();
 
         FieldDescriptor fieldDescriptor = FieldDescriptor.getByCode(field.getDescriptor());
         switch (fieldDescriptor) {
@@ -61,8 +61,8 @@ public class GET_FIELD extends Index16Instruction {
                 stack.pushDouble(slots.getDouble(slotId));
                 break;
             case STR:
-            case LREF:
-            case AREF:
+            case L_REF:
+            case A_REF:
                 stack.pushRef(slots.getRef(slotId));
                 break;
             default:

@@ -1,4 +1,4 @@
-package cc.tianbin.demo.jvm.instructions.references;
+package cc.tianbin.demo.jvm.instructions.references.invoke;
 
 import cc.tianbin.demo.jvm.instructions.base.Index16Instruction;
 import cc.tianbin.demo.jvm.rtda.Frame;

@@ -58,7 +58,7 @@ public class PUT_FIELD extends Index16Instruction {
                 if (null == refInt) {
                     throw new NullPointerException();
                 }
-                refInt.getFields().setInt(slotId, valInt);
+                refInt.getSlots().setInt(slotId, valInt);
                 break;
             case F:
                 float valFloat = stack.popFloat();
@@ -66,7 +66,7 @@ public class PUT_FIELD extends Index16Instruction {
                 if (null == refFloat) {
                     throw new NullPointerException();
                 }
-                refFloat.getFields().setFloat(slotId, valFloat);
+                refFloat.getSlots().setFloat(slotId, valFloat);
                 break;
             case J:
                 long valLong = stack.popLong();
@@ -74,7 +74,7 @@ public class PUT_FIELD extends Index16Instruction {
                 if (null == refLong) {
                     throw new NullPointerException();
                 }
-                refLong.getFields().setLong(slotId, valLong);
+                refLong.getSlots().setLong(slotId, valLong);
                 break;
             case D:
                 double valDouble = stack.popDouble();
@@ -82,17 +82,17 @@ public class PUT_FIELD extends Index16Instruction {
                 if (null == refDouble) {
                     throw new NullPointerException();
                 }
-                refDouble.getFields().setDouble(slotId, valDouble);
+                refDouble.getSlots().setDouble(slotId, valDouble);
                 break;
             case STR:
-            case LREF:
-            case AREF:
+            case L_REF:
+            case A_REF:
                 JVMMAObject val = stack.popRef();
                 JVMMAObject ref = stack.popRef();
                 if (null == ref) {
                     throw new NullPointerException();
                 }
-                ref.getFields().setRef(slotId, val);
+                ref.getSlots().setRef(slotId, val);
                 break;
             default:
                 break;

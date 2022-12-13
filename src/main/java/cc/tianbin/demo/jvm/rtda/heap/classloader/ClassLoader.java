@@ -1,8 +1,11 @@
 package cc.tianbin.demo.jvm.rtda.heap.classloader;
 
 import cc.tianbin.demo.jvm.classpath.Classpath;
+import cc.tianbin.demo.jvm.common.CommonConstants;
 import cc.tianbin.demo.jvm.rtda.heap.methodarea.Class;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.FieldDescriptor;
 import cc.tianbin.demo.jvm.utils.LogUtil;
+import com.sun.tools.classfile.AccessFlags;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,12 +49,29 @@ class names:
         if (clazz != null) {
             return clazz;
         }
+
         try {
-            return loadNonArrayClass(className);
+            if (className.startsWith(FieldDescriptor.A_REF.getCode())) {
+                // '[' 数组标识
+                return this.loadArrayClass(className);
+            } else {
+                return this.loadNonArrayClass(className);
+            }
         } catch (Exception e) {
             log.error("ClassLoader loadClass error ", e);
         }
         return null;
+    }
+
+    private Class loadArrayClass(String className) {
+        Class clazz = new Class(AccessFlags.ACC_PUBLIC,
+                className,
+                this,
+                true,
+                this.loadClass(CommonConstants.JAVA_LANG_OBJECT),
+                new Class[]{this.loadClass(CommonConstants.JAVA_LANG_CLONEABLE), this.loadClass(CommonConstants.JAVA_IO_SERIALIZABLE)});
+        this.classMap.put(className, clazz);
+        return clazz;
     }
 
     private Class loadNonArrayClass(String className) throws Exception {

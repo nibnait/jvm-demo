@@ -3,6 +3,9 @@ package cc.tianbin.demo.jvm.rtda.heap.methodarea;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by nibnait on 2022/12/04
  */
@@ -38,8 +41,8 @@ public enum FieldDescriptor {
     F("F", "float", 0.0f),
     D("D", "double", 0.0d),
     STR("Ljava/lang/String;", "String", ""),
-    LREF("L", "引用类型", ""),
-    AREF("[", "数组类型", ""),
+    L_REF("L", "引用类型", ""),
+    A_REF("[", "数组类型", ""),
     UNKNOWN("", "未知", ""),
     ;
 
@@ -78,4 +81,11 @@ public enum FieldDescriptor {
         return UNKNOWN;
     }
 
+    public static Map<String, String> PRIMITIVE_TYPE = new HashMap<>();
+
+    static {
+        for (FieldDescriptor value : values()) {
+            PRIMITIVE_TYPE.put(value.getType(), value.getCode());
+        }
+    }
 }

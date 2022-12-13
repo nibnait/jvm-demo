@@ -76,8 +76,8 @@ public class PUT_STATIC extends Index16Instruction {
                 slots.setDouble(slotId, stack.popDouble());
                 break;
             case STR:
-            case LREF:
-            case AREF:
+            case L_REF:
+            case A_REF:
                 slots.setRef(slotId, stack.popRef());
                 break;
             default:

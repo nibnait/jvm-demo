@@ -144,9 +144,9 @@ Java虚拟机规范把已经定义的205条指令按用途分成了11类， 分�
 | <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div>                     | <div style="width:50px">功能</div> | <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div>          | <div style="width:50px">功能</div> |
 |-----------------------------------|-------------------------------------------------------| ---- |-----------------------------------|--------------------------------------------| ---- |
 | 0xb2                              | [getstatic](./references/GETSTATIC.java)              | 取出类的某个静态变量值，push到栈顶 | 0xbb                              | [new](./references/NEW.java)               | 创建类实例 |
-| 0xb3 | [putstatic](./references/PUTSTATIC.java)              | 给类的某个静态变量赋值 | 0xbc | newarray                                   | |
-| 0xb4 | [getfield](./references/GETFIELD.java)                | 获取对象的实例变量值，push到栈顶 | 0xbd | anewarray                                  | |
-| 0xb5 | [putfield](./references/PUTFIELD.java)                | 给实例变量赋值 | 0xbe | arraylength                                | |
+| 0xb3 | [putstatic](./references/PUTSTATIC.java)              | 给类的某个静态变量赋值 | 0xbc | newarray                                   | 创建基本类型数组 |
+| 0xb4 | [getfield](./references/GETFIELD.java)                | 获取对象的实例变量值，push到栈顶 | 0xbd | anewarray                                  | 创建引用类型数组 |
+| 0xb5 | [putfield](./references/PUTFIELD.java)                | 给实例变量赋值 | 0xbe | arraylength                                | 获取数组长度 |
 | 0xb6 | [invokevirtual](./references/INVOKE_VIRTUAL.java)     | 调用动态方法 | 0xbf | athrow                                     | |
 | 0xb7 | [invokespecial](./references/INVOKE_SPECIAL.java)     | 调用无需动态绑定的实例方法（构造函数、私有方法、super 父类方法） | 0xc0 | [checkcast](./references/CHECKCAST.java)   | 判断对象是否属于某种类型。<br/>如果属于啥事没有，如果不属于，直接报 ClassCastException |
 | 0xb8 | [invokestatic](./references/INVOKE_STATIC.java)       | 调用静态方法 | 0xc1 | [instanceof](./references/INSTANCEOF.java) | 判断对象是否是某个类的实例（或者对象的类是否实现了某个接口），并把结果推入操作数栈。 |
@@ -158,7 +158,7 @@ Java虚拟机规范把已经定义的205条指令按用途分成了11类， 分�
 | <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div>                | <div style="width:50px">功能</div> | <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div> | <div style="width:50px">功能</div> |
 |-----------------------------------|--------------------------------------------------| ---- |-----------------------------------|-----------------------------------| ---- |
 | 0xc4                              | [wide](./extended/WIDE.java)                     | 将局部变量表的索引扩到2个字节 | 0xc8                              | [gogo_w](./extended/GOTO_W.java)  | goto 指令的索引是1字节<br/>goto_w 指令的索引是2字节 |
-| 0xc5 | [multianewarray](./extended/MULTIANEWARRAY.java) | | 0xc9 | [jsr_w](./extened/JSR_W.java)     | 从Java 6开始，Oracle的Java编译器已经不再使用 |
+| 0xc5 | [multianewarray](./extended/MULTI_ANEW_ARRATY.java) | 创建多维数组 | 0xc9 | [jsr_w](./extened/JSR_W.java)     | 从Java 6开始，Oracle的Java编译器已经不再使用 |
 | 0xc6 | [ifnull](./extended/IFNULL.java)                 | popRef == null, branch |  |                                   | |
 | 0xc7 | [ifnonnull](./extended/IFNONULL.java)            | popRef != null, branch |  |                                   | |
 
