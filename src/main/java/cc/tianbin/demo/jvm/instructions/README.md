@@ -1,4 +1,5 @@
 ## 指令表
+
 Java虚拟机规范把已经定义的205条指令按用途分成了11类， 分别是：常量（constants）指令、加载（loads）指令、存储（stores）指令、
 操作数栈（stack）指令、数学（math）指令、转换（conversions）指令、比较（comparisons）指令、控制（control）指令、引用（references）指令、
 扩展（extended）指令和保留（reserved）指令。
@@ -28,7 +29,8 @@ Java虚拟机规范把已经定义的205条指令按用途分成了11类， 分�
 | 0x17 | [fload](./loads/fload/FLOAD.java)     | ...float... | 0x28 | [dload_2](./loads/dload/DLOAD_2.java) |      |
 | 0x18 | [dload](./loads/dload/DLOAD.java)     | ...double... | 0x29 | [dload_3](./loads/dload/DLOAD_3.java) |      |
 | 0x19 | [aload](./loads/aload/ALOAD.java)     | ...引用变量... | 0x2a | [aload_0](./loads/aload/ALOAD_0.java) |      |
-| 0x1a | [iload_0](./loads/iload/ILOAD_0.java) | 将局部变量表中索引为0的 int型变量，然后推入操作数栈顶 | **0x2b** | [aload_1](./loads/aload/ALOAD_1.java) |      |
+| 0x1a | [iload_0](./loads/iload/ILOAD_0.java) | 将局部变量表中索引为0的 int型变量，然后推入操作数栈顶 | **
+0x2b** | [aload_1](./loads/aload/ALOAD_1.java) |      |
 | 0x1b | [iload_1](./loads/iload/ILOAD_1.java) | （索引隐含在操作码中） | 0x2c | [aload_2](./loads/aload/ALOAD_2.java) |      |
 | 0x1c | [iload_2](./loads/iload/ILOAD_2.java) |      | 0x2d | [aload_3](./loads/aload/ALOAD_3.java) |      |
 | 0x1d | [iload_3](./loads/iload/ILOAD_3.java) |      | 0x2e | [iaload](./loads/xaload/IALOAD.java)  |      |
@@ -83,10 +85,10 @@ Java虚拟机规范把已经定义的205条指令按用途分成了11类， 分�
 | 0x63                              | [dadd](./math/add/DADD.java)      |  |  0x77| [dneg](./math/neg/DNEG.java)      | |
 | 0x64                              | [isub](./math/sub/ISUB.java)      | 减法 |  0x78| [ishl](./math/sh/ISHL.java)       | << 算术左位移（有符号） |
 | 0x65                              | [lsub](./math/sub/LSUB.java)      | pop2 - pop1 |  0x79| [lshl](./math/sh/LSHL.java)       |  |
-| 0x66                              | [fsub](./math/sub/FSUB.java)      |  |  0x7a| [ishr](./math/sh/ISHR.java)       | >> 算术右位移（有符号） |
+| 0x66                              | [fsub](./math/sub/FSUB.java)      |  |  0x7a| [ishr](./math/sh/ISHR.java)       | > > 算术右位移（有符号） |
 | 0x67                              | [dsub](./math/sub/DSUB.java)      |  |  0x7b| [lshr](./math/sh/LSHR.java)       |  |
-| 0x68                              | [imul](./math/mul/IMUL.java)      | 乘法 |  0x7c| [iushr](./math/sh/IUSHR.java)     | >>> 逻辑右位移（无符号） |
-| 0x69                              | [lmul](./math/mul/LMUL.java)      |  |  0x7d| [lushr](./math/sh/LUSHR.java)     | >>> 逻辑右位移（无符号） |
+| 0x68                              | [imul](./math/mul/IMUL.java)      | 乘法 |  0x7c| [iushr](./math/sh/IUSHR.java)     | > > > 逻辑右位移（无符号） |
+| 0x69                              | [lmul](./math/mul/LMUL.java)      |  |  0x7d| [lushr](./math/sh/LUSHR.java)     | > > > 逻辑右位移（无符号） |
 | 0x6a                              | [fmul](./math/mul/FMUL.java)      |  |  0x7e| [iand](./math/and/IAND.java)      | 按位与 |
 | 0x6b                              | [dmul](./math/mul/DMUL.java)      |  |  0x7f| [land](./math/and/LAND.java)      | |
 | 0x6c                              | [idiv](./math/div/IDIV.java)      | 除法 |  0x80| [ior](./math/or/IOR.java)         | 按位或 |
@@ -124,7 +126,7 @@ Java虚拟机规范把已经定义的205条指令按用途分成了11类， 分�
 | 0x99 | [ifeq](./comparisons/ifcond/IFEQ.java) | == 0, branch |0xa4  | [if_icmple](./comparisons/if_icmp/IF_ICMPLE.java) | pop2 >= pop1, branch             |
 | 0x9a | [ifne](./comparisons/ifcond/IFNE.java) | != 0, branch |0xa5  | [if_acmpeq](./comparisons/if_acmp/IF_ACMPEQ.java) | pop2 == pop1, branch             |
 | 0x9b | [iflt](./comparisons/ifcond/IFLT.java) | < 0, branch |0xa6  | [if_acmpne](./comparisons/if_acmp/IF_ACMPNE.java) | pop2 != pop2, branch             |
-| 0x9c | [ifge](./comparisons/ifcond/IFGE.java) | >= 0, branch |  |                                                     |                                  |
+| 0x9c | [ifge](./comparisons/ifcond/IFGE.java) | > = 0, branch |  |                                                     |                                  |
 | 0x9d | [ifgt](./comparisons/ifcond/IFGT.java) | > 0, branch |  |                                                     |                                  |
 | 0x9e | [ifle](./comparisons/ifcond/IFLE.java) | <= 0, branch |  |                                                     |                                  |
 
@@ -141,17 +143,17 @@ Java虚拟机规范把已经定义的205条指令按用途分成了11类， 分�
 
 ### References
 
-| <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div>                        | <div style="width:50px">功能</div> | <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div>               | <div style="width:50px">功能</div> |
-|-----------------------------------|----------------------------------------------------------| ---- |-----------------------------------|-------------------------------------------------| ---- |
-| 0xb2                              | [getstatic](./references/GET_STATIC.java)                 | 取出类的某个静态变量值，push到栈顶 | 0xbb                              | [new](./references/NEW.java)                    | 创建类实例 |
-| 0xb3 | [putstatic](./references/PUT_STATIC.java)                 | 给类的某个静态变量赋值 | 0xbc | [newarray](./references/array/NEW_ARRAY.java)   | 创建基本类型数组 |
-| 0xb4 | [getfield](./references/GET_FIELD.java)                   | 获取对象的实例变量值，push到栈顶 | 0xbd | [anewarray](./references/array/ANEW_ARRAY.java) | 创建引用类型数组 |
-| 0xb5 | [putfield](./references/PUT_FIELD.java)                   | 给实例变量赋值 | 0xbe | [arraylength](./references/array/ARRAY_LENGTH.java)                                    | 获取数组长度 |
-| 0xb6 | [invokevirtual](./references/invoke/INVOKE_VIRTUAL.java) | 调用动态方法 | 0xbf | athrow                                          | |
-| 0xb7 | [invokespecial](./references/invoke/INVOKE_SPECIAL.java)        | 调用无需动态绑定的实例方法（构造函数、私有方法、super 父类方法） | 0xc0 | [checkcast](./references/CHECK_CAST.java)        | 判断对象是否属于某种类型。<br/>如果属于啥事没有，如果不属于，直接报 ClassCastException |
-| 0xb8 | [invokestatic](./references/invoke/INVOKE_STATIC.java)          | 调用静态方法 | 0xc1 | [instanceof](./references/INSTANCE_OF.java)      | 判断对象是否是某个类的实例（或者对象的类是否实现了某个接口），并把结果推入操作数栈。 |
-| 0xb9 | [invokeinterface](./references/invoke/INVOKE_INTERFACE.java)    | 调用（接口类型的）动态方法 | 0xc2 | monitorenter                                    | |
-| 0xba | [invokedynamic](./references/invoke/INVOKE_DYNAMIC.java)        | 调用动态方法 | 0xc3 | monitorexit                                     | |
+| <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div>                        | <div style="width:50px">功能</div> | <div style="width:50px">操作码</div> | <div style="width:50px">助记符</div>                   | <div style="width:50px">功能</div> |
+|-----------------------------------|----------------------------------------------------------| ---- |-----------------------------------|-----------------------------------------------------| ---- |
+| 0xb2                              | [getstatic](./references/GET_STATIC.java)                 | 取出类的某个静态变量值，push到栈顶 | 0xbb                              | [new](./references/NEW.java)                        | 创建类实例 |
+| 0xb3 | [putstatic](./references/PUT_STATIC.java)                 | 给类的某个静态变量赋值 | 0xbc | [newarray](./references/array/NEW_ARRAY.java)       | 创建基本类型数组 |
+| 0xb4 | [getfield](./references/GET_FIELD.java)                   | 获取对象的实例变量值，push到栈顶 | 0xbd | [anewarray](./references/array/ANEW_ARRAY.java)     | 创建引用类型数组 |
+| 0xb5 | [putfield](./references/PUT_FIELD.java)                   | 给实例变量赋值 | 0xbe | [arraylength](./references/array/ARRAY_LENGTH.java) | 获取数组长度 |
+| 0xb6 | [invokevirtual](./references/invoke/INVOKE_VIRTUAL.java) | 调用动态方法 | 0xbf | [athrow](./references/ATHROW.java)                  | |
+| 0xb7 | [invokespecial](./references/invoke/INVOKE_SPECIAL.java)        | 调用无需动态绑定的实例方法（构造函数、私有方法、super 父类方法） | 0xc0 | [checkcast](./references/CHECK_CAST.java)           | 判断对象是否属于某种类型。<br/>如果属于啥事没有，如果不属于，直接报 ClassCastException |
+| 0xb8 | [invokestatic](./references/invoke/INVOKE_STATIC.java)          | 调用静态方法 | 0xc1 | [instanceof](./references/INSTANCE_OF.java)         | 判断对象是否是某个类的实例（或者对象的类是否实现了某个接口），并把结果推入操作数栈。 |
+| 0xb9 | [invokeinterface](./references/invoke/INVOKE_INTERFACE.java)    | 调用（接口类型的）动态方法 | 0xc2 | monitorenter                                        | |
+| 0xba | [invokedynamic](./references/invoke/INVOKE_DYNAMIC.java)        | 调用动态方法 | 0xc3 | monitorexit                                         | |
 
 ### Extended
 

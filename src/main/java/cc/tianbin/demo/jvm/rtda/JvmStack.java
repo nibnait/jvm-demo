@@ -41,14 +41,32 @@ public class JvmStack {
         return top;
     }
 
-    public Frame top(){
-        if (this.top == null){
+    public Frame top() {
+        if (this.top == null) {
             throw new JvmStackException("jvm stack is empty!");
         }
         return this.top;
     }
 
+    public Frame[] getFrames() {
+        Frame[] frames = new Frame[this.size];
+        int i = 0;
+        Frame frame = this.top;
+        while (frame != null) {
+            frames[i++] = frame;
+            frame = frame.lower;
+        }
+        return frames;
+    }
+
+    public void clear() {
+        if (!this.isEmpty()) {
+            this.pop();
+        }
+    }
+
     public boolean isEmpty() {
         return this.top == null;
     }
+
 }

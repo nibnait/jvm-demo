@@ -2,6 +2,7 @@ package cc.tianbin.demo.jvm.rtda.heap.methodarea;
 
 import cc.tianbin.demo.jvm.classfile.MemberInfo;
 import cc.tianbin.demo.jvm.classfile.attributes.impl.group1.CodeAttribute;
+import cc.tianbin.demo.jvm.classfile.attributes.impl.group3.LineNumberTableAttribute;
 import lombok.Getter;
 
 import java.util.List;
@@ -19,6 +20,8 @@ public class Method extends ClassMember {
     private byte[] bytecode;
     @Getter
     private int argSlotCount;
+    private ExceptionTable exceptionTable;
+    private LineNumberTableAttribute lineNumberTable;
 
     public static Method[] newMethods(JClass clazz, MemberInfo[] classFileMethods) {
         Method[] methods = new Method[classFileMethods.length];
@@ -83,6 +86,8 @@ public class Method extends ClassMember {
             this.maxStack = codeAttribute.getMaxStack();
             this.maxLocals = codeAttribute.getMaxLocals();
             this.bytecode = codeAttribute.getBytecode();
+            this.lineNumberTable = codeAttribute.lineNumberTableAttribute();
+            this.exceptionTable = new ExceptionTable(codeAttribute.getExceptionTable(), this.getClazz().getRuntimeConstantPool());
         }
     }
 
@@ -102,5 +107,26 @@ public class Method extends ClassMember {
         if (!this.getAccessFlag().isStatic()) {
             this.argSlotCount++;
         }
+    }
+
+    /**
+     * 搜索异常处理表
+     */
+    public int findExceptionHandler(JClass exClass, int pc) {
+        ExceptionTable.ExceptionHandler handler = this.exceptionTable.findExceptionHandler(exClass, pc);
+        if (handler != null) {
+            return handler.handlerPC;
+        }
+        return -1;
+    }
+
+    public int getLineNumber(int pc) {
+        if (this.getAccessFlag().isNative()) {
+            return -2;
+        }
+        if (this.lineNumberTable == null) {
+            return -1;
+        }
+        return this.lineNumberTable.getLineNumber(pc);
     }
 }

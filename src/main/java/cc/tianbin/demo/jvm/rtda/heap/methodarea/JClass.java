@@ -1,6 +1,7 @@
 package cc.tianbin.demo.jvm.rtda.heap.methodarea;
 
 import cc.tianbin.demo.jvm.classfile.ClassFile;
+import cc.tianbin.demo.jvm.classfile.attributes.impl.group3.SourceFileAttribute;
 import cc.tianbin.demo.jvm.common.AccessFlag;
 import cc.tianbin.demo.jvm.rtda.heap.classloader.JClassLoader;
 import cc.tianbin.demo.jvm.rtda.heap.constantpool.RuntimeConstantPool;
@@ -29,6 +30,8 @@ public class JClass {
     private Field[] fields;
     @Getter
     private Method[] methods;
+    @Getter
+    private String sourceFile;
     @Setter
     @Getter
     private JClassLoader loader;
@@ -58,6 +61,15 @@ public class JClass {
         this.runtimeConstantPool = new RuntimeConstantPool(this, classFile.getConstantPool());
         this.fields = Field.newFields(this, classFile.getFields());
         this.methods = Method.newMethods(this, classFile.getMethods());
+        this.sourceFile = getSourceFile(classFile);
+    }
+
+    private String getSourceFile(ClassFile classFile) {
+        SourceFileAttribute sourceFileAttribute = classFile.getSourceFileAttribute();
+        if (sourceFileAttribute == null) {
+            return "Unknown";
+        }
+        return sourceFileAttribute.fileName();
     }
 
     // load Array Class

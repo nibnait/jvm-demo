@@ -1,6 +1,7 @@
 package cc.tianbin.demo.jvm.classfile;
 
 import cc.tianbin.demo.jvm.classfile.attributes.AttributeInfo;
+import cc.tianbin.demo.jvm.classfile.attributes.impl.group3.SourceFileAttribute;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
 import cc.tianbin.demo.jvm.common.AccessFlag;
 import lombok.Getter;
@@ -112,4 +113,13 @@ public class ClassFile {
         return interfaceNames;
     }
 
+
+    public SourceFileAttribute getSourceFileAttribute() {
+        for (AttributeInfo arrInfo : this.attributes) {
+            if (arrInfo instanceof SourceFileAttribute){
+                return (SourceFileAttribute) arrInfo;
+            }
+        }
+        return null;
+    }
 }

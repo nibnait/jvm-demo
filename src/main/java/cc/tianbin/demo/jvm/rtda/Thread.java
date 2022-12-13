@@ -43,7 +43,15 @@ public class Thread {
         return new Frame(this, method);
     }
 
-    public boolean isStackEmpty(){
+    public Frame[] getFrames() {
+        return this.stack.getFrames();
+    }
+
+    public boolean isStackEmpty() {
         return this.stack.isEmpty();
+    }
+
+    public void clearStack() {
+        this.stack.clear();
     }
 }

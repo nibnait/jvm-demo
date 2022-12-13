@@ -1,9 +1,12 @@
 package cc.tianbin.demo.jvm.classfile.attributes.impl.group1;
 
 import cc.tianbin.demo.jvm.classfile.ClassReader;
-import cc.tianbin.demo.jvm.classfile.attributes.base.AttributeInfoRefBase;
 import cc.tianbin.demo.jvm.classfile.attributes.AttributeInfo;
+import cc.tianbin.demo.jvm.classfile.attributes.base.AttributeInfoRefBase;
+import cc.tianbin.demo.jvm.classfile.attributes.impl.group3.LineNumberTableAttribute;
 import cc.tianbin.demo.jvm.classfile.constantpool.ConstantPool;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.ExceptionTable;
+import cc.tianbin.demo.jvm.rtda.heap.methodarea.JClass;
 import lombok.Getter;
 
 /**
@@ -74,12 +77,32 @@ public class CodeAttribute extends AttributeInfoRefBase implements AttributeInfo
         this.attributes = AttributeInfo.readAttributes(reader, constantPool);
     }
 
-    @Getter
-    static class ExceptionTableEntry {
+    public LineNumberTableAttribute lineNumberTableAttribute() {
+        for (AttributeInfo attrInfo : this.attributes) {
+            if (attrInfo instanceof LineNumberTableAttribute) {
+                return (LineNumberTableAttribute) attrInfo;
+            }
+        }
+        return null;
+    }
 
+    @Getter
+    public static class ExceptionTableEntry {
+
+        /**
+         * start_pc 和 end_pc 可以锁定一部分字节码，这部分字节码对应某个可能抛出异常的 try{} 代码块
+         */
         private int startPC;
         private int endPC;
+        /**
+         * 指出负责异常处理的 catch{} 块在哪里。
+         */
         private int handlerPC;
+        /**
+         * catch_type是个索引，通过它可以从运行时常量池中查到一个类符号引用，解析后的类是个异常类X
+         * 如果位于 start_pc 和 end_pc 之间的指令抛出异常x，且x是X（或者X的子类）的实例，则执行 catch{} 块的内容
+         * @see ExceptionTable#findExceptionHandler(JClass, int)
+         */
         private int catchType;
 
         private ExceptionTableEntry(ClassReader reader) {
