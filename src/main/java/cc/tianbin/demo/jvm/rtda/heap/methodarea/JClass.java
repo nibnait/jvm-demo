@@ -194,7 +194,7 @@ public class JClass {
         return this.getStaticMethod(name, descriptor, false);
     }
 
-    private Method getStaticMethod(String name, String descriptor, boolean isStatic) {
+    public Method getStaticMethod(String name, String descriptor, boolean isStatic) {
         for (Method method : this.methods) {
             if (method.getAccessFlag().isStatic() == isStatic
                     && method.getName().equals(name)

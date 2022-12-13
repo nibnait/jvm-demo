@@ -48,3 +48,11 @@
 ## 异常处理
 
 ![](./docs/image/异常分类.jpg)
+
+## System.out.pringln() 是如何工作的？
+
+todo  
+remove hack [INVOKE_VIRTUAL.println()](./src/main/java/cc/tianbin/demo/jvm/instructions/references/invoke/INVOKE_VIRTUAL.java)
+
+
+不过遗憾的是，有很多重要的内容没有讨论：class文件验证、 内存管理和垃圾回收、类加载器的委派模型、多线程、JIT，等等。如果本书有机会出第2版，希望可以涵盖这些内容。

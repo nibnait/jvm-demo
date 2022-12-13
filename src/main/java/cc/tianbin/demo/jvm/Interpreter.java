@@ -39,7 +39,7 @@ public class Interpreter {
             frame.localVariables.setRef(0, jArgs);
         }
 
-        loop(thread, logInst);
+        interpret(thread, logInst);
     }
 
     /**
@@ -55,7 +55,7 @@ public class Interpreter {
         return argsArr;
     }
 
-    private static void loop(Thread thread, boolean logInst) {
+    public static void interpret(Thread thread, boolean logInst) {
         BytecodeReader reader = new BytecodeReader();
         int step = 0;
         while (!thread.isStackEmpty()) {
