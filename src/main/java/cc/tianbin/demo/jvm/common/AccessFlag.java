@@ -1,6 +1,5 @@
 package cc.tianbin.demo.jvm.common;
 
-import cc.tianbin.demo.jvm.rtda.heap.methodarea.FieldDescriptor;
 import cc.tianbin.demo.jvm.utils.NumberUtil;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
